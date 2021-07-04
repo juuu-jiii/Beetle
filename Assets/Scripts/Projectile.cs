@@ -36,13 +36,14 @@ public class Projectile : MonoBehaviour
             // accordingly by a speed value.
             Vector3 direction = (target - spawnPoint.position).normalized;
 
-            GameObject projectile = MarbleFactory.InstantiateMarble(
+            GameObject projectile = Extensions.InstantiateMarble(
                 projectileTemplate, 
                 spawnPoint.position, 
                 projectileTemplate.transform.rotation, 
                 false) as GameObject;
 
             MarbleMovement projectileScript = projectile.GetComponent<MarbleMovement>();
+            Debug.Log(projectileScript.rb);
             projectileScript.rb.velocity = spawnPoint.TransformDirection(
                 direction * projectileScript.speed);
         }

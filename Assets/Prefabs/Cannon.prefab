@@ -15,8 +15,8 @@ GameObject:
   - component: {fileID: 3339827221753255151}
   - component: {fileID: 6906616091418246580}
   m_Layer: 0
-  m_Name: Cube
-  m_TagString: Untagged
+  m_Name: Cannon
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
