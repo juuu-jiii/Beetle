@@ -36,11 +36,10 @@ public class Projectile : MonoBehaviour
             // accordingly by a speed value.
             Vector3 direction = (target - spawnPoint.position).normalized;
 
-            GameObject projectile = Extensions.InstantiateMarble(
+            GameObject projectile = Instantiate(
                 projectileTemplate, 
                 spawnPoint.position, 
-                projectileTemplate.transform.rotation, 
-                false) as GameObject;
+                projectileTemplate.transform.rotation);
 
             MarbleMovement projectileScript = projectile.GetComponent<MarbleMovement>();
             Debug.Log(projectileScript.rb);

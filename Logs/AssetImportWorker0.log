@@ -436,3 +436,93 @@ System memory in use after: 102.4 MB.
 Unloading 10 unused Assets to reduce memory usage. Loaded Objects now: 3176.
 Total: 2.004400 ms (FindLiveObjects: 0.196700 ms CreateObjectMapping: 0.096300 ms MarkObjects: 1.673100 ms  DeleteObjects: 0.037700 ms)
 
+========================================================================
+Received Import Request.
+  Time since last request: 568.039474 seconds.
+  path: Assets/Scripts/Projectile.cs
+  artifactKey: Guid(6987ddf0719ed6f42b7f6e9d86896006) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Projectile.cs using Guid(6987ddf0719ed6f42b7f6e9d86896006) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9888bc448c2f8a97ea863981dbe7a318') in 0.011943 seconds 
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.015620 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.52 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.560 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.70 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2668 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 102.2 MB.
+System memory in use after: 102.4 MB.
+
+Unloading 10 unused Assets to reduce memory usage. Loaded Objects now: 3179.
+Total: 2.326100 ms (FindLiveObjects: 0.221700 ms CreateObjectMapping: 0.128400 ms MarkObjects: 1.894600 ms  DeleteObjects: 0.063000 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 144626.651335 seconds.
+  path: Assets/Scripts/Projectile.cs
+  artifactKey: Guid(6987ddf0719ed6f42b7f6e9d86896006) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Projectile.cs using Guid(6987ddf0719ed6f42b7f6e9d86896006) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9a32451a44f83052a656a55067988599') in 0.010291 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 8.042532 seconds.
+  path: Assets/Scripts/ClassDiagram1.cd
+  artifactKey: Guid(85526d5d7bc76464b8e8d0ec08717c6c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/ClassDiagram1.cd using Guid(85526d5d7bc76464b8e8d0ec08717c6c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '214c7f6150e8eaa0c8102816ef632877') in 0.017341 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 12.381391 seconds.
+  path: Assets/Scripts/ProjectileMovement.cs
+  artifactKey: Guid(c8528e2aae6fc474fb7e2dc2bc2ca98f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/ProjectileMovement.cs using Guid(c8528e2aae6fc474fb7e2dc2bc2ca98f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1f632aeeaa87860ead5d0899dac870d2') in 0.006365 seconds 
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.009276 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.44 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.027 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.44 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2669 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 102.3 MB.
+System memory in use after: 102.5 MB.
+
+Unloading 10 unused Assets to reduce memory usage. Loaded Objects now: 3183.
+Total: 2.098900 ms (FindLiveObjects: 0.210200 ms CreateObjectMapping: 0.092400 ms MarkObjects: 1.753800 ms  DeleteObjects: 0.041600 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.007046 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.66 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.202 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.54 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2669 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 102.3 MB.
+System memory in use after: 102.5 MB.
+
+Unloading 10 unused Assets to reduce memory usage. Loaded Objects now: 3186.
+Total: 2.524800 ms (FindLiveObjects: 0.253000 ms CreateObjectMapping: 0.139500 ms MarkObjects: 2.040600 ms  DeleteObjects: 0.090700 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 9032.389548 seconds.
+  path: Assets/Scripts/ProjectileMovement.cs
+  artifactKey: Guid(c8528e2aae6fc474fb7e2dc2bc2ca98f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/ProjectileMovement.cs using Guid(c8528e2aae6fc474fb7e2dc2bc2ca98f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '683a23455e9f355dac7b4431cb079838') in 0.008434 seconds 

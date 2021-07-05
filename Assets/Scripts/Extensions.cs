@@ -12,15 +12,21 @@ public static class Extensions
     /// <returns>
     /// A reference to the instantiated marble, as type Object.
     /// </returns>
-    public static Object InstantiateMarble(
-        Object original,
-        Vector3 position,
-        Quaternion rotation,
-        bool hasRandomDirection)
-    {
-        GameObject marble = Object.Instantiate(original, position, rotation) as GameObject; // can also perform explicit cast
-        MarbleMovement marbleScript = marble.GetComponent<MarbleMovement>();
-        marbleScript.hasRandomDirection = hasRandomDirection;
-        return marble;
-    }
+    //public static Object InstantiateMarble(
+    //    Object original,
+    //    Vector3 position,
+    //    Quaternion rotation
+    //    /*bool hasRandomDirection*/)
+    //{
+    //    GameObject marble = Object.Instantiate(original, position, rotation) as GameObject; // can also perform explicit cast
+    //    //MarbleMovement marbleScript = marble.GetComponent<MarbleMovement>();
+    //    //marbleScript.hasRandomDirection = hasRandomDirection;
+    //    return marble;
+    //}
+
+    // refactor InstantiateMarble()
+    // might need to include a bool on whether the marble is a projectile
+    // Otherwise this will be the same as the original Object.Instantiate(). If
+    // later on this is found to be unnecessary, just comment out the extension
+    // method altogether.
 }

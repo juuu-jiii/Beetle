@@ -4,18 +4,20 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    // TODO: add marbles to array
+    // account for both wave-spawned and projectiles
     [SerializeField]
     private List<GameObject> marbles;
     [SerializeField]
     private GameObject player;
     [SerializeField]
     private GameObject[] spawnPoints;
-    [SerializeField]
-    private Material[] materials;
-    [SerializeField]
-    private int waves;
-    [SerializeField]
-    private int marbleWaveCount;
+    //[SerializeField]
+    //private Material[] materials;
+    //[SerializeField]
+    //private int waves;
+    //[SerializeField]
+    //private int waveMarbleCount;
 
     // Start is called before the first frame update
     void Start()
@@ -28,7 +30,8 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        // TODO: spawn marbles in quick succession using interval
+        // Use a coroutine to accomplish this.
     }
 
     void HandleCollision(GameObject collider1, GameObject collider2)
@@ -39,10 +42,24 @@ public class GameManager : MonoBehaviour
             marbles.Remove(collider2);
             Destroy(collider1);
             Destroy(collider2);
-            // increment score -- maybe move this into another class so scoring
-            // and combos can be handled within.
+            // TODO LATER: increment score - maybe move this into another class
+            // (scoring and combos can be handled within)
             //
             // Call that method using the event system.
         }
     }
 }
+
+/*
+    Issues with spawning:
+    - you cannot spawn in rapid fire - there will be collisions and then the 
+        marbles won't move in desired directions. So you should delay the actual
+        spawning
+    - What happens if, while spawning, the player destroys a marble?
+        I was thinking of making spawning a 2-step process. In each spawner's
+        script, a List<GameObject> of to-be-spawned marbles will be "buffered".
+        In the script's Update(), new marbles will be instantiated at regular
+        time intervals. Each time an instantiation occurs, the corresponding
+        marble will be removed from the buffer and added to the GameManager's
+        "master" List.
+ */
