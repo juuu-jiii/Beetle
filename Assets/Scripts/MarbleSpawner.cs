@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class MarbleSpawner : MonoBehaviour
 {
-    public GameObject marbleTemplate;
+    [SerializeField]
+    private GameObject spawner;
+    [SerializeField]
+    private GameObject marbleTemplate;
     //private List<GameObject> buffer;
     public int BufferedMarbles { get; private set; }
 
@@ -54,11 +57,18 @@ public class MarbleSpawner : MonoBehaviour
     /// </returns>
     public GameObject SpawnMarble()
     {
+        //Debug.Log(string.Format("position: {0} rotation: {1}", spawner.transform.position, spawner.transform.rotation));
         GameObject marble = Instantiate(
             marbleTemplate,
-            transform.position,
-            transform.rotation);
+            spawner.transform.position,
+            spawner.transform.rotation);
         BufferedMarbles--;
+
+        // Set spawned marble's initial velocity.
+        MarbleMovement marbleScript = marble.GetComponent<MarbleMovement>();
+        Debug.Log(marbleScript.rb);
+        marbleScript.rb.velocity = marble.transform.forward * marbleScript.speed;
+
         return marble;
     }
 }

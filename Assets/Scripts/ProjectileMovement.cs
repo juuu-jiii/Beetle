@@ -52,6 +52,10 @@ public class ProjectileMovement : MarbleMovement
             // If I am a projectile, only destroy myself. The other projectile
             // will know how to do the same.
             // This removes the need to do a Contains() check in GameManager.
+            // ^^^ Actually still a good idea to keep the Contains() check, on
+            // the VERY off chance that two live projectiles collide with a
+            // marble at the exact same time. Or maybe not needed? Just remove
+            // first and see what happens lah
             // Remember to add another Tag in the Editor!
             // To avoid added scores being doubled, just halve the original.
             // Scores will get added twice but the total will reflect the 

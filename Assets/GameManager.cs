@@ -24,14 +24,18 @@ public class GameManager : MonoBehaviour
     {
         EventManager.StartListening(Events.MarbleMatch, HandleCollision);
 
-
+        // TODO: spawn marbles in quick succession using interval
+        // Use a coroutine to accomplish this.
+        // Spawn only once to show it works, since waves are in a future slice
+        // Spawn for each spawn point in spawnPoints
+        foreach (GameObject spawnPoint in spawnPoints)
+            StartCoroutine(SpawnMarbleInterval(spawnPoint.GetComponent<MarbleSpawner>(), 5, 0.25f));
     }
 
     // Update is called once per frame
     void Update()
     {
-        // TODO: spawn marbles in quick succession using interval
-        // Use a coroutine to accomplish this.
+        
     }
 
     void HandleCollision(GameObject collider1, GameObject collider2)
@@ -46,6 +50,31 @@ public class GameManager : MonoBehaviour
             // (scoring and combos can be handled within)
             //
             // Call that method using the event system.
+        }
+    }
+
+    IEnumerator SpawnMarbleInterval(MarbleSpawner marbleSpawner, int repeats, float interval)
+    {
+        for (int i = 0; i < repeats; i++)
+        {
+            //List.Add(marbleSpawner.SpawnMarble());
+            //GameObject marble = marbleSpawner.SpawnMarble();
+
+            //MarbleMovement marbleScript = marble.GetComponent<MarbleMovement>();
+            //Debug.Log(marbleScript.rb);
+            //marbleScript.rb.velocity = marble.transform.position * marbleScript.speed;
+
+            //marbles.Add(marble);
+            
+            // Note: yield first for now, since POC requires initial wave to be
+            // called on Start(). Without the pause, dependencies i.e. the
+            // RigidBody are not loaded yet, and NullReferenceExceptions get
+            // thrown.
+            // TODO LATER: Move wave spawning into Update()
+            // Make sure that each wave is only spawned once - maybe via
+            // conditional checks or something.
+            yield return new WaitForSeconds(interval);
+            marbles.Add(marbleSpawner.SpawnMarble());
         }
     }
 }
