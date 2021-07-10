@@ -20,7 +20,7 @@ public class ProjectileSpawner : MonoBehaviour
 
     }
 
-    public void Shoot()
+    public GameObject Shoot(Colours projectileColour, Material projectileMaterial)
     {
         // Input.mousePosition's z-value is always 0. Set it to reflect the
         // Camera's height from the ground for accurate tracking of mouse
@@ -48,5 +48,10 @@ public class ProjectileSpawner : MonoBehaviour
         //Debug.Log(projectileScript.Rb);
         projectileScript.Rb.velocity = transform.TransformDirection(
             direction * projectileScript.speed);
+
+        projectileScript.Colour = projectileColour;
+        projectileScript.GetComponent<MeshRenderer>().material = projectileMaterial;
+
+        return projectile;
     }
 }

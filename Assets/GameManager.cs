@@ -55,8 +55,16 @@ public class GameManager : MonoBehaviour
     // FixedUpdate() methods.
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0)) 
-            projectileSpawnerScript.Shoot();
+        if (Input.GetMouseButtonDown(0))
+        {
+            // Pass in a randomly-selected colour and its corresponding material
+            // within GameManager to ensure array data is properly encapsulated.
+            int marbleColour = Random.Range(0, materials.Length);
+            marbles.Add(
+                projectileSpawnerScript.Shoot(
+                    (Colours)marbleColour,
+                    materials[marbleColour]));
+        }
     }
 
     void HandleCollision(GameObject collider1, GameObject collider2)
@@ -99,9 +107,10 @@ public class GameManager : MonoBehaviour
             // Pass in a randomly-selected colour and its corresponding material
             // within GameManager to ensure array data is properly encapsulated.
             int marbleColour = Random.Range(0, materials.Length);
-            Material marbleMaterial = materials[marbleColour];
-
-            marbles.Add(marbleSpawner.SpawnMarble((Colours)marbleColour, marbleMaterial));
+            marbles.Add(
+                marbleSpawner.SpawnMarble(
+                    (Colours)marbleColour,
+                    materials[marbleColour]));
         }
     }
 }
