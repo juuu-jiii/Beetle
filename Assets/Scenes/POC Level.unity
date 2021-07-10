@@ -311,7 +311,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e69d3ae18e1e4f84d99ec1d1622853df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawner: {fileID: 505095555}
   marbleTemplate: {fileID: 1543874249249585914, guid: 837b8a888fa5fbf43ba13b17247c947f, type: 3}
 --- !u!1 &705507993
 GameObject:
@@ -616,7 +615,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   marbles: []
-  player: {fileID: 0}
   spawnPoints:
   - {fileID: 2817736018464406007}
   - {fileID: 505095555}
@@ -625,6 +623,8 @@ MonoBehaviour:
   - {fileID: 2100000, guid: c7746a13e26e0b34c860e1ca50a1ad8d, type: 2}
   - {fileID: 2100000, guid: 3546fc1599a0d9c42bc730e354e65c21, type: 2}
   - {fileID: 2100000, guid: eae39ac3fa18ef6488df00cd5d22cde4, type: 2}
+  player: {fileID: 389742876}
+  projectileSpawner: {fileID: 1841282763}
 --- !u!4 &1262690766
 Transform:
   m_ObjectHideFlags: 0
@@ -700,6 +700,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b7e27330af869654794efd5c3cf30920, type: 3}
+--- !u!1 &1841282763 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2177778180864904825, guid: a986a68b2359528429478414088de689, type: 3}
+  m_PrefabInstance: {fileID: 2177778182051093392}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2070138549
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1026,5 +1031,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e69d3ae18e1e4f84d99ec1d1622853df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawner: {fileID: 2817736018464406007}
   marbleTemplate: {fileID: 1543874249249585914, guid: 837b8a888fa5fbf43ba13b17247c947f, type: 3}

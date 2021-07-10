@@ -9,11 +9,15 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private List<GameObject> marbles;
     [SerializeField]
-    private GameObject player;
-    [SerializeField]
     private GameObject[] spawnPoints;
     [SerializeField]
     private Material[] materials;
+    [SerializeField]
+    private GameObject player;
+    private CannonMovement playerScript;
+    [SerializeField]
+    private GameObject projectileSpawner;
+    private ProjectileSpawner projectileSpawnerScript;
     //[SerializeField]
     //private int waves;
     //[SerializeField]
@@ -22,6 +26,9 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        playerScript = player.GetComponent<CannonMovement>();
+        projectileSpawnerScript = projectileSpawner.GetComponent<ProjectileSpawner>();
+
         EventManager.StartListening(Events.MarbleMatch, HandleCollision);
 
         // TODO: spawn marbles in quick succession using interval
@@ -32,10 +39,24 @@ public class GameManager : MonoBehaviour
             StartCoroutine(SpawnMarbleInterval(spawnPoint.GetComponent<MarbleSpawner>(), 5, 0.25f));
     }
 
-    // Update is called once per frame
-    void Update()
+    // Player movement is handled in FixedUpdate() since physics are involved.
+    private void FixedUpdate()
     {
-        
+        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
+            playerScript.StrafeLeft();
+
+        if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
+            playerScript.StrafeRight();
+    }
+
+    // Player shooting is handled in Update() since responsiveness is important.
+    //
+    // Projectile physics are handled in their respective scripts'
+    // FixedUpdate() methods.
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0)) 
+            projectileSpawnerScript.Shoot();
     }
 
     void HandleCollision(GameObject collider1, GameObject collider2)
