@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProjectileMovement : MarbleMovement
+public class Projectile : Marble
 {
     private bool isStale;
 
@@ -23,7 +23,7 @@ public class ProjectileMovement : MarbleMovement
 
     protected override void OnCollisionEnter(Collision collision)
     { 
-        MarbleMovement otherMarble = collision.gameObject.GetComponent<MarbleMovement>();
+        Marble otherMarble = collision.gameObject.GetComponent<Marble>();
 
         // Optimise by only checking for colour matches if this projectile is
         // not stale.

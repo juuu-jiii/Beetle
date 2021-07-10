@@ -2,41 +2,78 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/// Describes a colour a marble can take.
+/// Describes the colours marbles could have.
 public enum Colours
 {
     Red,
-    Yellow,
+    Jaune,
     Green,
     Blue
 }
 
-public class MarbleMovement : MonoBehaviour
+// Note: materials list is currently placed in GameManager, so each marble does
+// not need to maintain its own list. Unless there is a need to do so (maybe in
+// the case of special marbles that change colour at regular intervals), this
+// should remain untouched.
+
+/// <summary>
+/// Describes the properties/behaviours of a marble object.
+/// </summary>
+public class Marble : MonoBehaviour
 {
     public float speed;
     // TODO DELETE: deprecated
     //public bool hasRandomDirection;
-    public Rigidbody rb;
+    private Rigidbody rb;
     protected Vector3 previousVelocity;
-    public Colours Colour { get; protected set; }
+    public Colours Colour { get; set; }
+    private Material material;
     // TODO LATER: add staleness timer
+
+    /// <summary>
+    /// get property that ensures the RigidBody reference to this marble, rb,
+    /// exists before returning it. Ensures that references are resolved during
+    /// runtime when marbles get dynamically instantiated.
+    /// </summary>
+    // Note that calling Instantiate() does not call that GameObject's Start()
+    // because Start() is not a constructor! Start() gets called for all newly-
+    // created GameObjects at the same time, much like Update(). Since the 
+    // velocities of marbles are assigned immediately after being spawned, this
+    // implementation prevents UnassignedReferenceExceptions. This way, there
+    // is no need to initialise rb within Start().
+    public Rigidbody Rb
+    {
+        get
+        {
+            if (!rb) rb = GetComponent<Rigidbody>();
+            return rb;
+        }
+    }
 
     // Start is called before the first frame update
     protected void Start()
     {
-        rb = GetComponent<Rigidbody>();
         speed = 10.0f;
-        //Colour = (Colours)Random.Range(0, 4);
+        //rb = GetComponent<Rigidbody>();
+        //material = GetComponent<MeshRenderer>().material;
+
+        Debug.Log(GetComponent<Renderer>().material);
+        // Assign the appropriate material based on the marble's colour.
+        //GetComponent<Renderer>().material = GameManager.materials[(int)Colour];
 
         //switch (Colour)
         //{
         //    case Colours.Red:
+        //        marble.GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/M_Marble_Red");
         //        break;
-        //    case Colours.Yellow:
+        //    case Colours.Jaune:
+        //        marble.GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/M_Marble_Red");
         //        break;
         //    case Colours.Green:
+        //        marble.GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/M_Marble_Red");
         //        break;
         //    case Colours.Blue:
+        //        marble.GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/M_Marble_Red");
         //        break;
         //}
 

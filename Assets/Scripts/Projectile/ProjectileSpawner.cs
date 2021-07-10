@@ -2,10 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Projectile : MonoBehaviour
+public class ProjectileSpawner : MonoBehaviour
 {
     public GameObject projectileTemplate;
-    public Transform spawnPoint;
     private Vector3 target;
     
     // Start is called before the first frame update
@@ -34,17 +33,19 @@ public class Projectile : MonoBehaviour
             //
             // The result is normalised so that it can later be multiplied
             // accordingly by a speed value.
-            Vector3 direction = (target - spawnPoint.position).normalized;
+            Vector3 direction = (target - transform.position).normalized;
 
             GameObject projectile = Instantiate(
                 projectileTemplate, 
-                spawnPoint.position, 
+                transform.position, 
                 projectileTemplate.transform.rotation);
 
-            MarbleMovement projectileScript = projectile.GetComponent<MarbleMovement>();
-            Debug.Log(projectileScript.rb);
-            projectileScript.rb.velocity = spawnPoint.TransformDirection(
+            Marble projectileScript = projectile.GetComponent<Marble>();
+            Debug.Log(projectileScript.Rb);
+            projectileScript.Rb.velocity = transform.TransformDirection(
                 direction * projectileScript.speed);
         }
     }
+
+    public 
 }

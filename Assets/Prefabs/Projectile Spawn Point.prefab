@@ -43,5 +43,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6987ddf0719ed6f42b7f6e9d86896006, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectileTemplate: {fileID: 0}
+  projectileTemplate: {fileID: 1543874249249585914, guid: 837b8a888fa5fbf43ba13b17247c947f, type: 3}
   spawnPoint: {fileID: 2177778180864904826}

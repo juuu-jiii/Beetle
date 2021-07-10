@@ -127,6 +127,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
-  hasRandomDirection: 0
+  marble: {fileID: 0}
   rb: {fileID: 0}
-  materials: []

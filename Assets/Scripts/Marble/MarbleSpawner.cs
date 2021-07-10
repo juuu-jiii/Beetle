@@ -1,11 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class MarbleSpawner : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject spawner;
     [SerializeField]
     private GameObject marbleTemplate;
     //private List<GameObject> buffer;
@@ -49,25 +48,40 @@ public class MarbleSpawner : MonoBehaviour
     // return the list, since it is passed by reference, and is not reassigned,
     // only modified.
 
+    //private void SetColour(Material[] materials, Marble marbleScript)
+    //{
+    //    int marbleColourIndex = Random.Range(0, materials.Length);
+    //    marbleScript.Colour = (Colours)marbleColourIndex;
+    //    marbleScript.GetComponent<MeshRenderer>().material = materials[marbleColourIndex];
+    //}
+
     /// <summary>
     /// Instantiate a marble at the position and orientation of this spawner.
     /// </summary>
+    /// <param name="marbleColour">
+    /// The colour to be assigned to this marble.
+    /// </param>
+    /// <param name="marbleMaterial">
+    /// The material to be applied to this marble.
+    /// </param>
     /// <returns>
     /// A reference to the marble that was instantiated.
     /// </returns>
-    public GameObject SpawnMarble()
+    public GameObject SpawnMarble(Colours marbleColour, Material marbleMaterial)
     {
         //Debug.Log(string.Format("position: {0} rotation: {1}", spawner.transform.position, spawner.transform.rotation));
         GameObject marble = Instantiate(
             marbleTemplate,
-            spawner.transform.position,
-            spawner.transform.rotation);
+            transform.position,
+            transform.rotation);
         BufferedMarbles--;
 
-        // Set spawned marble's initial velocity.
-        MarbleMovement marbleScript = marble.GetComponent<MarbleMovement>();
-        Debug.Log(marbleScript.rb);
-        marbleScript.rb.velocity = marble.transform.forward * marbleScript.speed;
+        Marble marbleScript = marble.GetComponent<Marble>();
+
+        // Set spawned marble's initial velocity and colour (via its material).
+        marbleScript.Rb.velocity = marble.transform.forward * marbleScript.speed;
+        marbleScript.Colour = marbleColour;
+        marbleScript.GetComponent<MeshRenderer>().material = marbleMaterial;
 
         return marble;
     }

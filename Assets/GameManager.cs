@@ -12,8 +12,8 @@ public class GameManager : MonoBehaviour
     private GameObject player;
     [SerializeField]
     private GameObject[] spawnPoints;
-    //[SerializeField]
-    //private Material[] materials;
+    [SerializeField]
+    private Material[] materials;
     //[SerializeField]
     //private int waves;
     //[SerializeField]
@@ -74,7 +74,13 @@ public class GameManager : MonoBehaviour
             // Make sure that each wave is only spawned once - maybe via
             // conditional checks or something.
             yield return new WaitForSeconds(interval);
-            marbles.Add(marbleSpawner.SpawnMarble());
+
+            // Pass in a randomly-selected colour and its corresponding material
+            // within GameManager to ensure array data is properly encapsulated.
+            int marbleColour = Random.Range(0, materials.Length);
+            Material marbleMaterial = materials[marbleColour];
+
+            marbles.Add(marbleSpawner.SpawnMarble((Colours)marbleColour, marbleMaterial));
         }
     }
 }
