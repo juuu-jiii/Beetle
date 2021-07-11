@@ -66,6 +66,9 @@ public class ProjectileSpawner : MonoBehaviour
             direction * projectileScript.speed);
         projectileScript.Colour = projectileColour;
         projectileScript.GetComponent<MeshRenderer>().material = projectileMaterial;
+        Color projectileMaterialColour = projectileScript.GetComponent<MeshRenderer>().material.color;
+        projectileScript.GetComponent<MeshRenderer>().material.EnableKeyword("_EMISSION");
+        projectileScript.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", projectileMaterialColour);
 
         return projectile;
     }

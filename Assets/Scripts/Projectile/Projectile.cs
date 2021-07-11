@@ -50,6 +50,7 @@ public class Projectile : Marble
                 {
                     Debug.Log("No match - now stale");
                     isStale = true;
+                    GetComponent<MeshRenderer>().material.DisableKeyword("_EMISSION");
                     base.OnCollisionEnter(collision);
                 }
             }

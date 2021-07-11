@@ -97,7 +97,7 @@ public class GameManager : MonoBehaviour
     /// </returns>
     private int GenerateMarbleColour()
     {
-        return Random.Range(0, 0/*materials.Length*/);
+        return Random.Range(0, /*0*/materials.Length);
     }
 
     /// <summary>
