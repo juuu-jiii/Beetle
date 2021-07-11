@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
 
         // Leverage coroutines to spawn marbles at regular intervals.
         foreach (GameObject spawnPoint in spawnPoints)
-            StartCoroutine(SpawnMarbleInterval(spawnPoint.GetComponent<MarbleSpawner>(), 1, 0.25f));
+            StartCoroutine(SpawnMarbleInterval(spawnPoint.GetComponent<MarbleSpawner>(), 0, 0.25f));
     }
 
     // Player movement is handled in FixedUpdate() since physics are involved.

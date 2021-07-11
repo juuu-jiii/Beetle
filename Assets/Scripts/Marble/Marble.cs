@@ -51,7 +51,7 @@ public class Marble : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    protected void Start()
+    protected virtual void Start()
     {
         speed = 10.0f;
         //rb = GetComponent<Rigidbody>();

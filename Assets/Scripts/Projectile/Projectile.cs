@@ -5,15 +5,23 @@ using UnityEngine;
 public class Projectile : Marble
 {
     private bool isStale;
+    private IEnumerator setStaleTimeout;
 
     // Since this class inherits from MarbleMovement, Start and FixedUpdate are
     // also inherited.
 
-    //// Start is called before the first frame update
-    //void Start()
-    //{
-    //    base.Start();
-    //}
+    // Start is called before the first frame update
+    protected override void Start()
+    {
+        base.Start();
+
+        // Store a reference to the coroutine so that it can be stopped later.
+        // This is very helpful for stopping coroutines accepting params, and
+        // is also a much more efficient way of stopping coroutines, compared
+        // to using the string overload.
+        setStaleTimeout = SetStaleTimeout(3f);
+        StartCoroutine(setStaleTimeout);
+    }
 
     //// Inherit the same basic behaviours from the parent.
     //private void FixedUpdate()
@@ -29,7 +37,7 @@ public class Projectile : Marble
         // not stale.
         if (!isStale)
         {
-            Debug.Log("not stale - collision detected");
+            //Debug.Log("not stale - collision detected");
             // If the other object is a regular marble, destroy both this and the
             // other marble within this script, since regular marbles do not trigger
             // EventManager events themselves when colliding.
@@ -43,12 +51,14 @@ public class Projectile : Marble
                         Events.MarbleMatch,
                         this.gameObject,
                         collision.gameObject);
-                    Debug.Log("Matched");
+                    //Debug.Log("Matched");
                 }
                 // Otherwise, this projectile is now stale. Continue bouncing.
                 else
                 {
-                    Debug.Log("No match - now stale");
+                    //Debug.Log("No match - now stale");
+                    // Remove emission from projectile once stale.
+                    StopCoroutine(setStaleTimeout);
                     isStale = true;
                     GetComponent<MeshRenderer>().material.DisableKeyword("_EMISSION");
                     base.OnCollisionEnter(collision);
@@ -72,6 +82,22 @@ public class Projectile : Marble
             //}
         }
         else base.OnCollisionEnter(collision);
+    }
+
+    /// <summary>
+    /// Marks this projectile as stale after a specified duration.
+    /// </summary>
+    /// <param name="duration">
+    /// Length of time post-spawning before this projectile is marked stale.
+    /// </param>
+    /// <returns>
+    /// Object of type IEnumerator - required for coroutine to work.
+    /// </returns>
+    private IEnumerator SetStaleTimeout(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        isStale = true;
+        GetComponent<MeshRenderer>().material.DisableKeyword("_EMISSION");
     }
 }
 
