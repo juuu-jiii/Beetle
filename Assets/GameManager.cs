@@ -4,14 +4,22 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    // TODO: add marbles to array
-    // account for both wave-spawned and projectiles
+    // Master list of all marbles and projectiles in the Scene.
     [SerializeField]
     private List<GameObject> marbles;
     [SerializeField]
     private GameObject[] spawnPoints;
-    [SerializeField]
-    private Material[] materials;
+    //private Color[] materialColours = new Color[]
+    //{
+    //    new Color(180, 0, 0, 255)
+    //}
+    private readonly Dictionary<Colours, Color> materialColours = new Dictionary<Colours, Color>()
+    {
+        [Colours.Red] = new Color(180, 0, 0, 255),
+        [Colours.Jaune] = new Color(202, 153, 0, 255),
+        [Colours.Green] = new Color(0, 111, 2, 255),
+        [Colours.Blue] = new Color(0, 85, 169, 255)
+    };
     [SerializeField]
     private GameObject player;
     private CannonMovement playerScript;
@@ -57,11 +65,11 @@ public class GameManager : MonoBehaviour
         {
             // Pass in a randomly-selected colour and its corresponding material
             // within GameManager to ensure array data is properly encapsulated.
-            int marbleColour = GenerateMarbleColour();
+            Colours colour = GenerateMarbleColour();
             marbles.Add(
                 projectileSpawnerScript.Shoot(
-                    (Colours)marbleColour,
-                    materials[marbleColour]));
+                    colour,
+                    materialColours[colour]));
         }
     }
 
@@ -90,14 +98,16 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Generates a random number corresponding to an index in materials.
+    /// Generates a random value from the Colours enum.
     /// </summary>
     /// <returns>
-    /// The result of the random number generation.
+    /// The result of the random Colours value generation.
     /// </returns>
-    private int GenerateMarbleColour()
+    private Colours GenerateMarbleColour()
     {
-        return Random.Range(0, /*0*/materials.Length);
+        Colours result = (Colours)Random.Range(0, /*0*/materialColours.Count);
+        Debug.Log(result);
+        return result;
     }
 
     /// <summary>
@@ -140,11 +150,11 @@ public class GameManager : MonoBehaviour
 
             // Pass in a randomly-selected colour and its corresponding material
             // within GameManager to ensure array data is properly encapsulated.
-            int marbleColour = GenerateMarbleColour();
+            Colours colour = GenerateMarbleColour();
             marbles.Add(
                 marbleSpawner.Spawn(
-                    (Colours)marbleColour,
-                    materials[marbleColour]));
+                    colour,
+                    materialColours[colour]));
         }
     }
 }

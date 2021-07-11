@@ -27,13 +27,13 @@ public class ProjectileSpawner : MonoBehaviour
     /// <param name="projectileColour">
     /// The colour to be assigned to this projectile.
     /// </param>
-    /// <param name="projectileMaterial">
+    /// <param name="materialColour">
     /// The material to be applied to this projectile.
     /// </param>
     /// <returns>
     /// A reference to the projectile that is instantiated.
     /// </returns>
-    public GameObject Shoot(Colours projectileColour, Material projectileMaterial)
+    public GameObject Shoot(Colours projectileColour, Color materialColour)
     {
         // Input.mousePosition's z-value is always 0. Set it to reflect the
         // Camera's height from the ground for accurate tracking of mouse
@@ -65,7 +65,9 @@ public class ProjectileSpawner : MonoBehaviour
         projectileScript.Rb.velocity = transform.TransformDirection(
             direction * projectileScript.speed);
         projectileScript.Colour = projectileColour;
-        projectileScript.GetComponent<MeshRenderer>().material = projectileMaterial;
+        projectileScript.GetComponent<MeshRenderer>().material.color = materialColour;
+
+        // Live projectiles are identified using emissions.
         Color projectileMaterialColour = projectileScript.GetComponent<MeshRenderer>().material.color;
         projectileScript.GetComponent<MeshRenderer>().material.EnableKeyword("_EMISSION");
         projectileScript.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", projectileMaterialColour);

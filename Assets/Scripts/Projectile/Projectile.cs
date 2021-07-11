@@ -29,7 +29,7 @@ public class Projectile : Marble
         // not stale.
         if (!isStale)
         {
-            Debug.Log("not stale - collision detected");
+            //Debug.Log("not stale - collision detected");
             // If the other object is a regular marble, destroy both this and the
             // other marble within this script, since regular marbles do not trigger
             // EventManager events themselves when colliding.
@@ -48,9 +48,12 @@ public class Projectile : Marble
                 // Otherwise, this projectile is now stale. Continue bouncing.
                 else
                 {
-                    Debug.Log("No match - now stale");
+                    //Debug.Log("No match - now stale");
+
+                    // Once a projectile is stale, remove its emission.
                     isStale = true;
                     GetComponent<MeshRenderer>().material.DisableKeyword("_EMISSION");
+
                     base.OnCollisionEnter(collision);
                 }
             }

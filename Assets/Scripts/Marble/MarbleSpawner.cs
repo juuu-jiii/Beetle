@@ -61,13 +61,13 @@ public class MarbleSpawner : MonoBehaviour
     /// <param name="marbleColour">
     /// The colour to be assigned to this marble.
     /// </param>
-    /// <param name="marbleMaterial">
+    /// <param name="materialColour">
     /// The material to be applied to this marble.
     /// </param>
     /// <returns>
     /// A reference to the marble that is instantiated.
     /// </returns>
-    public GameObject Spawn(Colours marbleColour, Material marbleMaterial)
+    public GameObject Spawn(Colours colour, Color materialColour)
     {
         //Debug.Log(string.Format("position: {0} rotation: {1}", spawner.transform.position, spawner.transform.rotation));
         GameObject marble = Instantiate(
@@ -80,8 +80,8 @@ public class MarbleSpawner : MonoBehaviour
 
         // Set spawned marble's initial velocity and colour (via its material).
         marbleScript.Rb.velocity = marble.transform.forward * marbleScript.speed;
-        marbleScript.Colour = marbleColour;
-        marbleScript.GetComponent<MeshRenderer>().material = marbleMaterial;
+        marbleScript.Colour = colour;
+        marbleScript.GetComponent<MeshRenderer>().material.color = materialColour;
 
         return marble;
     }

@@ -87,7 +87,7 @@ public class Marble : MonoBehaviour
         //        Random.Range(-1f, 1f), 
         //        Random.Range(-1f, 1f)) * speed;
 
-        // TODO: initialise velocity
+        // initialise velocity
         // since marbles do not have random directions of motion any
         // longer, it might be necessary to set an initial speed in the
         // direction they are facing.
