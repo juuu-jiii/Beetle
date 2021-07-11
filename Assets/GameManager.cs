@@ -29,14 +29,12 @@ public class GameManager : MonoBehaviour
         playerScript = player.GetComponent<CannonMovement>();
         projectileSpawnerScript = projectileSpawner.GetComponent<ProjectileSpawner>();
 
+        // Listen for MarbleMatch events upon game start.
         EventManager.StartListening(Events.MarbleMatch, HandleCollision);
 
-        // TODO: spawn marbles in quick succession using interval
-        // Use a coroutine to accomplish this.
-        // Spawn only once to show it works, since waves are in a future slice
-        // Spawn for each spawn point in spawnPoints
+        // Leverage coroutines to spawn marbles at regular intervals.
         foreach (GameObject spawnPoint in spawnPoints)
-            StartCoroutine(SpawnMarbleInterval(spawnPoint.GetComponent<MarbleSpawner>(), 5, 0.25f));
+            StartCoroutine(SpawnMarbleInterval(spawnPoint.GetComponent<MarbleSpawner>(), 1, 0.25f));
     }
 
     // Player movement is handled in FixedUpdate() since physics are involved.
@@ -59,7 +57,7 @@ public class GameManager : MonoBehaviour
         {
             // Pass in a randomly-selected colour and its corresponding material
             // within GameManager to ensure array data is properly encapsulated.
-            int marbleColour = Random.Range(0, materials.Length);
+            int marbleColour = GenerateMarbleColour();
             marbles.Add(
                 projectileSpawnerScript.Shoot(
                     (Colours)marbleColour,
@@ -67,6 +65,15 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Removes the specified marbles from the Scene.
+    /// </summary>
+    /// <param name="collider1">
+    /// First marble to remove from the Scene.
+    /// </param>
+    /// <param name="collider2">
+    /// Second marble to remove from the Scene.
+    /// </param>
     void HandleCollision(GameObject collider1, GameObject collider2)
     {
         if (marbles.Contains(collider1) && marbles.Contains(collider2))
@@ -82,6 +89,33 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Generates a random number corresponding to an index in materials.
+    /// </summary>
+    /// <returns>
+    /// The result of the random number generation.
+    /// </returns>
+    private int GenerateMarbleColour()
+    {
+        return Random.Range(0, 0/*materials.Length*/);
+    }
+
+    /// <summary>
+    /// Uses a coroutine to call marbleSpawner.SpawnMarble() at regular,
+    /// specified intervals to spawn marbles a given number of times.
+    /// </summary>
+    /// <param name="marbleSpawner">
+    /// Reference to a MarbleSpawner script.
+    /// </param>
+    /// <param name="repeats">
+    /// The number of marbles to spawn.
+    /// </param>
+    /// <param name="interval">
+    /// The frequency at which to spawn marbles.
+    /// </param>
+    /// <returns>
+    /// Object of type IEnumerator - required for coroutine to work.
+    /// </returns>
     IEnumerator SpawnMarbleInterval(MarbleSpawner marbleSpawner, int repeats, float interval)
     {
         for (int i = 0; i < repeats; i++)
@@ -106,9 +140,9 @@ public class GameManager : MonoBehaviour
 
             // Pass in a randomly-selected colour and its corresponding material
             // within GameManager to ensure array data is properly encapsulated.
-            int marbleColour = Random.Range(0, materials.Length);
+            int marbleColour = GenerateMarbleColour();
             marbles.Add(
-                marbleSpawner.SpawnMarble(
+                marbleSpawner.Spawn(
                     (Colours)marbleColour,
                     materials[marbleColour]));
         }

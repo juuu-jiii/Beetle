@@ -65,9 +65,9 @@ public class MarbleSpawner : MonoBehaviour
     /// The material to be applied to this marble.
     /// </param>
     /// <returns>
-    /// A reference to the marble that was instantiated.
+    /// A reference to the marble that is instantiated.
     /// </returns>
-    public GameObject SpawnMarble(Colours marbleColour, Material marbleMaterial)
+    public GameObject Spawn(Colours marbleColour, Material marbleMaterial)
     {
         //Debug.Log(string.Format("position: {0} rotation: {1}", spawner.transform.position, spawner.transform.rotation));
         GameObject marble = Instantiate(

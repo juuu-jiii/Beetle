@@ -57,7 +57,7 @@ public class Marble : MonoBehaviour
         //rb = GetComponent<Rigidbody>();
         //material = GetComponent<MeshRenderer>().material;
 
-        Debug.Log(GetComponent<Renderer>().material);
+        //Debug.Log(GetComponent<Renderer>().material);
         // Assign the appropriate material based on the marble's colour.
         //GetComponent<Renderer>().material = GameManager.materials[(int)Colour];
 
@@ -93,7 +93,7 @@ public class Marble : MonoBehaviour
         // direction they are facing.
     }
 
-    // Do everything in FixedUpdate since physics are involved.
+    // Handle movement in FixedUpdate, since physics are involved.
     protected void FixedUpdate()
     {
         // Marbles all have a constant speed. Fix for top speed @3.5 issue.
@@ -120,10 +120,5 @@ public class Marble : MonoBehaviour
     private void Bounce(Vector3 collisionNormal)
     {
         rb.velocity = Vector3.Reflect(previousVelocity.normalized, collisionNormal) * speed;
-    }
-
-    private void Match()
-    {
-
     }
 }

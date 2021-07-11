@@ -113,10 +113,18 @@ public class EventManager : MonoBehaviour
     /// <param name="eventName">
     /// The name of the event whose listeners are to be fired or invoked.
     /// </param>
+    /// <param name="marble1">
+    /// First marble to be removed via GameManager.HandleCollision().
+    /// </param>
+    /// <param name="marble2">
+    /// Second marble to be removed via GameManager.HandleCollision().
+    /// </param>
     public static void TriggerEvent(
-        Events eventName, GameObject collider1, GameObject collider2)
+        Events eventName, GameObject marble1, GameObject marble2)
     {
-        UnityEvent<GameObject, GameObject> thisEvent = new UnityEvent<GameObject, GameObject>();
-        Instance.eventDict.Add(eventName, thisEvent);
+        UnityEvent<GameObject, GameObject> thisEvent = null;
+
+        if (Instance.eventDict.TryGetValue(eventName, out thisEvent))
+            thisEvent.Invoke(marble1, marble2);
     }
 }

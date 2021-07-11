@@ -29,6 +29,7 @@ public class Projectile : Marble
         // not stale.
         if (!isStale)
         {
+            Debug.Log("not stale - collision detected");
             // If the other object is a regular marble, destroy both this and the
             // other marble within this script, since regular marbles do not trigger
             // EventManager events themselves when colliding.
@@ -36,14 +37,18 @@ public class Projectile : Marble
             {
                 // Colour match:
                 if (Colour == otherMarble.Colour)
+                {
                     // Invoke event: destroy this and the other marble.
                     EventManager.TriggerEvent(
                         Events.MarbleMatch,
                         this.gameObject,
                         collision.gameObject);
+                    Debug.Log("Matched");
+                }
                 // Otherwise, this projectile is now stale. Continue bouncing.
                 else
                 {
+                    Debug.Log("No match - now stale");
                     isStale = true;
                     base.OnCollisionEnter(collision);
                 }
@@ -65,11 +70,7 @@ public class Projectile : Marble
 
             //}
         }
-        else
-        {
-            base.OnCollisionEnter(collision);
-        }
-        
+        else base.OnCollisionEnter(collision);
     }
 }
 

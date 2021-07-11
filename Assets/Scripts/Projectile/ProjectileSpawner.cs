@@ -20,6 +20,19 @@ public class ProjectileSpawner : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Instantiates a marble at the position of this spawner, and initialises
+    /// its velocity in the direction of the cursor.
+    /// </summary>
+    /// <param name="projectileColour">
+    /// The colour to be assigned to this projectile.
+    /// </param>
+    /// <param name="projectileMaterial">
+    /// The material to be applied to this projectile.
+    /// </param>
+    /// <returns>
+    /// A reference to the projectile that is instantiated.
+    /// </returns>
     public GameObject Shoot(Colours projectileColour, Material projectileMaterial)
     {
         // Input.mousePosition's z-value is always 0. Set it to reflect the
@@ -44,11 +57,13 @@ public class ProjectileSpawner : MonoBehaviour
             transform.position,
             projectileTemplate.transform.rotation);
 
-        Marble projectileScript = projectile.GetComponent<Marble>();
+        Projectile projectileScript = projectile.GetComponent<Projectile>();
         //Debug.Log(projectileScript.Rb);
+
+        // Set spawned projectile's initial velocity and colour
+        // (via its material).
         projectileScript.Rb.velocity = transform.TransformDirection(
             direction * projectileScript.speed);
-
         projectileScript.Colour = projectileColour;
         projectileScript.GetComponent<MeshRenderer>().material = projectileMaterial;
 

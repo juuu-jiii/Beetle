@@ -22,6 +22,9 @@ public class CannonMovement : MonoBehaviour
         velocity = Vector3.zero;
     }
 
+    /// <summary>
+    /// Move the player left.
+    /// </summary>
     public void StrafeLeft()
     {
         velocity = Vector3.left * speed;
@@ -30,9 +33,13 @@ public class CannonMovement : MonoBehaviour
         transform.position += velocity;
     }
 
+    /// <summary>
+    /// Move the player right.
+    /// </summary>
     public void StrafeRight()
     {
         velocity = Vector3.right * speed;
+
         // AddForce() cannot be used - movement must be immediate.
         transform.position += velocity;
     }
