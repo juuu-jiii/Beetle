@@ -7,7 +7,8 @@ using UnityEngine.Events;
 /// Names of events that can be listened for.
 public enum Events
 {
-    MarbleMatch
+    MarbleMatch,
+    LifeLost
 }
 
 /// <summary>
@@ -19,7 +20,7 @@ public class EventManager : MonoBehaviour
     // error-prone strings.
     //
     // Key: name of the event; Value: UnityEvent i.e. the event object itself.
-    private Dictionary<Events, UnityEvent<GameObject, GameObject>> eventDict;
+    private Dictionary<Events, UnityEvent<System.Object, System.Object>> eventDict;
     private static EventManager instance;
 
     // Singleton implementation
@@ -49,7 +50,7 @@ public class EventManager : MonoBehaviour
     private void Init()
     {
         if (eventDict == null) 
-            eventDict = new Dictionary<Events, UnityEvent<GameObject, GameObject>>();
+            eventDict = new Dictionary<Events, UnityEvent<System.Object, System.Object>>();
     }
 
     /// <summary>
@@ -63,9 +64,9 @@ public class EventManager : MonoBehaviour
     /// <param name="callback">
     /// The listener to assign to eventName.
     /// </param>
-    public static void StartListening(Events eventName, UnityAction<GameObject, GameObject> callback)
+    public static void StartListening(Events eventName, UnityAction<System.Object, System.Object> callback)
     {
-        UnityEvent<GameObject, GameObject> thisEvent = null;
+        UnityEvent<System.Object, System.Object> thisEvent = null;
         
         // If ContainsKey() were used, thisEvent would need to be assigned
         // beneath the conditional check. TryGetValue() uses the out parameter
@@ -74,7 +75,7 @@ public class EventManager : MonoBehaviour
             thisEvent.AddListener(callback);
         else
         {
-            thisEvent = new UnityEvent<GameObject, GameObject>();
+            thisEvent = new UnityEvent<System.Object, System.Object>();
             thisEvent.AddListener(callback);
             Instance.eventDict.Add(eventName, thisEvent);
         }
@@ -89,11 +90,11 @@ public class EventManager : MonoBehaviour
     /// <param name="callback">
     /// The listener to remove from eventName.
     /// </param>
-    public static void StopListening(Events eventName, UnityAction<GameObject, GameObject> callback)
+    public static void StopListening(Events eventName, UnityAction<System.Object, System.Object> callback)
     {
         if (!Instance) return;
 
-        UnityEvent<GameObject, GameObject> thisEvent = null;
+        UnityEvent<System.Object, System.Object> thisEvent = null;
 
         if (Instance.eventDict.TryGetValue(eventName, out thisEvent))
             thisEvent.RemoveListener(callback);
@@ -122,7 +123,7 @@ public class EventManager : MonoBehaviour
     public static void TriggerEvent(
         Events eventName, GameObject marble1, GameObject marble2)
     {
-        UnityEvent<GameObject, GameObject> thisEvent = null;
+        UnityEvent<System.Object, System.Object> thisEvent = null;
 
         if (Instance.eventDict.TryGetValue(eventName, out thisEvent))
             thisEvent.Invoke(marble1, marble2);

@@ -51,6 +51,7 @@ public class Projectile : Marble
                         Events.MarbleMatch,
                         this.gameObject,
                         collision.gameObject);
+                    Destroy(this.gameObject);
                     //Debug.Log("Matched");
                 }
                 // Otherwise, this projectile is now stale. Continue bouncing.
@@ -80,6 +81,15 @@ public class Projectile : Marble
             //{
 
             //}
+
+            // TODO: get rid of event params
+            // check for item type. if marble DESTROY it too. if projectile just DESTROY self
+            // What if, regardless of type, you just destroy both?
+            // script order: destroy(that) --> invoke --> destroy(this)
+            // invoke event that calls GameManager.HandleMarbleMatch here.
+            // Then, in GameManager.HandleMarbleMatch(), Linq through marbles and remove
+            //      null refs created by Destroy calls.
+            // 
         }
         else base.OnCollisionEnter(collision);
     }

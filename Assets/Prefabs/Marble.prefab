@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1543874249249585916}
   - component: {fileID: 1543874249249585917}
   - component: {fileID: 1543874249249585904}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Marble
   m_TagString: Marble
   m_Icon: {fileID: 0}
@@ -127,5 +127,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
-  marble: {fileID: 0}
-  rb: {fileID: 0}

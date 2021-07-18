@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4977652022334269720}
   - component: {fileID: 3339827221753255151}
   - component: {fileID: 6906616091418246580}
+  - component: {fileID: -6397203035642789796}
   m_Layer: 0
   m_Name: Cannon
   m_TagString: Player
@@ -126,5 +127,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bea97b95700572a43959353ff323e5bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cannon: {fileID: 0}
   speed: 0
+--- !u!95 &-6397203035642789796
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9118972506850211122}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 43479ea0b4db2cf4ab2a57193aed17dd, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
