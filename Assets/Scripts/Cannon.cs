@@ -9,15 +9,18 @@ public class Cannon : MonoBehaviour
     [SerializeField]
     private float speed;
     public bool GreyedOut { get; set; }
-    private bool ignoreCollisions;
-    private int collisionCounter;
-    private int prevCollisionCounter;
+    //private bool ignoreCollisions;
+    //private int collisionCounter;
+    //private int prevCollisionCounter;
     private Animation anim;
+    public bool Movable { get; private set; }
 
     // Start is called before the first frame update
     void Start()
     {
-        // Listen for LifeLost events upon game start.
+        Movable = true;
+        
+        //// Listen for LifeLost events upon game start.
         //EventManager.StartListening(Events.LifeLost, PlayResetSequence);
 
         rb = GetComponent<Rigidbody>();
@@ -41,12 +44,18 @@ public class Cannon : MonoBehaviour
         //if (!GreyedOut)
         //    this.gameObject.layer = LayerMask.NameToLayer("Default");
 
-        prevCollisionCounter = collisionCounter;
+        //prevCollisionCounter = collisionCounter;
             
     }
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (collision.gameObject.CompareTag("Marble") || collision.gameObject.CompareTag("Projectile"))
+        {
+            StartCoroutine(PlayResetSequence(3f, 5f, 0.4f));
+            EventManager.TriggerEvent(Events.LifeLost);
+        }
+
         //if (collision.gameObject.tag == "Marble")
         //    StartCoroutine(PlayResetSequence(3f, 5f, 0.4f));
 
@@ -67,40 +76,52 @@ public class Cannon : MonoBehaviour
 
     private void OnCollisionExit(Collision collision)
     {
-        Debug.Log("collision exited");
+        //Debug.Log("collision exited");
 
-        if (collision.gameObject.tag == "Marble")
-        {
-            collisionCounter--;
+        //if (collision.gameObject.tag == "Marble")
+        //{
+        //    collisionCounter--;
 
-            if (!GreyedOut && ignoreCollisions)
-            {
-                Physics.IgnoreCollision(GetComponent<Collider>(), collision.collider, false);
+        //    if (!GreyedOut && ignoreCollisions)
+        //    {
+        //        Physics.IgnoreCollision(GetComponent<Collider>(), collision.collider, false);
 
-                if (collisionCounter == 0) ignoreCollisions = false;
-            }
-        }
+        //        if (collisionCounter == 0) ignoreCollisions = false;
+        //    }
+        //}
     }
 
 
-    // TODO: refactor to not disallow unnecessary params
+    // TODO: refactor to disallow unnecessary params
+
+    /// <summary>
+    /// Wrapper for the AnimateReset() coroutine so it can be invoked when
+    /// events are triggered.
+    /// </summary>
     private IEnumerator PlayResetSequence(
-        float durationInactive, float durationInvincible, float alpha)
+        float durationInactive,
+        float durationInvincible,
+        float alpha)
     {
         // Configure greyed-out material colour.
         Color materialColourGreyed = GetComponent<MeshRenderer>().material.color;
         materialColourGreyed.a = alpha;
 
-        // Set Cannon inactive for a fixed duration.
-        Debug.Log("setting inactive");
-        this.gameObject.SetActive(false);
+        // Cannon is inactive for a fixed duration.
+        rb.isKinematic = true;
+        Movable = false;
+        // Hide Cannon
+        GetComponent<MeshRenderer>().enabled = false;
+        this.gameObject.layer = LayerMask.NameToLayer("Greyed-out");
         yield return new WaitForSeconds(durationInactive);
-        this.gameObject.SetActive(true);
-        Debug.Log("setting active");
+        //this.gameObject.SetActive(true);
+        GetComponent<MeshRenderer>().enabled = true;
+        rb.isKinematic = false;
+        Movable = true;
+        //Debug.Log("setting active");
 
         // Offer a couple seconds of invincibility, where Cannon is greyed out.
         // While Cannon is greyed out, move to different layer to ignore colllisions.
-        this.gameObject.layer = LayerMask.NameToLayer("Greyed-out");
         //GreyedOut = true;
         Extensions.ChangeRenderMode(GetComponent<MeshRenderer>().material, RenderModes.Transparent);
         GetComponent<MeshRenderer>().material.color = materialColourGreyed;
@@ -143,7 +164,7 @@ public class Cannon : MonoBehaviour
     //public IEnumerator FadeInOut(float fadeDuration, float totalDuration)
     //{
     //    float t = 0;
-        
+
     //    while (t < totalDuration)
     //    {
 

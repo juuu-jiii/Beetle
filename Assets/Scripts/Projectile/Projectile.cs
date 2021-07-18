@@ -31,40 +31,123 @@ public class Projectile : Marble
 
     protected override void OnCollisionEnter(Collision collision)
     { 
-        Marble otherMarble = collision.gameObject.GetComponent<Marble>();
-
         // Optimise by only checking for colour matches if this projectile is
         // not stale.
-        if (!isStale)
+        if (!isStale && 
+            (collision.gameObject.tag == "Marble" || collision.gameObject.tag == "Projectile"))
         {
+            Marble otherMarble = collision.gameObject.GetComponent<Marble>();
+
+            // TODO: get rid of event params
+            // check for item type. if marble DESTROY it too. if projectile just DESTROY self
+            // What if, regardless of type, you just destroy both?
+            // script order: destroy(that) --> invoke --> destroy(this)
+            // invoke event that calls GameManager.HandleMarbleMatch here.
+            // Then, in GameManager.HandleMarbleMatch(), Linq through marbles and remove
+            //      null refs created by Destroy calls. Each event invocation will 
+            //      mean score is incremented once. No need to halve the value anywhere.
+            // Just setinactive the other object and destroy it, invoke event, and then destroy
+            //      this GameObject. In the case of the other object being a Projectile, it
+            //      will be kind of a race condition. Let's see if this works.
+            // 
+            // Note: if reference to this object is needed as a sender, just create a
+            // generic Object param and pass "this" as the param. Optional on whether
+            // to use. Should be ok, since C#'s built-in event system does something similar.
+
+            // Deactivate 
+            //otherMarble.gameObject.SetActive(false);
+
+            if (Colour == otherMarble.Colour)
+            {
+                Matched = true;
+
+                switch (collision.gameObject.tag)
+                {
+                    case "Marble":
+                        otherMarble.Matched = true;
+                        EventManager.TriggerEvent(Events.ProjectileMarbleMatch);
+                        break;
+                    case "Projectile":
+                        // Code is executed by whichever marble sets the other
+                        // inactive first.
+                        otherMarble.gameObject.SetActive(false);
+                        EventManager.TriggerEvent(Events.ProjectileProjectileMatch);
+                        break;
+                    default:
+                        Debug.LogError("Collider tag was neither Marble nor Projectile!");
+                        break;
+                }
+            }
+            else
+            {
+                StopCoroutine(setStaleTimeout);
+                isStale = true;
+                GetComponent<MeshRenderer>().material.DisableKeyword("_EMISSION");
+                base.OnCollisionEnter(collision);
+            }
+
+
+
+
+
+            //switch (collision.gameObject.tag)
+            //{
+            //    case "Marble":
+            //        // Colour match:
+            //        if (Colour == otherMarble.Colour)
+            //        {
+            //            EventManager.TriggerEvent(
+            //                Events.ProjectileMarbleMatch,
+            //                this.gameObject,
+            //                new List<object>() {
+            //                otherMarble.gameObject
+            //                });
+            //        }
+            //        // Otherwise, this projectile is now stale. Continue bouncing.
+            //        else
+            //        {
+            //            StopCoroutine(setStaleTimeout);
+            //            isStale = true;
+            //            GetComponent<MeshRenderer>().material.DisableKeyword("_EMISSION");
+            //            base.OnCollisionEnter(collision);
+            //        }
+            //        break;
+            //    case "Projectile":
+
+            //        break;
+            //    default:
+            //        Debug.LogError("Collider tag was neither Marble nor Projectile!");
+            //        break;
+            //}
+            
             //Debug.Log("not stale - collision detected");
             // If the other object is a regular marble, destroy both this and the
             // other marble within this script, since regular marbles do not trigger
             // EventManager events themselves when colliding.
-            if (collision.gameObject.tag == "Marble")
-            {
-                // Colour match:
-                if (Colour == otherMarble.Colour)
-                {
-                    // Invoke event: destroy this and the other marble.
-                    EventManager.TriggerEvent(
-                        Events.MarbleMatch,
-                        this.gameObject,
-                        collision.gameObject);
-                    Destroy(this.gameObject);
-                    //Debug.Log("Matched");
-                }
-                // Otherwise, this projectile is now stale. Continue bouncing.
-                else
-                {
-                    //Debug.Log("No match - now stale");
-                    // Remove emission from projectile once stale.
-                    StopCoroutine(setStaleTimeout);
-                    isStale = true;
-                    GetComponent<MeshRenderer>().material.DisableKeyword("_EMISSION");
-                    base.OnCollisionEnter(collision);
-                }
-            }
+            //if (collision.gameObject.tag == "Marble")
+            //{
+            //    // Colour match:
+            //    if (Colour == otherMarble.Colour)
+            //    {
+            //        // Invoke event: destroy this and the other marble.
+            //        EventManager.TriggerEvent(
+            //            Events.MarbleMatch,
+            //            this.gameObject,
+            //            collision.gameObject);
+            //        //Debug.Log("Matched");
+            //    }
+            //    // Otherwise, this projectile is now stale. Continue bouncing.
+            //    else
+            //    {
+            //        //Debug.Log("No match - now stale");
+            //        // Remove emission from projectile once stale.
+            //        StopCoroutine(setStaleTimeout);
+            //        isStale = true;
+            //        GetComponent<MeshRenderer>().material.DisableKeyword("_EMISSION");
+            //        base.OnCollisionEnter(collision);
+            //    }
+            //}
+
             // TODO STRETCH: optimise by invoking single-param version of event
             // If I am a projectile, only destroy myself. The other projectile
             // will know how to do the same.
@@ -82,14 +165,7 @@ public class Projectile : Marble
 
             //}
 
-            // TODO: get rid of event params
-            // check for item type. if marble DESTROY it too. if projectile just DESTROY self
-            // What if, regardless of type, you just destroy both?
-            // script order: destroy(that) --> invoke --> destroy(this)
-            // invoke event that calls GameManager.HandleMarbleMatch here.
-            // Then, in GameManager.HandleMarbleMatch(), Linq through marbles and remove
-            //      null refs created by Destroy calls.
-            // 
+            
         }
         else base.OnCollisionEnter(collision);
     }

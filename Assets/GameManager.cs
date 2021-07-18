@@ -1,6 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+
+// Resolve ambiguity between UnityEngine.Object and System.Object.
+using Object = System.Object;
 
 public class GameManager : MonoBehaviour
 {
@@ -19,7 +23,7 @@ public class GameManager : MonoBehaviour
     private GameObject projectileSpawner;
     private ProjectileSpawner projectileSpawnerScript;
     private int lives;
-    private bool isActive = false;
+    //private bool isActive = false;
     private Animation anim;
     //[SerializeField]
     //private int waves;
@@ -34,7 +38,15 @@ public class GameManager : MonoBehaviour
         projectileSpawnerScript = projectileSpawner.GetComponent<ProjectileSpawner>();
 
         // Listen for MarbleMatch events upon game start.
-        EventManager.StartListening(Events.MarbleMatch, HandleMarbleMatch);
+        EventManager.StartListening(Events.ProjectileMarbleMatch, ClearMatches);
+        EventManager.StartListening(Events.ProjectileProjectileMatch, ClearMatches);
+        //EventManager.StartListening(Events.LifeLost, DeactivatePlayer);
+        //EventManager.StartListening(
+        //    Events.ProjectileMarbleMatch, 
+        //    HandleProjectileMarbleMatch);
+        //EventManager.StartListening(
+        //    Events.ProjectileProjectileMatch, 
+        //    HandleProjectileProjectileMatch);
 
         // Leverage coroutines to spawn marbles at regular intervals.
         foreach (GameObject spawnPoint in spawnPoints)
@@ -50,20 +62,20 @@ public class GameManager : MonoBehaviour
     // Player movement is handled in FixedUpdate() since physics are involved.
     private void FixedUpdate()
     {
-        if (player.activeInHierarchy 
+        if (playerScript.Movable 
             && (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)))
             playerScript.StrafeLeft();
 
-        if (player.activeInHierarchy 
+        if (playerScript.Movable
             && (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)))
             playerScript.StrafeRight();
 
         // TODO REMOVE: debugging
-        if (player.activeInHierarchy
+        if (playerScript.Movable
             && (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)))
             playerScript.StrafeUp();
 
-        if (player.activeInHierarchy
+        if (playerScript.Movable
             && (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)))
             playerScript.StrafeDown();
     }
@@ -74,7 +86,7 @@ public class GameManager : MonoBehaviour
     // FixedUpdate() methods.
     private void Update()
     {
-        if (player.activeInHierarchy && Input.GetMouseButtonDown(0))
+        if (playerScript.Movable && Input.GetMouseButtonDown(0))
         {
             // Pass in a randomly-selected colour and its corresponding material
             // within GameManager to ensure array data is properly encapsulated.
@@ -139,10 +151,46 @@ public class GameManager : MonoBehaviour
     /// <param name="collider2">
     /// Second marble to remove from the Scene.
     /// </param>
-    private void HandleMarbleMatch(System.Object _collider1, System.Object _collider2)
+    private void ClearMatches()
     {
-        GameObject collider1 = (GameObject)_collider1;
-        GameObject collider2 = (GameObject)_collider2;
+        // Filter out all "missing" references i.e. destroyed marbles.
+        //marbles = marbles.Where(marble => marble != null) as List<GameObject>;
+
+        //foreach (GameObject m in marbles)
+        //{
+        //    Debug.Log(m == null);
+        //    Debug.Log(m);
+        //}
+        // TODO LATER: increment score - maybe move this into another class
+        // (scoring and combos can be handled within)
+        //
+        // Call that method using the event system.
+
+        //GameObject collider1 = sender as GameObject;
+        //GameObject collider2 = eventArgs[0] as GameObject;
+
+        // If you handle which scoring method to call here, then only one
+        // callback is needed.
+
+        // If you move scoring into different methods, you will need to use
+        // multiple callbacks.
+        
+        // Whether scoring is handled within GameManager or in its own class
+        // is important. Also, will GameManager have access to ScoreManager?
+        // If so, no need for multiple methods. If not, need multiple methods.
+
+        for (int i = marbles.Count - 1; i >= 0; i--)
+        {
+            if (marbles[i].GetComponent<Marble>().Matched)
+            {
+                GameObject remove = marbles[i];
+                marbles.RemoveAt(i);
+                Destroy(remove);
+            }
+        }
+
+        // The question is,
+        //if (sender is Projectile)
 
         //if (marbles.Contains(collider1) && marbles.Contains(collider2))
         //{
@@ -150,11 +198,47 @@ public class GameManager : MonoBehaviour
         //    marbles.Remove(collider2);
         //    Destroy(collider1);
         //    Destroy(collider2);
-        //    // TODO LATER: increment score - maybe move this into another class
-        //    // (scoring and combos can be handled within)
-        //    //
-        //    // Call that method using the event system.
         //}
+
+        
+    }
+
+    private void DeactivatePlayer()
+    {
+        player.SetActive(false);
+    }
+
+    private void HandleProjectileMarbleMatch(Object sender, List<Object> eventArgs)
+    {
+        GameObject collider1 = eventArgs[0] as GameObject;
+        GameObject collider2 = eventArgs[1] as GameObject;
+
+        if (marbles.Contains(collider1) && marbles.Contains(collider2))
+        {
+            marbles.Remove(collider1);
+            marbles.Remove(collider2);
+            Destroy(collider1);
+            Destroy(collider2);
+        }
+    }
+
+    private void HandleProjectileProjectileMatch(Object sender, List<Object> eventArgs)
+    {
+        GameObject collider1 = eventArgs[0] as GameObject;
+        GameObject collider2 = eventArgs[1] as GameObject;
+
+        if (marbles.Contains(collider1) && marbles.Contains(collider2))
+        {
+            marbles.Remove(collider1);
+            marbles.Remove(collider2);
+            Destroy(collider1);
+            Destroy(collider2);
+        }
+    }
+
+    private void RemoveMarble()
+    {
+
     }
 
     /// <summary>

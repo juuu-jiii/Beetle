@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Marble
   - Wall
+  - Projectile
   layers:
   - Default
   - TransparentFX
@@ -13,8 +14,8 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
+  - Marbles
+  - Greyed-out
   - 
   - 
   - 

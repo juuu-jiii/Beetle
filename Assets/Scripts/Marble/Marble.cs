@@ -26,6 +26,7 @@ public class Marble : MonoBehaviour
     //public bool hasRandomDirection;
     private Rigidbody rb;
     protected Vector3 previousVelocity;
+    public bool Matched { get; set; }
     public Colours Colour { get; set; }
     private Material material;
     // TODO LATER: add staleness timer
