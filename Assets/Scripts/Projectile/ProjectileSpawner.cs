@@ -58,7 +58,6 @@ public class ProjectileSpawner : MonoBehaviour
             projectileTemplate.transform.rotation);
 
         Projectile projectileScript = projectile.GetComponent<Projectile>();
-        //Debug.Log(projectileScript.Rb);
 
         // Set spawned projectile's initial velocity and colour
         // (via its material).

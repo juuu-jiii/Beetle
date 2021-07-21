@@ -22,8 +22,6 @@ public enum Colours
 public class Marble : MonoBehaviour
 {
     public float speed;
-    // TODO DELETE: deprecated
-    //public bool hasRandomDirection;
     private Rigidbody rb;
     protected Vector3 previousVelocity;
     public bool Matched { get; set; }
@@ -55,43 +53,6 @@ public class Marble : MonoBehaviour
     protected virtual void Start()
     {
         speed = 10.0f;
-        //rb = GetComponent<Rigidbody>();
-        //material = GetComponent<MeshRenderer>().material;
-
-        //Debug.Log(GetComponent<Renderer>().material);
-        // Assign the appropriate material based on the marble's colour.
-        //GetComponent<Renderer>().material = GameManager.materials[(int)Colour];
-
-        //switch (Colour)
-        //{
-        //    case Colours.Red:
-        //        marble.GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/M_Marble_Red");
-        //        break;
-        //    case Colours.Jaune:
-        //        marble.GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/M_Marble_Red");
-        //        break;
-        //    case Colours.Green:
-        //        marble.GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/M_Marble_Red");
-        //        break;
-        //    case Colours.Blue:
-        //        marble.GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/M_Marble_Red");
-        //        break;
-        //}
-
-        // TODO DELETE: deprecated
-        // Differentiate between projectiles and regular marbles.
-        // Projectiles' initial velocities are determined by player aim.
-        // Regular marbles have random initial velocities.
-        //if (hasRandomDirection)
-        //    rb.velocity = new Vector3(
-        //        Random.Range(-1f, 1f), 
-        //        Random.Range(-1f, 1f), 
-        //        Random.Range(-1f, 1f)) * speed;
-
-        // TODO: initialise velocity
-        // since marbles do not have random directions of motion any
-        // longer, it might be necessary to set an initial speed in the
-        // direction they are facing.
     }
 
     // Handle movement in FixedUpdate, since physics are involved.

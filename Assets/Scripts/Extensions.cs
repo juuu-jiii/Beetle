@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public enum RenderModes
+public enum RenderingModes
 {
     Opaque,
     Transparent
@@ -36,11 +36,22 @@ public static class Extensions
     // later on this is found to be unnecessary, just comment out the extension
     // method altogether.
 
-    public static void ChangeRenderMode(Material material, RenderModes renderMode)
+    /// <summary>
+    /// Changes a material's Rendering Mode by applying several changes to it.
+    /// Taken from
+    /// https://github.com/Unity-Technologies/UnityCsReference/blob/master/Editor/Mono/Inspector/StandardShaderGUI.cs
+    /// </summary>
+    /// <param name="material">
+    /// Material whose Rendering Mode is to be changed. 
+    /// </param>
+    /// <param name="RenderingMode">
+    /// The type of Rendering Mode to change to.
+    /// </param>
+    public static void ChangeRenderMode(Material material, RenderingModes RenderingMode)
     {
-        switch (renderMode)
+        switch (RenderingMode)
         {
-            case RenderModes.Opaque:
+            case RenderingModes.Opaque:
                 material.SetOverrideTag("RenderType", "");
                 material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.One);
                 material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.Zero);
@@ -50,7 +61,7 @@ public static class Extensions
                 material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
                 material.renderQueue = -1;
                 break;
-            case RenderModes.Transparent:
+            case RenderingModes.Transparent:
                 material.SetOverrideTag("RenderType", "Transparent");
                 material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.One);
                 material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);

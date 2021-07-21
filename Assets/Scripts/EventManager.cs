@@ -10,7 +10,6 @@ using Object = System.Object;
 /// Names of events that can be listened for.
 public enum Events
 {
-    MarbleMatch,
     ProjectileMarbleMatch,
     ProjectileProjectileMatch,
     LifeLost

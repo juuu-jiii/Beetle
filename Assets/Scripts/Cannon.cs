@@ -9,97 +9,55 @@ public class Cannon : MonoBehaviour
     [SerializeField]
     private float speed;
     public bool GreyedOut { get; set; }
-    //private bool ignoreCollisions;
-    //private int collisionCounter;
-    //private int prevCollisionCounter;
     private Animation anim;
     public bool Movable { get; private set; }
 
     // Start is called before the first frame update
     void Start()
     {
-        Movable = true;
-        
-        //// Listen for LifeLost events upon game start.
-        //EventManager.StartListening(Events.LifeLost, PlayResetSequence);
-
         rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animation>();
+        Movable = true;
     }
 
-    // Handle physics in FixedUpdate().
+    // Handle movement physics in FixedUpdate().
     void FixedUpdate()
     {
         // Reset each frame so any movement is updated correctly.
         velocity = Vector3.zero;
     }
 
-    // Handle non-physics logic in Update().
-    private void Update()
-    {
-        //Debug.Log(string.Format("GreyedOut = {0} collisionCounter = {1}", GreyedOut, collisionCounter));
-
-        //if (!GreyedOut && collisionCounter == 0) 
-        //    ignoreCollisions = false;
-        //if (!GreyedOut)
-        //    this.gameObject.layer = LayerMask.NameToLayer("Default");
-
-        //prevCollisionCounter = collisionCounter;
-            
-    }
-
     private void OnCollisionEnter(Collision collision)
     {
+        // Invoke Events.LifeLost upon colliding with a Marble or Projectile.
         if (collision.gameObject.CompareTag("Marble") || collision.gameObject.CompareTag("Projectile"))
         {
-            StartCoroutine(PlayResetSequence(3f, 5f, 0.4f));
+            StartCoroutine(PlayResetAnimation(3f, 5f, 0.4f));
             EventManager.TriggerEvent(Events.LifeLost);
         }
-
-        //if (collision.gameObject.tag == "Marble")
-        //    StartCoroutine(PlayResetSequence(3f, 5f, 0.4f));
-
-        // Invoke event
-
-        //if (collision.gameObject.tag == "Marble")
-        //{
-        //    collisionCounter++;
-
-        //    if (!GreyedOut && ignoreCollisions)
-        //        Physics.IgnoreCollision(GetComponent<Collider>(), collision.collider, true);
-        //}
-
-        //if (ignoreCollisions && collision.gameObject.tag == "Marble")
-        //    Physics.IgnoreCollision()
-
     }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        //Debug.Log("collision exited");
-
-        //if (collision.gameObject.tag == "Marble")
-        //{
-        //    collisionCounter--;
-
-        //    if (!GreyedOut && ignoreCollisions)
-        //    {
-        //        Physics.IgnoreCollision(GetComponent<Collider>(), collision.collider, false);
-
-        //        if (collisionCounter == 0) ignoreCollisions = false;
-        //    }
-        //}
-    }
-
-
-    // TODO: refactor to disallow unnecessary params
 
     /// <summary>
-    /// Wrapper for the AnimateReset() coroutine so it can be invoked when
-    /// events are triggered.
+    /// Hides and disables the player for a specified number of seconds, before
+    /// re-displaying them, greyed-out, and invincible, for a further given
+    /// number of seconds. At the halfway point of this invincibility period,
+    /// flashes the player on the screen, while keeping them greyed-out.
+    /// Restores regular player appearance once invincibility runs out.
     /// </summary>
-    private IEnumerator PlayResetSequence(
-        float durationInactive,
+    /// <param name="durationDisabled">
+    /// Total amount of time player is to be hidden and disabled for, in seconds.
+    /// </param>
+    /// <param name="durationInvincible">
+    /// Total amount of time player is to be invincible for, in seconds.
+    /// </param>
+    /// <param name="alpha">
+    /// Alpha factor - the degree at which the player appears greyed-out.
+    /// </param>
+    /// <returns>
+    /// Object of type IEnumerator - required for coroutine to work.
+    /// </returns>
+    private IEnumerator PlayResetAnimation(
+        float durationDisabled,
         float durationInvincible,
         float alpha)
     {
@@ -107,101 +65,46 @@ public class Cannon : MonoBehaviour
         Color materialColourGreyed = GetComponent<MeshRenderer>().material.color;
         materialColourGreyed.a = alpha;
 
-        // Cannon is inactive for a fixed duration.
+        // SetActive() cannot be used because coroutines are stopped when a
+        // GameObject is inactive. Instead, isKinematic, MeshRenderer.enabled,
+        // and Movable (used in GameManager to prevent movement) are all
+        // set to false.
+
+        // Prevent physics from being applied to player while disabled.
         rb.isKinematic = true;
+
+        // Disallow player input in GameManager.
         Movable = false;
-        // Hide Cannon
+
+        // Hide player
         GetComponent<MeshRenderer>().enabled = false;
+
+        // Ignore collisions from marbles by moving player to a different
+        // collision layer.
         this.gameObject.layer = LayerMask.NameToLayer("Greyed-out");
-        yield return new WaitForSeconds(durationInactive);
-        //this.gameObject.SetActive(true);
+
+        // Disable player for a fixed duration.
+        yield return new WaitForSeconds(durationDisabled);
+
+        // Player is now visible and enabled, albeit greyed-out.
+        // Offer a couple seconds of invincibility during this time.
         GetComponent<MeshRenderer>().enabled = true;
         rb.isKinematic = false;
         Movable = true;
-        //Debug.Log("setting active");
-
-        // Offer a couple seconds of invincibility, where Cannon is greyed out.
-        // While Cannon is greyed out, move to different layer to ignore colllisions.
-        //GreyedOut = true;
-        Extensions.ChangeRenderMode(GetComponent<MeshRenderer>().material, RenderModes.Transparent);
+        Extensions.ChangeRenderMode(GetComponent<MeshRenderer>().material, RenderingModes.Transparent);
         GetComponent<MeshRenderer>().material.color = materialColourGreyed;
         yield return new WaitForSeconds(durationInvincible / 2);
 
-        // Invincibility running out i.e. 1/2 time remaining - flash Cannon
-        // (resembles iFrames).
+        // Invincibility running out i.e. 1/2 time remaining - flash player
+        // (emulates iFrames).
         anim.Play("Fade");
         yield return new WaitForSeconds(durationInvincible / 2);
         anim.Stop("Fade");
 
         // Invincibility period over; stop flashing Cannon and reinstate collisions.
         this.gameObject.layer = LayerMask.NameToLayer("Default");
-        //materialColour.a = 1f;
-        //GetComponent<MeshRenderer>().material.color = materialColour;
-        Extensions.ChangeRenderMode(GetComponent<MeshRenderer>().material, RenderModes.Opaque);
-        //GreyedOut = false;
-
-        // wait a number of seconds (greyed out)
-        // play animation
-        // wait a number of seconds (flashing)
-        // stop animation
-        // make sure to change the material back!!!
-        // reinstate collisions
-
-        //if (GreyedOut)
-        //{
-        //    collisionCounter = 0;
-        //    ignoreCollisions = true;
-        //    this.gameObject.layer = LayerMask.NameToLayer("Greyed-out");
-        //    StartCoroutine(PlayResetSequence(
-        //        3f,
-        //        false,
-        //        RenderModes.Opaque,
-        //        GetComponent<MeshRenderer>().material.color,
-        //        1f));
-        //}
+        Extensions.ChangeRenderMode(GetComponent<MeshRenderer>().material, RenderingModes.Opaque);
     }
-
-    //public IEnumerator FadeInOut(float fadeDuration, float totalDuration)
-    //{
-    //    float t = 0;
-
-    //    while (t < totalDuration)
-    //    {
-
-    //    }
-    //}
-
-    private IEnumerator FadeMaterial(Material material, float finalOpacity, float fadeDuration)
-    {
-        Color colour = material.color;
-        float initialOpacity = colour.a;
-
-        float t = 0;
-
-        while (t < fadeDuration)
-        {
-            t += Time.deltaTime;
-
-            float lerpFactor = Mathf.Clamp01(t / fadeDuration);
-
-            colour.a = Mathf.Lerp(initialOpacity, finalOpacity, lerpFactor);
-
-            material.color = colour;
-
-            yield return null;
-        }
-
-        // Start another coroutine here with conditional to alternate. Stop the coroutine
-        // when the total duration has elapsed in the caller.
-    }
-
-    //private void OnCollisionEnter(Collision collision)
-    //{
-    //    if (collision.gameObject.tag == "Marble")
-    //    {
-
-    //    }
-    //}
 
     /// <summary>
     /// Move the player left.
