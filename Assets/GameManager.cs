@@ -1,10 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-
-// Resolve ambiguity between UnityEngine.Object and System.Object.
-using Object = System.Object;
 
 public class GameManager : MonoBehaviour
 {
@@ -20,7 +16,6 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject projectileSpawner;
     private ProjectileSpawner projectileSpawnerScript;
-    private int lives;
     //[SerializeField]
     //private int waves;
     //[SerializeField]
@@ -29,13 +24,13 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        lives = 3;
         playerScript = player.GetComponent<Cannon>();
         projectileSpawnerScript = projectileSpawner.GetComponent<ProjectileSpawner>();
 
-        // Listen for MarbleMatch events upon game start.
+        // Listen for MarbleMatch and GameOver events upon game start.
         EventManager.StartListening(Events.ProjectileMarbleMatch, ClearMatches);
         EventManager.StartListening(Events.ProjectileProjectileMatch, ClearMatches);
+        EventManager.StartListening(Events.GameOver, HandleGameOver);
 
         // Leverage coroutines to spawn marbles at regular intervals.
         foreach (GameObject spawnPoint in spawnPoints)
@@ -78,20 +73,6 @@ public class GameManager : MonoBehaviour
                 projectileSpawnerScript.Shoot(
                     (Colours)marbleColour,
                     marbleMaterials[marbleColour]));
-        }
-    }
-
-    private void HandlePlayerCollision()
-    {
-        if (--lives == 0)
-            // Invoke game over. Do not need to check for lives in update, since
-            // event chain can handle this.
-            throw new System.NotImplementedException();
-        else
-        {
-            // TODO LATER: particle effects
-            player.SetActive(false);
-            // start coroutine for timer
         }
     }
 
@@ -175,6 +156,12 @@ public class GameManager : MonoBehaviour
                     (Colours)marbleColour,
                     marbleMaterials[marbleColour]));
         }
+    }
+
+    private void HandleGameOver()
+    {
+        // TODO LATER: implement game over logic
+        Debug.Log("No more lives left - game over!");
     }
 }
 

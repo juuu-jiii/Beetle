@@ -4,15 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-// Resolve ambiguity between UnityEngine.Object and System.Object.
-using Object = System.Object;
-
 /// Names of events that can be listened for.
 public enum Events
 {
     ProjectileMarbleMatch,
     ProjectileProjectileMatch,
-    LifeLost
+    GameOver
 }
 
 /// <summary>

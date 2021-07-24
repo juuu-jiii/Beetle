@@ -11,6 +11,8 @@ public class Cannon : MonoBehaviour
     public bool GreyedOut { get; set; }
     private Animation anim;
     public bool Movable { get; private set; }
+    [SerializeField]
+    private int lives;
 
     // Start is called before the first frame update
     void Start()
@@ -29,11 +31,15 @@ public class Cannon : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        // Invoke Events.LifeLost upon colliding with a Marble or Projectile.
+        // Logic applied when colliding with a Marble or Projectile.
         if (collision.gameObject.CompareTag("Marble") || collision.gameObject.CompareTag("Projectile"))
         {
+            // Decrement lives, invoking Game Over event if they run out.
+            // Otherwise, the reset animation is played.
+            if (--lives == 0) EventManager.TriggerEvent(Events.GameOver);
+
+            Debug.Log("Lives left: " + lives);
             StartCoroutine(PlayResetAnimation(3f, 5f, 0.4f));
-            EventManager.TriggerEvent(Events.LifeLost);
         }
     }
 
@@ -68,7 +74,7 @@ public class Cannon : MonoBehaviour
         // SetActive() cannot be used because coroutines are stopped when a
         // GameObject is inactive. Instead, isKinematic, MeshRenderer.enabled,
         // and Movable (used in GameManager to prevent movement) are all
-        // set to false.
+        // set to false to achieve a similar effect.
 
         // Prevent physics from being applied to player while disabled.
         rb.isKinematic = true;
