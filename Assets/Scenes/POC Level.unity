@@ -1319,9 +1319,17 @@ PrefabInstance:
       value: Game Manager
       objectReference: {fileID: 0}
     - target: {fileID: 6670993066306303511, guid: c0d0837e6d9b13d488afb72684fe0141, type: 3}
+      propertyPath: waves
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6670993066306303511, guid: c0d0837e6d9b13d488afb72684fe0141, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 389742876}
+    - target: {fileID: 6670993066306303511, guid: c0d0837e6d9b13d488afb72684fe0141, type: 3}
+      propertyPath: waveMarbleCount
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 6670993066306303511, guid: c0d0837e6d9b13d488afb72684fe0141, type: 3}
       propertyPath: projectileSpawner
       value: 

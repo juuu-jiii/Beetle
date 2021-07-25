@@ -27,7 +27,6 @@ public class Marble : MonoBehaviour
     public bool Matched { get; set; }
     public Colours Colour { get; set; }
     private Material material;
-    // TODO LATER: add staleness timer
 
     /// <summary>
     /// get property that ensures the RigidBody reference to this marble, rb,
@@ -73,8 +72,7 @@ public class Marble : MonoBehaviour
     }
 
     /// <summary>
-    /// "Synthetic" bouncing method that leverages Vector3.Reflect() for a
-    /// perfect bounce every time.
+    /// "Synthetic" bouncing method that leverages Vector3.Reflect().
     /// </summary>
     /// <param name="collisionNormal">
     /// The surface normal at the point of collision.

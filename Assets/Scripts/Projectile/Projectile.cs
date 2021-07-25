@@ -99,8 +99,6 @@ public class Projectile : Marble
                 GetComponent<MeshRenderer>().material.DisableKeyword("_EMISSION");
                 base.OnCollisionEnter(collision);
             }
-
-            // TODO: Remember to add another Tag in the Editor!
         }
         else base.OnCollisionEnter(collision);
     }

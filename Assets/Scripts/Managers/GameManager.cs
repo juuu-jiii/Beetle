@@ -16,10 +16,12 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject projectileSpawner;
     private ProjectileSpawner projectileSpawnerScript;
-    //[SerializeField]
-    //private int waves;
-    //[SerializeField]
-    //private int waveMarbleCount;
+    [SerializeField]
+    private int waves;
+    private int currentWave;
+    [SerializeField]
+    private int waveMarbleCount;
+    private bool waveSpawningInProgress;
 
     // Start is called before the first frame update
     void Start()
@@ -32,9 +34,7 @@ public class GameManager : MonoBehaviour
         EventManager.StartListening(Events.ProjectileMatch, ClearMatches);
         EventManager.StartListening(Events.GameOver, HandleGameOver);
 
-        // Leverage coroutines to spawn marbles at regular intervals.
-        foreach (GameObject spawnPoint in spawnPoints)
-            StartCoroutine(SpawnMarbleInterval(spawnPoint.GetComponent<MarbleSpawner>(), 5, 0.25f));
+        currentWave = 0;
     }
 
     // Player movement is handled in FixedUpdate() since physics are involved.
@@ -74,6 +74,41 @@ public class GameManager : MonoBehaviour
                     (Colours)marbleColour,
                     marbleMaterials[marbleColour]));
         }
+
+        // When the List is empty, either the wave or the whole level is complete.
+        //
+        // waveSpawningInProgress prevents multiple waves spawning at once, due
+        // to spawning taking a couple frames, leading to there being multiple
+        // frames where marbles is empty. For the same reason, it is also used
+        // to prevent the win condition from being triggered a couple frames
+        // before the last wave actually begins spawning.
+        if (marbles.Count == 0 && !waveSpawningInProgress)
+        {
+            // Wave complete - spawn the next.
+            if (currentWave < waves)
+            {
+                currentWave++;
+                Debug.Log("Starting wave " + currentWave);
+
+                waveSpawningInProgress = true;
+
+                // Leverage coroutines to spawn marbles at regular intervals.
+                foreach (GameObject spawnPoint in spawnPoints)
+                    StartCoroutine(
+                        SpawnMarbleInterval(
+                            spawnPoint.GetComponent<MarbleSpawner>(),
+                            waveMarbleCount,
+                            3f,
+                            0.25f));
+            }
+            // Level complete.
+            // TODO LATER: implement level complete logic.
+            else
+            {
+                Debug.Log("Level complete");
+            }
+        }
+
     }
 
     /// <summary>
@@ -117,6 +152,10 @@ public class GameManager : MonoBehaviour
     /// <param name="repeats">
     /// The number of marbles to spawn.
     /// </param>
+    /// <param name="pause">
+    /// How long to pause for before spawning the first marble.
+    /// NOTE: due to initial overhead causing lag, use values greater than 0f.
+    /// </param>
     /// <param name="interval">
     /// The frequency at which to spawn marbles.
     /// </param>
@@ -125,9 +164,12 @@ public class GameManager : MonoBehaviour
     /// </returns>
     private IEnumerator SpawnMarbleInterval(
         MarbleSpawner marbleSpawner, 
-        int repeats, 
+        int repeats,
+        float pause,
         float interval)
     {
+        yield return new WaitForSeconds(pause);
+
         for (int i = 0; i < repeats; i++)
         {
             //List.Add(marbleSpawner.SpawnMarble());
@@ -146,7 +188,6 @@ public class GameManager : MonoBehaviour
             // TODO LATER: Move wave spawning into Update()
             // Make sure that each wave is only spawned once - maybe via
             // conditional checks or something.
-            yield return new WaitForSeconds(interval);
 
             // Pass in a randomly-selected colour and its corresponding material
             // within GameManager to ensure array data is properly encapsulated.
@@ -155,7 +196,11 @@ public class GameManager : MonoBehaviour
                 marbleSpawner.Spawn(
                     (Colours)marbleColour,
                     marbleMaterials[marbleColour]));
+
+            yield return new WaitForSeconds(interval);
         }
+
+        waveSpawningInProgress = false;
     }
 
     private void HandleGameOver()
