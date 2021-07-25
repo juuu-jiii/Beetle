@@ -6,6 +6,7 @@ public class Projectile : Marble
 {
     private bool isStale;
     private IEnumerator setStaleTimeout;
+    public bool IsExecutor { get; set; }
 
     // Since this class inherits from MarbleMovement, Start and FixedUpdate are
     // also inherited.
@@ -21,6 +22,8 @@ public class Projectile : Marble
         // to using the string overload.
         setStaleTimeout = SetStaleTimeout(3f);
         StartCoroutine(setStaleTimeout);
+
+        IsExecutor = true;
     }
 
     protected override void OnCollisionEnter(Collision collision)
@@ -54,14 +57,32 @@ public class Projectile : Marble
                     // themselves when colliding.
                     case "Marble":
                         otherMarble.Matched = true;
-                        EventManager.TriggerEvent(Events.ProjectileMarbleMatch);
+                        EventManager.TriggerEvent(Events.MarbleMatch);
                         break;
                     // If the other object is another projectile, code is
-                    // executed by whichever marble sets the other inactive
-                    // first.
+                    // executed by whichever marble sets the other's IsExecutor
+                    // to false first.
+                    //
+                    // Note that setting isActive to false only stops life-cycle
+                    // functions (Update, OnCollisionEnter, etc.) from being
+                    // called. Regular functions - like this one - will still
+                    // run, meaning it is not a good way to distinguish between
+                    // the two colliding Projectiles.
                     case "Projectile":
-                        otherMarble.gameObject.SetActive(false);
-                        EventManager.TriggerEvent(Events.ProjectileProjectileMatch);
+                        if (IsExecutor)
+                        {
+                            // This prevents the other Projectile from executing
+                            // the same code block within the same Update frame.
+                            // Recall that Destroy is only called after each
+                            // Update loop. Why is this important, then?
+                            otherMarble.gameObject.GetComponent<Projectile>().IsExecutor = false;
+
+                            // Ensure the other Projectile is also destroyed
+                            // when GameManager.ClearMatches() is called as part
+                            // of the Events.ProjectileMatch invocation.
+                            otherMarble.gameObject.GetComponent<Projectile>().Matched = true;
+                            EventManager.TriggerEvent(Events.ProjectileMatch);
+                        }
                         break;
                     default:
                         Debug.LogError("Collider tag was neither Marble nor Projectile!");
