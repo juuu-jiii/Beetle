@@ -8,7 +8,7 @@ public class Cannon : MonoBehaviour
     private Vector3 velocity;
     [SerializeField]
     private float speed;
-    public bool GreyedOut { get; set; }
+    private bool resetting;
     private Animation anim;
     public bool Movable { get; private set; }
     public int Lives { get; private set; }
@@ -34,12 +34,18 @@ public class Cannon : MonoBehaviour
         // Logic applied when colliding with a Marble or Projectile.
         if (collision.gameObject.CompareTag("Marble") || collision.gameObject.CompareTag("Projectile"))
         {
-            // Decrement lives, invoking Game Over event if they run out.
-            // Otherwise, the reset animation is played.
-            if (--Lives == 0) EventManager.TriggerEvent(Events.GameOver);
+            // Use bool resetting to ensure player does not lose multiple lives
+            // if caught in multiple simultaneous collisions.
+            if (!resetting)
+            {
+                resetting = true;
+                // Decrement lives, invoking Game Over event if they run out.
+                // Otherwise, the reset animation is played.
+                if (--Lives == 0) EventManager.TriggerEvent(Events.GameOver);
 
-            Debug.Log("Lives left: " + Lives);
-            StartCoroutine(PlayResetAnimation(3f, 5f, 0.7f));
+                Debug.Log("Lives left: " + Lives);
+                StartCoroutine(PlayResetAnimation(3f, 5f, 0.7f));
+            }
         }
     }
 
@@ -110,6 +116,7 @@ public class Cannon : MonoBehaviour
         // Invincibility period over; stop flashing Cannon and reinstate collisions.
         this.gameObject.layer = LayerMask.NameToLayer("Default");
         Extensions.ChangeRenderMode(GetComponent<MeshRenderer>().material, RenderingModes.Opaque);
+        resetting = false;
     }
 
     /// <summary>
