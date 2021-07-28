@@ -42,7 +42,7 @@ public class ProjectileSpawner : MonoBehaviour
         mousePos.z = Camera.main.transform.position.y;
 
         // Input.mousePosition returns data in terms of screen coordinates.
-        // Comvert this to world coordinates.
+        // Convert this to world coordinates.
         target = Camera.main.ScreenToWorldPoint(mousePos);
 
         // The direction to move in is the difference between the positions
