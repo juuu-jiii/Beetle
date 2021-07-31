@@ -30,4 +30,7 @@ public class ScoreManager : MonoBehaviour
     {
         Score += projectileValue;
     }
+
+    // TODO LATER: combo handling
+    // "combo active" timer
 }

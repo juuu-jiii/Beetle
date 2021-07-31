@@ -6,10 +6,14 @@ public class Cannon : MonoBehaviour
 {
     private Rigidbody rb;
     private Vector3 velocity;
-    [SerializeField]
-    private float speed;
     private bool resetting;
     private Animation anim;
+    private Transform projectileSpawnerTransform;
+    private Aim aimScript;
+    [SerializeField]
+    private float speed;
+    [SerializeField]
+    private GameObject projectileTemplate;
     public bool Movable { get; private set; }
     public int Lives { get; private set; }
 
@@ -20,6 +24,10 @@ public class Cannon : MonoBehaviour
         anim = GetComponent<Animation>();
         Movable = true;
         Lives = 3;
+        projectileSpawnerTransform = transform.GetChild(0);
+
+        // Projectile Spawn Point is a child of this GameObject.
+        aimScript = transform.GetChild(0).gameObject.GetComponent<Aim>();
     }
 
     // Handle movement physics in FixedUpdate().
@@ -156,5 +164,42 @@ public class Cannon : MonoBehaviour
 
         // AddForce() cannot be used - movement must be immediate.
         transform.position += velocity;
+    }
+
+    /// <summary>
+    /// Instantiates a marble at the position of this spawner, and initialises
+    /// its velocity in the direction of the cursor.
+    /// </summary>
+    /// <param name="projectileColour">
+    /// The colour to be assigned to this projectile.
+    /// </param>
+    /// <param name="projectileMaterial">
+    /// The material to be applied to this projectile.
+    /// </param>
+    /// <returns>
+    /// A reference to the projectile that is instantiated.
+    /// </returns>
+    public GameObject Shoot(Colours projectileColour, Material projectileMaterial)
+    {
+        GameObject projectile = Instantiate(
+            projectileTemplate,
+            projectileSpawnerTransform.position,
+            projectileTemplate.transform.rotation);
+
+        Projectile projectileScript = projectile.GetComponent<Projectile>();
+
+        // Set spawned projectile's initial velocity and colour
+        // (via its material).
+        projectileScript.Rb.velocity = transform.TransformDirection(
+            aimScript.AimDirection * projectileScript.speed);
+        projectileScript.Colour = projectileColour;
+        projectileScript.GetComponent<MeshRenderer>().material = projectileMaterial;
+
+        // Live projectiles are identified using emissions.
+        Color projectileMaterialColour = projectileScript.GetComponent<MeshRenderer>().material.color;
+        projectileScript.GetComponent<MeshRenderer>().material.EnableKeyword("_EMISSION");
+        projectileScript.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", projectileMaterialColour);
+
+        return projectile;
     }
 }

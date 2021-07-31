@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &7034226013609786666
+--- !u!1 &1152944175360091877
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,41 +8,48 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7034226013609786668}
-  - component: {fileID: 7034226013609786667}
+  - component: {fileID: 1152944175360091879}
+  - component: {fileID: 1152944175360091876}
   m_Layer: 0
-  m_Name: Game Manager
+  m_Name: Spawn Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7034226013609786668
+--- !u!4 &1152944175360091879
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7034226013609786666}
+  m_GameObject: {fileID: 1152944175360091877}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: -14}
+  m_LocalPosition: {x: 0.5807743, y: 0.5, z: -9.042387}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7034226013609786667
+--- !u!114 &1152944175360091876
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7034226013609786666}
+  m_GameObject: {fileID: 1152944175360091877}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 420b1d8b25999134aac7b51312d07e5e, type: 3}
+  m_Script: {fileID: 11500000, guid: 727f01d8176d2f141a5f41ed8525b678, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  marbles: []
-  player: {fileID: 0}
-  spawnManager: {fileID: 0}
+  marbleMaterials:
+  - {fileID: 2100000, guid: 044224b379fa4234ead7ccb1616d7971, type: 2}
+  - {fileID: 2100000, guid: c7746a13e26e0b34c860e1ca50a1ad8d, type: 2}
+  - {fileID: 2100000, guid: 3546fc1599a0d9c42bc730e354e65c21, type: 2}
+  - {fileID: 2100000, guid: eae39ac3fa18ef6488df00cd5d22cde4, type: 2}
+  spawnPoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  waves: 3
+  waveMarbleCount: 5
