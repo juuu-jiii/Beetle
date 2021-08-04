@@ -12,10 +12,10 @@ public class GameManager : MonoBehaviour
     //private Material[] marbleMaterials;
     [SerializeField]
     private GameObject player;
+    private Cannon playerScript;
     [SerializeField]
     private GameObject spawnManager;
     private SpawnManager spawnManagerScript;
-    private Cannon playerScript;
     //[SerializeField]
     //private GameObject projectileSpawner;
     //private ProjectileSpawner projectileSpawnerScript;
@@ -33,8 +33,8 @@ public class GameManager : MonoBehaviour
         spawnManagerScript = spawnManager.GetComponent<SpawnManager>();
 
         // Setup event callbacks accordingly.
-        EventManager.StartListening(Events.MarbleMatch, ClearMatches);
-        EventManager.StartListening(Events.ProjectileMatch, ClearMatches);
+        EventManager.StartListening(Events.MarbleMatch, ClearMatch);
+        EventManager.StartListening(Events.ProjectileMatch, ClearMatch);
         EventManager.StartListening(Events.GameOver, HandleGameOver);
     }
 
@@ -65,15 +65,19 @@ public class GameManager : MonoBehaviour
     // FixedUpdate() methods.
     private void Update()
     {
-        if (playerScript.Movable && Input.GetMouseButtonDown(0))
+        if (playerScript.Movable 
+            && !spawnManagerScript.IsIntermission 
+            && Input.GetMouseButtonDown(0))
         {
-            // Pass in a randomly-selected colour and its corresponding material
-            // within GameManager to ensure array data is properly encapsulated.
-            int marbleColour = spawnManagerScript.GenerateMarbleColour();
-            marbles.Add(
-                playerScript.Shoot(
-                    (Colours)marbleColour,
-                    spawnManagerScript.GetMarbleMaterial(marbleColour)));
+            // Update marbleColourCountDict in SpawnManager.
+            spawnManagerScript.IncrementMarbleColourCount(playerScript.NextColour);
+
+            marbles.Add(playerScript.Shoot());
+
+            Colours nextColour = spawnManagerScript.ShootMarbleColour();
+            playerScript.UpdateNext(
+                nextColour,
+                spawnManagerScript.GetMarbleMaterial((int)nextColour));
         }
 
         // When the List is empty, either the wave or the whole level is complete.
@@ -84,14 +88,16 @@ public class GameManager : MonoBehaviour
         // to prevent the win condition from being triggered a couple frames
         // before the last wave actually begins spawning.
         if (marbles.Count == 0 && !spawnManagerScript.WaveSpawningInProgress)
-            spawnManagerScript.SpawnWave(marbles);
+        {
+            StartCoroutine(spawnManagerScript.SpawnWave(marbles, 3f));
+        }
     }
 
     /// <summary>
     /// Removes and destroys matched marbles from the Scene. Invoked as part
     /// of Events.ProjectileMarbleMatch and Events.ProjectileProjectileMatch.
     /// </summary>
-    private void ClearMatches()
+    private void ClearMatch()
     {
         // Loop through marbles and remove those that have been matched.
         // Optimise program by performing this only during event invocation, as
@@ -101,6 +107,11 @@ public class GameManager : MonoBehaviour
             if (marbles[i].GetComponent<Marble>().Matched)
             {
                 GameObject remove = marbles[i];
+
+                // Update marbleColourCountDict in SpawnManager.
+                spawnManagerScript.DecrementMarbleColourCount(
+                    remove.GetComponent<Marble>().Colour);
+
                 marbles.RemoveAt(i);
                 Destroy(remove);
             }

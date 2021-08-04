@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Aim : MonoBehaviour
 {
-    private LineRenderer aim;
+    public LineRenderer AimGuard { get; private set; }
     private Vector3 mousePos;
     private Vector3 target;
     private Vector3 direction;
@@ -22,7 +22,7 @@ public class Aim : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        aim = GetComponent<LineRenderer>();
+        AimGuard = GetComponent<LineRenderer>();
     }
 
     // Update is called once per frame
@@ -83,14 +83,14 @@ public class Aim : MonoBehaviour
                 maxDistance * Mathf.Sin((90 - maxAngle) * Mathf.Deg2Rad)).normalized;
         }
 
-        aim.SetPosition(0, transform.position);
-        aim.SetPosition(1, transform.position + direction * maxDistance);
+        AimGuard.SetPosition(0, transform.position);
+        AimGuard.SetPosition(1, transform.position + direction * maxDistance);
 
         // The direction to move in is the difference between the positions
         // of target and spawnPoint.
         //
         // The result is normalised so that it can later be multiplied
         // accordingly by a speed value in ProjectileSpawner.
-        AimDirection = (aim.GetPosition(1) - transform.position).normalized;
+        AimDirection = (AimGuard.GetPosition(1) - transform.position).normalized;
     }
 }

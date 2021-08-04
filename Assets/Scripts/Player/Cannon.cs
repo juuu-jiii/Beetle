@@ -10,6 +10,8 @@ public class Cannon : MonoBehaviour
     private Animation anim;
     private Transform projectileSpawnerTransform;
     private Aim aimScript;
+    public Colours NextColour { get; private set; }
+    public Material NextMaterial { get; private set; }
     [SerializeField]
     private float speed;
     [SerializeField]
@@ -170,16 +172,10 @@ public class Cannon : MonoBehaviour
     /// Instantiates a marble at the position of this spawner, and initialises
     /// its velocity in the direction of the cursor.
     /// </summary>
-    /// <param name="projectileColour">
-    /// The colour to be assigned to this projectile.
-    /// </param>
-    /// <param name="projectileMaterial">
-    /// The material to be applied to this projectile.
-    /// </param>
     /// <returns>
     /// A reference to the projectile that is instantiated.
     /// </returns>
-    public GameObject Shoot(Colours projectileColour, Material projectileMaterial)
+    public GameObject Shoot()
     {
         GameObject projectile = Instantiate(
             projectileTemplate,
@@ -192,8 +188,8 @@ public class Cannon : MonoBehaviour
         // (via its material).
         projectileScript.Rb.velocity = transform.TransformDirection(
             aimScript.AimDirection * projectileScript.speed);
-        projectileScript.Colour = projectileColour;
-        projectileScript.GetComponent<MeshRenderer>().material = projectileMaterial;
+        projectileScript.Colour = NextColour;
+        projectileScript.GetComponent<MeshRenderer>().material = NextMaterial;
 
         // Live projectiles are identified using emissions.
         Color projectileMaterialColour = projectileScript.GetComponent<MeshRenderer>().material.color;
@@ -201,5 +197,22 @@ public class Cannon : MonoBehaviour
         projectileScript.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", projectileMaterialColour);
 
         return projectile;
+    }
+
+    /// <summary>
+    /// Update the next shot's colour and associated material. Called whenever
+    /// a shot is made or a new wave is spawned.
+    /// </summary>
+    /// <param name="nextColour">
+    /// The colour of the next shot's marble.
+    /// </param>
+    /// <param name="nextMaterial">
+    /// The material associated with nextColour.
+    /// </param>
+    public void UpdateNext(Colours nextColour, Material nextMaterial)
+    {
+        NextColour = nextColour;
+        NextMaterial = nextMaterial;
+        aimScript.AimGuard.startColor = nextMaterial.color;
     }
 }

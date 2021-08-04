@@ -296,19 +296,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8021374375095150155, guid: 9f04e3d1c317fce49b936cfc9372b327, type: 3}
   m_PrefabInstance: {fileID: 505095554}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &505095556
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 505095555}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e69d3ae18e1e4f84d99ec1d1622853df, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  marbleTemplate: {fileID: 1543874249249585914, guid: 837b8a888fa5fbf43ba13b17247c947f, type: 3}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -844,6 +831,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1152944175360091876, guid: fb01d132a106c7e479fc7485a0e6c302, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 389742876}
+    - target: {fileID: 1152944175360091876, guid: fb01d132a106c7e479fc7485a0e6c302, type: 3}
+      propertyPath: waveMarbleCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1152944175360091876, guid: fb01d132a106c7e479fc7485a0e6c302, type: 3}
       propertyPath: spawnPoints.Array.data[0]
       value: 
       objectReference: {fileID: 2817736018464406007}
@@ -1206,19 +1201,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8021374375095150155, guid: 9f04e3d1c317fce49b936cfc9372b327, type: 3}
   m_PrefabInstance: {fileID: 2817736018464406006}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2817736018464406008
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2817736018464406007}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e69d3ae18e1e4f84d99ec1d1622853df, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  marbleTemplate: {fileID: 1543874249249585914, guid: 837b8a888fa5fbf43ba13b17247c947f, type: 3}
 --- !u!1001 &4451627420789572953
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1226,6 +1208,42 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 389742882}
     m_Modifications:
+    - target: {fileID: 4451627421538630551, guid: a986a68b2359528429478414088de689, type: 3}
+      propertyPath: m_Parameters.colorGradient.atime0
+      value: 51850
+      objectReference: {fileID: 0}
+    - target: {fileID: 4451627421538630551, guid: a986a68b2359528429478414088de689, type: 3}
+      propertyPath: m_Parameters.colorGradient.atime1
+      value: 65535
+      objectReference: {fileID: 0}
+    - target: {fileID: 4451627421538630551, guid: a986a68b2359528429478414088de689, type: 3}
+      propertyPath: m_Parameters.colorGradient.ctime0
+      value: 10987
+      objectReference: {fileID: 0}
+    - target: {fileID: 4451627421538630551, guid: a986a68b2359528429478414088de689, type: 3}
+      propertyPath: m_Parameters.colorGradient.ctime1
+      value: 65535
+      objectReference: {fileID: 0}
+    - target: {fileID: 4451627421538630551, guid: a986a68b2359528429478414088de689, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4451627421538630551, guid: a986a68b2359528429478414088de689, type: 3}
+      propertyPath: m_Parameters.colorGradient.key1.a
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4451627421538630551, guid: a986a68b2359528429478414088de689, type: 3}
+      propertyPath: m_Parameters.colorGradient.key1.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4451627421538630551, guid: a986a68b2359528429478414088de689, type: 3}
+      propertyPath: m_Parameters.colorGradient.key1.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4451627421538630551, guid: a986a68b2359528429478414088de689, type: 3}
+      propertyPath: m_Parameters.colorGradient.key1.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4451627422026158256, guid: a986a68b2359528429478414088de689, type: 3}
       propertyPath: m_Name
       value: Projectile Spawn Point
