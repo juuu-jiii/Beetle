@@ -13,11 +13,13 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject spawnManager;
     private SpawnManager spawnManagerScript;
+    [SerializeField]
+    private GameObject materialsManager;
+    private MaterialsManager materialsManagerScript;
 
     /// <summary>
     /// Master list of all marbles in the arena.
     /// </summary>
-    [SerializeField]
     private List<GameObject> marbles;
 
     //[SerializeField]
@@ -37,8 +39,11 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        marbles = new List<GameObject>();
+
         playerScript = player.GetComponent<Cannon>();
         spawnManagerScript = spawnManager.GetComponent<SpawnManager>();
+        materialsManagerScript = materialsManager.GetComponent<MaterialsManager>();
 
         // Setup event callbacks accordingly.
         EventManager.StartListening(Events.MarbleMatch, ClearMatch);
@@ -86,7 +91,7 @@ public class GameManager : MonoBehaviour
             Colours nextColour = spawnManagerScript.ShootMarbleColour();
             playerScript.UpdateNext(
                 nextColour,
-                spawnManagerScript.GetMarbleMaterial((int)nextColour));
+                materialsManagerScript.GetMaterial(nextColour));
         }
 
         // When the List is empty, either the wave or the whole level is complete.

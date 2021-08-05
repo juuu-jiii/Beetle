@@ -8,12 +8,6 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
     /// <summary>
-    /// Array of all possible marble materials that can be applied this level.
-    /// </summary>
-    [SerializeField]
-    private Material[] marbleMaterials;
-
-    /// <summary>
     /// Array of references to all spawn points in the arena.
     /// </summary>
     [SerializeField]
@@ -34,6 +28,10 @@ public class SpawnManager : MonoBehaviour
     [SerializeField]
     private GameObject player;
     private Cannon playerScript;
+
+    [SerializeField]
+    private GameObject materialsManager;
+    private MaterialsManager materialsManagerScript;
 
     /// <summary>
     /// Tracks whether a wave is currently spawning.
@@ -61,6 +59,7 @@ public class SpawnManager : MonoBehaviour
     void Start()
     {
         playerScript = player.GetComponent<Cannon>();
+        materialsManagerScript = materialsManager.GetComponent<MaterialsManager>();
 
         WaveSpawningInProgress = false;
         IsIntermission = true;
@@ -115,7 +114,7 @@ public class SpawnManager : MonoBehaviour
     /// </returns>
     public Colours SpawnMarbleColour()
     {
-        return (Colours)Random.Range(0, /*0*/marbleMaterials.Length);
+        return (Colours)Random.Range(0, /*0*/materialsManagerScript.MaterialCount);
     }
 
     /// <summary>
@@ -147,11 +146,6 @@ public class SpawnManager : MonoBehaviour
         }
 
         return shootColour;
-    }
-
-    public Material GetMarbleMaterial(int index)
-    {
-        return marbleMaterials[index];
     }
 
     /// <summary>
@@ -236,7 +230,7 @@ public class SpawnManager : MonoBehaviour
             Colours nextColour = marbleSpawner.Next;
 
             // Update marbles as each new marble is spawned.
-            marbles.Add(marbleSpawner.Spawn(marbleMaterials[(int)nextColour]));
+            marbles.Add(marbleSpawner.Spawn());
 
             // Update sceneColourTrackerDict as more marbles are spawned.
             if (!marbleColourCountDict.ContainsKey(nextColour))
@@ -279,7 +273,7 @@ public class SpawnManager : MonoBehaviour
                 bufferedColoursMaster[Random.Range(0, bufferedColoursMaster.Count)];
             playerScript.UpdateNext(
                 firstShotColour,
-                marbleMaterials[(int)firstShotColour]);
+                materialsManagerScript.GetMaterial(firstShotColour));
 
             IsIntermission = true;
             WaveSpawningInProgress = true;
@@ -313,7 +307,9 @@ public class SpawnManager : MonoBehaviour
         if (!marbleColourCountDict.ContainsKey(playerScript.NextColour))
         {
             Colours nextColour = ShootMarbleColour();
-            playerScript.UpdateNext(nextColour, marbleMaterials[(int)nextColour]);
+            playerScript.UpdateNext(
+                nextColour,
+                materialsManagerScript.GetMaterial(nextColour));
         }
     }
 }

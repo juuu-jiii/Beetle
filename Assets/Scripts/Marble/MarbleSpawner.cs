@@ -14,6 +14,10 @@ public class MarbleSpawner : MonoBehaviour
     [SerializeField]
     private GameObject marbleTemplate;
 
+    [SerializeField]
+    private GameObject materialsManager;
+    private MaterialsManager materialsManagerScript;
+
     // A queue was chosen because only one colour needs to be obtained and
     // removed at a time. Calling Dequeue() is more efficient than doing
     // Remove() on a List. The Peek() method also exposes a way for
@@ -51,6 +55,7 @@ public class MarbleSpawner : MonoBehaviour
     private void Start()
     {
         bufferedColours = new Queue<Colours>();
+        materialsManagerScript = materialsManager.GetComponent<MaterialsManager>();
     }
 
     /// <summary>
@@ -62,7 +67,7 @@ public class MarbleSpawner : MonoBehaviour
     /// <returns>
     /// A reference to the marble that is instantiated.
     /// </returns>
-    public GameObject Spawn(Material marbleMaterial)
+    public GameObject Spawn()
     {
         // Get the next queued colour.
         Colours marbleColour = bufferedColours.Dequeue();
@@ -77,7 +82,8 @@ public class MarbleSpawner : MonoBehaviour
         // Set spawned marble's initial velocity and colour (via its material).
         marbleScript.Rb.velocity = marble.transform.forward * marbleScript.speed;
         marbleScript.Colour = marbleColour;
-        marbleScript.GetComponent<MeshRenderer>().material = marbleMaterial;
+        marbleScript.GetComponent<MeshRenderer>().material = 
+            materialsManagerScript.GetMaterial(marbleColour);
 
         return marble;
     }
