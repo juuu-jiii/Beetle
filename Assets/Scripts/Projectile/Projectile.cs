@@ -8,6 +8,18 @@ using UnityEngine;
 public class Projectile : Marble
 {
     /// <summary>
+    /// The speed at which this projectile travels while it is live.
+    /// </summary>
+    [SerializeField]
+    private float liveSpeed;
+
+    /// <summary>
+    /// The speed at which this projectile travels while it is stale.
+    /// </summary>
+    [SerializeField]
+    private float staleSpeed;
+    
+    /// <summary>
     /// Tracks whether this projectile can still destroy other
     /// marbles/projectiles.
     /// </summary>
@@ -28,11 +40,16 @@ public class Projectile : Marble
     // Since this class inherits from MarbleMovement, Start and FixedUpdate are
     // also inherited.
 
-    // Start is called before the first frame update
-    protected override void Start()
+    // This assignment is time-sensitive, since the speed property is accessed
+    // almost immediately after instantiation in the Cannon class.
+    private void Awake()
     {
-        base.Start();
+        speed = liveSpeed;
+    }
 
+    // Start is called before the first frame update
+    private void Start()
+    {
         // Store a reference to the coroutine so that it can be stopped later.
         // This is very helpful for stopping coroutines accepting params, and
         // is also a much more efficient way of stopping coroutines, compared
@@ -41,6 +58,11 @@ public class Projectile : Marble
         StartCoroutine(setStaleTimeout);
 
         IsExecutor = true;
+    }
+
+    private void FixedUpdate()
+    {
+        MaintainSpeed(speed);
     }
 
     protected override void OnCollisionEnter(Collision collision)
@@ -110,9 +132,10 @@ public class Projectile : Marble
             else
             {
                 // Remove emission from projectile once stale, and continue
-                // bouncing.
+                // bouncing at a lower speed.
                 StopCoroutine(setStaleTimeout);
                 isStale = true;
+                speed = staleSpeed;
                 GetComponent<MeshRenderer>().material.DisableKeyword("_EMISSION");
                 base.OnCollisionEnter(collision);
             }
@@ -133,6 +156,7 @@ public class Projectile : Marble
     {
         yield return new WaitForSeconds(duration);
         isStale = true;
+        speed = staleSpeed;
         GetComponent<MeshRenderer>().material.DisableKeyword("_EMISSION");
     }
 }

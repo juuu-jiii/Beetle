@@ -37,7 +37,11 @@ public class SpawnManager : MonoBehaviour
     /// Tracks whether a wave is currently spawning.
     /// </summary>
     public bool WaveSpawningInProgress { get; private set; }
-    public bool IsIntermission { get; private set; }
+
+    /// <summary>
+    /// Tracks whether the game is currently in betweem waves.
+    /// </summary>
+    public bool InBetweenWaves { get; private set; }
 
     /// <summary>
     /// Keeps a live count of the number of each coloured marble in the arena.
@@ -62,7 +66,7 @@ public class SpawnManager : MonoBehaviour
         materialsManagerScript = materialsManager.GetComponent<MaterialsManager>();
 
         WaveSpawningInProgress = false;
-        IsIntermission = true;
+        InBetweenWaves = true;
         currentWave = 0;
         marbleColourCountDict = new Dictionary<Colours, int>();
         bufferedColoursMaster = new List<Colours>();
@@ -201,7 +205,7 @@ public class SpawnManager : MonoBehaviour
         float interval,
         List<GameObject> marbles)
     {
-        IsIntermission = false;
+        InBetweenWaves = false;
 
         for (int i = 0; i < repeats; i++)
         {
@@ -275,7 +279,7 @@ public class SpawnManager : MonoBehaviour
                 firstShotColour,
                 materialsManagerScript.GetMaterial(firstShotColour));
 
-            IsIntermission = true;
+            InBetweenWaves = true;
             WaveSpawningInProgress = true;
 
             yield return new WaitForSeconds(pause);

@@ -80,7 +80,7 @@ public class MarbleSpawner : MonoBehaviour
         Marble marbleScript = marble.GetComponent<Marble>();
 
         // Set spawned marble's initial velocity and colour (via its material).
-        marbleScript.Rb.velocity = marble.transform.forward * marbleScript.speed;
+        marbleScript.Rb.velocity = marble.transform.forward * marbleScript.Speed;
         marbleScript.Colour = marbleColour;
         marbleScript.GetComponent<MeshRenderer>().material = 
             materialsManagerScript.GetMaterial(marbleColour);

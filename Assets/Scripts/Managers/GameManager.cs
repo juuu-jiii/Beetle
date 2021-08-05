@@ -78,8 +78,10 @@ public class GameManager : MonoBehaviour
     // FixedUpdate() methods.
     private void Update()
     {
+        // Do not let the player shoot during the brief period between waves
+        // and while they are disabled.
         if (playerScript.Movable 
-            && !spawnManagerScript.IsIntermission 
+            && !spawnManagerScript.InBetweenWaves 
             && Input.GetMouseButtonDown(0))
         {
             // Update marbleColourCountDict in SpawnManager.

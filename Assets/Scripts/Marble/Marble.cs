@@ -18,10 +18,16 @@ public enum Colours
 /// </summary>
 public class Marble : MonoBehaviour
 {
-    public float speed;
+    [SerializeField]
+    protected float topSpeed;
+    protected float speed;
     private Rigidbody rb;
     private Material material;
     public Colours Colour { get; set; }
+    public float Speed
+    {
+        get { return speed; }
+    }
     
     /// <summary>
     /// The marble's velocity during the previous frame.
@@ -53,20 +59,17 @@ public class Marble : MonoBehaviour
         }
     }
 
-    // Start is called before the first frame update
-    protected virtual void Start()
+    // This assignment is time-sensitive, since the speed property is accessed
+    // almost immediately after instantiation in the MarbleSpawner class.
+    private void Awake()
     {
-        speed = 10.0f;
+        speed = topSpeed;
     }
 
     // Handle movement in FixedUpdate, since physics are involved.
-    protected void FixedUpdate()
+    private void FixedUpdate()
     {
-        // Marbles all have a constant speed. Fix for top speed @3.5 issue.
-        rb.velocity = Vector3.ClampMagnitude(rb.velocity * speed, speed);
-
-        // Get the marble's velocity after each frame for collision handling.
-        previousVelocity = rb.velocity;
+        MaintainSpeed(speed);
     }
 
     // FixedUpdate() is called before OnCollisionEnter(). Leverage this to
@@ -77,6 +80,21 @@ public class Marble : MonoBehaviour
     }
 
     /// <summary>
+    /// A workaround fix for top speed @3.5 issue.
+    /// </summary>
+    /// <param name="maintainSpeed">
+    /// The target speed value to maintain.
+    /// </param>
+    protected void MaintainSpeed(float maintainSpeed)
+    {
+        // Marbles all have a constant speed.
+        rb.velocity = Vector3.ClampMagnitude(rb.velocity * maintainSpeed, maintainSpeed);
+
+        // Get the marble's velocity after each frame for collision handling.
+        previousVelocity = rb.velocity;
+    }
+
+    /// <summary>
     /// "Synthetic" bouncing method that leverages Vector3.Reflect().
     /// </summary>
     /// <param name="collisionNormal">
@@ -84,6 +102,6 @@ public class Marble : MonoBehaviour
     /// </param>
     private void Bounce(Vector3 collisionNormal)
     {
-        rb.velocity = Vector3.Reflect(previousVelocity.normalized, collisionNormal) * speed;
+        rb.velocity = Vector3.Reflect(previousVelocity.normalized, collisionNormal) * Speed;
     }
 }

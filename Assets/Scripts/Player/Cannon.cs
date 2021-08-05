@@ -219,7 +219,7 @@ public class Cannon : MonoBehaviour
         // Set spawned projectile's initial velocity and colour
         // (via its material).
         projectileScript.Rb.velocity = transform.TransformDirection(
-            aimScript.AimDirection * projectileScript.speed);
+            aimScript.AimDirection * projectileScript.Speed);
         projectileScript.Colour = NextColour;
         projectileScript.GetComponent<MeshRenderer>().material = NextMaterial;
 
