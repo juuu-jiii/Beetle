@@ -8,18 +8,31 @@ using UnityEngine;
 /// </summary>
 public class MaterialsManager : MonoBehaviour
 {
+    #region Unserialisable Dictionary Workaround
+    /// <summary>
+    /// Array containing colours that will spawn this level.
+    /// </summary>
+    [SerializeField]
+    private Colours[] allowedColours;
+
     /// <summary>
     /// Array of all possible marble materials that can be applied this level.
     /// </summary>
     [SerializeField]
-    private Material[] materials;
+    private Material[] allowedMaterials;
+    #endregion
 
     /// <summary>
-    /// Number of materials in the class's underlying array.
+    /// Maps colours to their corresponding materials.
     /// </summary>
-    public int MaterialCount
+    private Dictionary<Colours, Material> colourMaterialMapper;
+
+    /// <summary>
+    /// Number of entries in the class's underlying dictionary.
+    /// </summary>
+    public int EntryCount
     {
-        get { return materials.Length; }
+        get { return colourMaterialMapper.Count; }
     }
 
     /// <summary>
@@ -33,13 +46,22 @@ public class MaterialsManager : MonoBehaviour
     /// </returns>
     public Material GetMaterial(Colours colour)
     {
-        return materials[(int)colour];
+        return colourMaterialMapper[colour];
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        colourMaterialMapper = new Dictionary<Colours, Material>();
         
+        // Populate colourMaterialMapper. Do not use ContainsKey(), since it is
+        // an error if repeated entries exist.
+        for (int i = 0; i < allowedColours.Length; i++)
+        {
+            colourMaterialMapper.Add(
+                allowedColours[i],
+                allowedMaterials[i]);
+        }
     }
 
     // Update is called once per frame

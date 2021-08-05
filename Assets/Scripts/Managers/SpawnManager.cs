@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Corrdinates the spawning of all marbles within a level.
+/// Coordinates the spawning of all marbles within a level.
 /// </summary>
 public class SpawnManager : MonoBehaviour
-{
+{    
     /// <summary>
     /// Array of references to all spawn points in the arena.
     /// </summary>
@@ -114,7 +114,7 @@ public class SpawnManager : MonoBehaviour
     /// </returns>
     public Colours SpawnMarbleColour()
     {
-        return (Colours)Random.Range(0, /*0*/materialsManagerScript.MaterialCount);
+        return (Colours)Random.Range(0, /*0*/materialsManagerScript.EntryCount);
     }
 
     /// <summary>

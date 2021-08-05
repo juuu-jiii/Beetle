@@ -8,12 +8,21 @@ using UnityEngine;
 public class Target : MonoBehaviour
 {
     [SerializeField]
-    private 
+    private GameObject materialsManager;
+    private MaterialsManager materialsManagerScript;
+
+    [SerializeField]
+    private Colours colour;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        materialsManagerScript = materialsManager.GetComponent<MaterialsManager>();
+
+        // Randomly assign a colour on game start and set this target's
+        // material accordingly.
+
+        GetComponent<MeshRenderer>().material = materialsManagerScript.GetMaterial(colour);
     }
 
     // Update is called once per frame
