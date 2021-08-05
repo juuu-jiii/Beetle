@@ -3,17 +3,39 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
+/// <summary>
+/// Handles the spawning of marbles at the assigned spawn point each wave.
+/// </summary>
 public class MarbleSpawner : MonoBehaviour
 {
+    /// <summary>
+    /// Template prefab for marbles.
+    /// </summary>
     [SerializeField]
     private GameObject marbleTemplate;
+
+    // A queue was chosen because only one colour needs to be obtained and
+    // removed at a time. Calling Dequeue() is more efficient than doing
+    // Remove() on a List. The Peek() method also exposes a way for
+    // SpawnManager to get the corresponding material for the next marble to
+    // be spawned.
+    //
+    // A stack could have been used as well.
+    /// <summary>
+    /// Queue of buffered colours for the next wave of marbles.
+    /// </summary>
     private Queue<Colours> bufferedColours;
 
     // Getter properties - encapsulation!
+    // TODO DELETE unused?
     public int BufferedColours
     {
         get { return bufferedColours.Count; }
     }
+
+    /// <summary>
+    /// The colour of the next marble to be spawned.
+    /// </summary>
     public Colours Next
     {
         get { return bufferedColours.Peek(); }

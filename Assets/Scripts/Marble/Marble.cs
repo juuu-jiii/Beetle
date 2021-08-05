@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/// Describes the colours marbles could have.
+/// <summary>
+/// Describes possible colours marbles could have.
+/// </summary>
 public enum Colours
 {
     Red,
@@ -11,11 +13,6 @@ public enum Colours
     Blue
 }
 
-// Note: materials list is currently placed in GameManager, so each marble does
-// not need to maintain its own list. Unless there is a need to do so (maybe in
-// the case of special marbles that change colour at regular intervals), this
-// should remain untouched.
-
 /// <summary>
 /// Describes the properties/behaviours of a marble object.
 /// </summary>
@@ -23,10 +20,18 @@ public class Marble : MonoBehaviour
 {
     public float speed;
     private Rigidbody rb;
-    protected Vector3 previousVelocity;
-    public bool Matched { get; set; }
-    public Colours Colour { get; set; }
     private Material material;
+    public Colours Colour { get; set; }
+    
+    /// <summary>
+    /// The marble's velocity during the previous frame.
+    /// </summary>
+    protected Vector3 previousVelocity;
+
+    /// <summary>
+    /// Tracks whether this marble has been matched.
+    /// </summary>
+    public bool Matched { get; set; }
 
     /// <summary>
     /// get property that ensures the RigidBody reference to this marble, rb,

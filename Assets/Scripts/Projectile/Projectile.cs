@@ -2,10 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Describes the properties/behaviours of a projectile object.
+/// </summary>
 public class Projectile : Marble
 {
+    /// <summary>
+    /// Tracks whether this projectile can still destroy other
+    /// marbles/projectiles.
+    /// </summary>
     private bool isStale;
+
+    /// <summary>
+    /// Reference to SetStaleTimeout() coroutine method.
+    /// </summary>
     private IEnumerator setStaleTimeout;
+
+    /// <summary>
+    /// In the event of a live collision with another projectile, tracks 
+    /// whether this projectile is responsible for running the corresponding 
+    /// logic.
+    /// </summary>
     public bool IsExecutor { get; set; }
 
     // Since this class inherits from MarbleMovement, Start and FixedUpdate are

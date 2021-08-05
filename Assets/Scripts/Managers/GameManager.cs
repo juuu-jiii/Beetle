@@ -2,20 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Handles all game logic.
+/// </summary>
 public class GameManager : MonoBehaviour
 {
-    [SerializeField]
-    private List<GameObject> marbles;
-    //[SerializeField]
-    //private GameObject[] spawnPoints;
-    //[SerializeField]
-    //private Material[] marbleMaterials;
     [SerializeField]
     private GameObject player;
     private Cannon playerScript;
     [SerializeField]
     private GameObject spawnManager;
     private SpawnManager spawnManagerScript;
+
+    /// <summary>
+    /// Master list of all marbles in the arena.
+    /// </summary>
+    [SerializeField]
+    private List<GameObject> marbles;
+
+    //[SerializeField]
+    //private GameObject[] spawnPoints;
+    //[SerializeField]
+    //private Material[] marbleMaterials;
     //[SerializeField]
     //private GameObject projectileSpawner;
     //private ProjectileSpawner projectileSpawnerScript;
@@ -74,6 +82,7 @@ public class GameManager : MonoBehaviour
 
             marbles.Add(playerScript.Shoot());
 
+            // After shooting, set the player's next shot.
             Colours nextColour = spawnManagerScript.ShootMarbleColour();
             playerScript.UpdateNext(
                 nextColour,
@@ -94,8 +103,9 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Removes and destroys matched marbles from the Scene. Invoked as part
-    /// of Events.ProjectileMarbleMatch and Events.ProjectileProjectileMatch.
+    /// Removes and destroys matched marbles from the Scene and updates
+    /// marbleColourCountDict in SpawnManager. Invoked as part of
+    /// Events.ProjectileMarbleMatch and Events.ProjectileProjectileMatch.
     /// </summary>
     private void ClearMatch()
     {

@@ -19,12 +19,16 @@ public class EventManager : MonoBehaviour
 {
     // Key/value pairs with an enum for keys - used as an alternative to
     // error-prone strings.
-    //
-    // Key: name of the event; Value: UnityEvent i.e. the event object itself.
+    /// <summary>
+    /// Key: name of the event; Value: UnityEvent i.e. the event object itself.
+    /// </summary>
     private Dictionary<Events, UnityEvent> eventDict;
     private static EventManager instance;
 
     // Singleton implementation
+    /// <summary>
+    /// Singleton instance of EventManager.
+    /// </summary>
     public static EventManager Instance
     {
         get
@@ -100,14 +104,6 @@ public class EventManager : MonoBehaviour
         if (Instance.eventDict.TryGetValue(eventName, out thisEvent))
             thisEvent.RemoveListener(callback);
     }
-
-    //public static void TriggerEvent(Events eventName)
-    //{
-    //    UnityEvent<GameObject, GameObject> thisEvent = null;
-
-    //    if (Instance.eventDict.TryGetValue(eventName, out thisEvent))
-    //        thisEvent.Invoke();
-    //}
 
     /// <summary>
     /// Fires or invokes the listeners associated with eventName.

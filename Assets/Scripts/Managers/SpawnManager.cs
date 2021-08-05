@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Corrdinates the spawning of all marbles within a level.
+/// </summary>
 public class SpawnManager : MonoBehaviour
 {
     /// <summary>

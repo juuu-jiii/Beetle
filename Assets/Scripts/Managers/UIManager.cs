@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+/// <summary>
+/// Updates UI according to gameplay state.
+/// </summary>
 public class UIManager : MonoBehaviour
 {
     [SerializeField]

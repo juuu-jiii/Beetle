@@ -2,22 +2,54 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Describes the properties/behaviours of the Cannon object controlled by the
+/// player.
+/// </summary>
 public class Cannon : MonoBehaviour
 {
-    private Rigidbody rb;
-    private Vector3 velocity;
-    private bool resetting;
-    private Animation anim;
-    private Transform projectileSpawnerTransform;
-    private Aim aimScript;
-    public Colours NextColour { get; private set; }
-    public Material NextMaterial { get; private set; }
     [SerializeField]
     private float speed;
+    private Rigidbody rb;
+    private Vector3 velocity;
+    private Animation anim;
+    public int Lives { get; private set; }
+
+    /// <summary>
+    /// Tracks whether the Player is in the midst of resetting. 
+    /// </summary>
+    private bool resetting;
+
+    /// <summary>
+    /// Reference to Transform component of Projectile Spawn Point child.
+    /// </summary>
+    private Transform projectileSpawnerTransform;
+
+    /// <summary>
+    /// Reference to Aim script of Projectile Spawn Point child.
+    /// </summary>
+    private Aim aimScript;
+
+    /// <summary>
+    /// Colour of the next marble to be shot.
+    /// </summary>
+    public Colours NextColour { get; private set; }
+
+    /// <summary>
+    /// Material of the next marble to be shot.
+    /// </summary>
+    public Material NextMaterial { get; private set; }
+
+    /// <summary>
+    /// Template prefab for projectiles.
+    /// </summary>
     [SerializeField]
     private GameObject projectileTemplate;
+
+    /// <summary>
+    /// Tracks whether the player has control over the Cannon's movement.
+    /// </summary>
     public bool Movable { get; private set; }
-    public int Lives { get; private set; }
 
     // Start is called before the first frame update
     void Start()
@@ -170,7 +202,7 @@ public class Cannon : MonoBehaviour
 
     /// <summary>
     /// Instantiates a marble at the position of this spawner, and initialises
-    /// its velocity in the direction of the cursor.
+    /// its velocity in the direction of the Aim Guard.
     /// </summary>
     /// <returns>
     /// A reference to the projectile that is instantiated.
@@ -200,8 +232,9 @@ public class Cannon : MonoBehaviour
     }
 
     /// <summary>
-    /// Update the next shot's colour and associated material. Called whenever
-    /// a shot is made or a new wave is spawned.
+    /// Update the next shot's colour and associated material, alongside the
+    /// Aim Guard's colour. Called whenever a shot is made, or a new wave is 
+    /// spawned.
     /// </summary>
     /// <param name="nextColour">
     /// The colour of the next shot's marble.
@@ -213,6 +246,9 @@ public class Cannon : MonoBehaviour
     {
         NextColour = nextColour;
         NextMaterial = nextMaterial;
+
+        // Leverage the fact that materials have a color property to also
+        // update the LineRenderer's colour accordingly.
         aimScript.AimGuard.startColor = nextMaterial.color;
     }
 }
