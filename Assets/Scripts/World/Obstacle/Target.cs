@@ -21,7 +21,7 @@ public class Target : MonoBehaviour
 
         // Randomly assign a colour on game start and set this target's
         // material accordingly.
-
+        colour = materialsManagerScript.GetRandomColour();
         GetComponent<MeshRenderer>().material = materialsManagerScript.GetMaterial(colour);
     }
 

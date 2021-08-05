@@ -34,6 +34,21 @@ public class MaterialsManager : MonoBehaviour
     {
         get { return colourMaterialMapper.Count; }
     }
+    
+    // Start is called before the first frame update
+    void Start()
+    {
+        colourMaterialMapper = new Dictionary<Colours, Material>();
+        
+        // Populate colourMaterialMapper. Do not use ContainsKey(), since it is
+        // an error if repeated entries exist.
+        for (int i = 0; i < allowedColours.Length; i++)
+        {
+            colourMaterialMapper.Add(
+                allowedColours[i],
+                allowedMaterials[i]);
+        }
+    }
 
     /// <summary>
     /// Gets the corresponding material to the specified colour.
@@ -49,19 +64,15 @@ public class MaterialsManager : MonoBehaviour
         return colourMaterialMapper[colour];
     }
 
-    // Start is called before the first frame update
-    void Start()
+    /// <summary>
+    /// Gets a random colour from the allowedColours array.
+    /// </summary>
+    /// <returns>
+    /// The result of the random colour generation.
+    /// </returns>
+    public Colours GetRandomColour()
     {
-        colourMaterialMapper = new Dictionary<Colours, Material>();
-        
-        // Populate colourMaterialMapper. Do not use ContainsKey(), since it is
-        // an error if repeated entries exist.
-        for (int i = 0; i < allowedColours.Length; i++)
-        {
-            colourMaterialMapper.Add(
-                allowedColours[i],
-                allowedMaterials[i]);
-        }
+        return allowedColours[Random.Range(0, allowedColours.Length)];
     }
 
     // Update is called once per frame
