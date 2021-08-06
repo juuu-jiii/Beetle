@@ -69,75 +69,86 @@ public class Projectile : Marble
     { 
         // Optimise by only checking for colour matches if this projectile is
         // not stale.
-        if (!isStale && 
-            (collision.gameObject.tag == "Marble" || collision.gameObject.tag == "Projectile"))
+        if (!isStale)
         {
-            Marble otherMarble = collision.gameObject.GetComponent<Marble>();
-
-            // Note: if sender/eventArgs are required moving forward, just
-            // create a generic Object param and pass "this" as sender.
-            // eventArgs can be a List<Object>. Params can be optional, and
-            // could default to a value of null.
-
-            // Colour match:
-            if (Colour == otherMarble.Colour)
+            if (collision.gameObject.tag == "Marble" || collision.gameObject.tag == "Projectile")
             {
-                Matched = true;
+                Marble otherMarble = collision.gameObject.GetComponent<Marble>();
 
-                switch (collision.gameObject.tag)
+                // Note: if sender/eventArgs are required moving forward, just
+                // create a generic Object param and pass "this" as sender.
+                // eventArgs can be a List<Object>. Params can be optional, and
+                // could default to a value of null.
+
+                // Colour match:
+                if (Colour == otherMarble.Colour)
                 {
-                    // Different events are invoked depending on whether the
-                    // projectile collides with a marble or another projectile,
-                    // to allow for different scores to be applied.
+                    Matched = true;
 
-                    // If the other object is a regular marble, destroy both
-                    // this and the other marble within this script, since  
-                    // regular marbles do not trigger EventManager events
-                    // themselves when colliding.
-                    case "Marble":
-                        otherMarble.Matched = true;
-                        EventManager.TriggerEvent(Events.MarbleMatch);
-                        break;
-                    // If the other object is another projectile, code is
-                    // executed by whichever marble sets the other's IsExecutor
-                    // to false first.
-                    //
-                    // Note that setting isActive to false only stops life-cycle
-                    // functions (Update, OnCollisionEnter, etc.) from being
-                    // called. Regular functions - like this one - will still
-                    // run, meaning it is not a good way to distinguish between
-                    // the two colliding Projectiles.
-                    case "Projectile":
-                        if (IsExecutor)
-                        {
-                            // This prevents the other Projectile from executing
-                            // the same code block within the same Update frame.
-                            // Recall that Destroy is only called after each
-                            // Update loop. Why is this important, then?
-                            otherMarble.gameObject.GetComponent<Projectile>().IsExecutor = false;
+                    switch (collision.gameObject.tag)
+                    {
+                        // Different events are invoked depending on whether the
+                        // projectile collides with a marble or another projectile,
+                        // to allow for different scores to be applied.
 
-                            // Ensure the other Projectile is also destroyed
-                            // when GameManager.ClearMatches() is called as part
-                            // of the Events.ProjectileMatch invocation.
-                            otherMarble.gameObject.GetComponent<Projectile>().Matched = true;
-                            EventManager.TriggerEvent(Events.ProjectileMatch);
-                        }
-                        break;
-                    default:
-                        Debug.LogError("Collider tag was neither Marble nor Projectile!");
-                        break;
+                        // If the other object is a regular marble, destroy both
+                        // this and the other marble within this script, since  
+                        // regular marbles do not trigger EventManager events
+                        // themselves when colliding.
+                        case "Marble":
+                            otherMarble.Matched = true;
+                            EventManager.TriggerEvent(Events.MarbleMatch);
+                            break;
+                        // If the other object is another projectile, code is
+                        // executed by whichever marble sets the other's IsExecutor
+                        // to false first.
+                        //
+                        // Note that setting isActive to false only stops life-cycle
+                        // functions (Update, OnCollisionEnter, etc.) from being
+                        // called. Regular functions - like this one - will still
+                        // run, meaning it is not a good way to distinguish between
+                        // the two colliding Projectiles.
+                        case "Projectile":
+                            if (IsExecutor)
+                            {
+                                // This prevents the other Projectile from executing
+                                // the same code block within the same Update frame.
+                                // Recall that Destroy is only called after each
+                                // Update loop. Why is this important, then?
+                                otherMarble.gameObject.GetComponent<Projectile>().IsExecutor = false;
+
+                                // Ensure the other Projectile is also destroyed
+                                // when GameManager.ClearMatches() is called as part
+                                // of the Events.ProjectileMatch invocation.
+                                otherMarble.gameObject.GetComponent<Projectile>().Matched = true;
+                                EventManager.TriggerEvent(Events.ProjectileMatch);
+                            }
+                            break;
+                        default:
+                            Debug.LogError("Collider tag was neither Marble nor Projectile!");
+                            break;
+                    }
+                }
+                // Otherwise, this projectile is now stale.
+                else
+                {
+                    // Remove emission from projectile once stale, and continue
+                    // bouncing at a lower speed.
+                    StopCoroutine(setStaleTimeout);
+                    isStale = true;
+                    speed = staleSpeed;
+                    GetComponent<MeshRenderer>().material.DisableKeyword("_EMISSION");
+                    base.OnCollisionEnter(collision);
                 }
             }
-            // Otherwise, this projectile is now stale.
-            else
+            else if (collision.gameObject.tag == "Target")
             {
-                // Remove emission from projectile once stale, and continue
-                // bouncing at a lower speed.
-                StopCoroutine(setStaleTimeout);
-                isStale = true;
-                speed = staleSpeed;
-                GetComponent<MeshRenderer>().material.DisableKeyword("_EMISSION");
-                base.OnCollisionEnter(collision);
+                Target target = collision.gameObject.GetComponent<Target>();
+
+                if (Colour == target.Colour)
+                {
+                    Matched = true;
+                }
             }
         }
         else base.OnCollisionEnter(collision);

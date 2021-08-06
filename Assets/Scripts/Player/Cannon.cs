@@ -220,8 +220,7 @@ public class Cannon : MonoBehaviour
         // (via its material).
         projectileScript.Rb.velocity = transform.TransformDirection(
             aimScript.AimDirection * projectileScript.Speed);
-        projectileScript.Colour = NextColour;
-        projectileScript.GetComponent<MeshRenderer>().material = NextMaterial;
+        projectileScript.SetColourAndMaterial(NextColour, NextMaterial);
 
         // Live projectiles are identified using emissions.
         Color projectileMaterialColour = projectileScript.GetComponent<MeshRenderer>().material.color;

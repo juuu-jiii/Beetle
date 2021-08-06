@@ -36,6 +36,7 @@ public class MaterialsManager : MonoBehaviour
     }
     
     // Start is called before the first frame update
+    // Script set to execute before Target class (time-sensitive dependencies).
     void Start()
     {
         colourMaterialMapper = new Dictionary<Colours, Material>();

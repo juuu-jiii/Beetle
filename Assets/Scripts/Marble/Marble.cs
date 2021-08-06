@@ -3,27 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Describes possible colours marbles could have.
-/// </summary>
-public enum Colours
-{
-    Red,
-    Jaune,
-    Green,
-    Blue
-}
-
-/// <summary>
 /// Describes the properties/behaviours of a marble object.
 /// </summary>
-public class Marble : MonoBehaviour
+public class Marble : MonoBehaviour, IDestructible
 {
     [SerializeField]
     protected float topSpeed;
     protected float speed;
     private Rigidbody rb;
-    private Material material;
-    public Colours Colour { get; set; }
+    public Colours Colour { get; private set; }
+    public bool Matched { get; set; }
     public float Speed
     {
         get { return speed; }
@@ -34,10 +23,6 @@ public class Marble : MonoBehaviour
     /// </summary>
     protected Vector3 previousVelocity;
 
-    /// <summary>
-    /// Tracks whether this marble has been matched.
-    /// </summary>
-    public bool Matched { get; set; }
 
     /// <summary>
     /// get property that ensures the RigidBody reference to this marble, rb,
@@ -61,6 +46,13 @@ public class Marble : MonoBehaviour
 
     // This assignment is time-sensitive, since the speed property is accessed
     // almost immediately after instantiation in the MarbleSpawner class.
+    //
+    // This cannot be fixed by altering script execution order, since multiple
+    // instantiations will be taking place over time. Thus, changing script
+    // execution order will be useful if:
+    // 1) only a single instantiation is needed during program runtime, AND
+    // 2) the issue is getting the same lifecycle hooks in different scripts
+    //      to execute in a specific order.
     private void Awake()
     {
         speed = topSpeed;
@@ -103,5 +95,11 @@ public class Marble : MonoBehaviour
     private void Bounce(Vector3 collisionNormal)
     {
         rb.velocity = Vector3.Reflect(previousVelocity.normalized, collisionNormal) * Speed;
+    }
+
+    public void SetColourAndMaterial(Colours colour, Material material)
+    {
+        Colour = colour;
+        GetComponent<MeshRenderer>().material = material;
     }
 }

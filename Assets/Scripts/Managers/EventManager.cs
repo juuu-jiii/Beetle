@@ -9,6 +9,7 @@ public enum Events
 {
     MarbleMatch,
     ProjectileMatch,
+    TargetMatch,
     GameOver
 }
 
