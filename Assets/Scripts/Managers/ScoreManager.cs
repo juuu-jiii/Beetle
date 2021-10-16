@@ -22,12 +22,16 @@ public class ScoreManager : MonoBehaviour
     [SerializeField]
     private int projectileValue;
 
+    [SerializeField]
+    private int targetValue;
+
     // Start is called before the first frame update
     void Start()
     {
         // Increment scores accordingly based on the event invoked.
         EventManager.StartListening(Events.MarbleMatch, HandleMarbleMatch);
         EventManager.StartListening(Events.ProjectileMatch, HandleProjectileMatch);
+        EventManager.StartListening(Events.TargetMatch, HandleTargetMatch);
 
         Score = 0;
     }
@@ -48,6 +52,11 @@ public class ScoreManager : MonoBehaviour
     public void HandleProjectileMatch()
     {
         Score += projectileValue;
+    }
+
+    public void HandleTargetMatch()
+    {
+        Score += targetValue;
     }
 
     // TODO LATER: combo handling

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4697951679927199268}
   m_Layer: 0
   m_Name: Target
-  m_TagString: Wall
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -110,4 +110,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   materialsManager: {fileID: 0}
-  colour: 0
+  spawnManager: {fileID: 0}

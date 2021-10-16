@@ -44,9 +44,10 @@ public class SpawnManager : MonoBehaviour
     public bool InBetweenWaves { get; private set; }
 
     /// <summary>
-    /// Keeps a live count of the number of each coloured marble in the arena.
+    /// Keeps a live count of the number of each coloured destructible in the
+    /// arena.
     /// </summary>
-    private Dictionary<Colours, int> marbleColourCountDict;
+    private Dictionary<Colours, int> destructibleColourCountDict;
 
     /// <summary>
     /// The current wave in the level.
@@ -68,7 +69,7 @@ public class SpawnManager : MonoBehaviour
         WaveSpawningInProgress = false;
         InBetweenWaves = true;
         currentWave = 0;
-        marbleColourCountDict = new Dictionary<Colours, int>();
+        destructibleColourCountDict = new Dictionary<Colours, int>();
         bufferedColoursMaster = new List<Colours>();
 
         // Upon game start, buffer a set of marble colours at all spawn points.
@@ -130,7 +131,7 @@ public class SpawnManager : MonoBehaviour
     /// </returns>
     public Colours ShootMarbleColour()
     {
-        int colourIndex = Random.Range(0, marbleColourCountDict.Count);
+        int colourIndex = Random.Range(0, destructibleColourCountDict.Count);
         int i = 0;
         // Default colour, because the compiler does not know that the
         // following loop will always assign a colour to the variable.
@@ -139,7 +140,7 @@ public class SpawnManager : MonoBehaviour
         // Fake an LCV and loop through marbleColourCountDict.
         // The keys are unordered, but that does not matter since a random
         // colour is to be returned anyway.
-        foreach (KeyValuePair<Colours, int> entry in marbleColourCountDict)
+        foreach (KeyValuePair<Colours, int> entry in destructibleColourCountDict)
         {
             if (i == colourIndex)
             {
@@ -153,31 +154,31 @@ public class SpawnManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Increments the specified marble colour's count.
+    /// Increments the specified destructible colour's count.
     /// </summary>
     /// <param name="colour">
-    /// The marble colour whose count is to be updated.
+    /// The destructible colour whose count is to be updated.
     /// </param>
-    public void IncrementMarbleColourCount(Colours colour)
+    public void IncrementDestructibleColourCount(Colours colour)
     {
-        if (!marbleColourCountDict.ContainsKey(colour))
-            marbleColourCountDict.Add(colour, 0);
+        if (!destructibleColourCountDict.ContainsKey(colour))
+            destructibleColourCountDict.Add(colour, 0);
 
-        marbleColourCountDict[colour]++;
+        destructibleColourCountDict[colour]++;
     }
 
     /// <summary>
-    /// Decrements the specified marble colour's count, and removes it from
-    /// marbleColourCountDict if the new count is 0, making that colour out
+    /// Decrements the specified destructible colour's count, and removes it from
+    /// destructibleColourCountDict if the new count is 0, making that colour out
     /// of play.
     /// </summary>
     /// <param name="colour">
-    /// The marble colour whose count is to be updated.
+    /// The destructible colour whose count is to be updated.
     /// </param>
-    public void DecrementMarbleColourCount(Colours colour)
+    public void DecrementDestructibleColourCount(Colours colour)
     {
-        if (marbleColourCountDict.ContainsKey(colour) && --marbleColourCountDict[colour] == 0)
-            marbleColourCountDict.Remove(colour);
+        if (destructibleColourCountDict.ContainsKey(colour) && --destructibleColourCountDict[colour] == 0)
+            destructibleColourCountDict.Remove(colour);
     }
 
     /// <summary>
@@ -237,10 +238,11 @@ public class SpawnManager : MonoBehaviour
             marbles.Add(marbleSpawner.Spawn());
 
             // Update sceneColourTrackerDict as more marbles are spawned.
-            if (!marbleColourCountDict.ContainsKey(nextColour))
-                marbleColourCountDict.Add(nextColour, 1);
-            else
-                marbleColourCountDict[nextColour]++;
+            //if (!destructibleColourCountDict.ContainsKey(nextColour))
+            //    destructibleColourCountDict.Add(nextColour, 1);
+            //else
+            //    destructibleColourCountDict[nextColour]++;
+            IncrementDestructibleColourCount(nextColour);
 
             yield return new WaitForSeconds(interval);
         }
@@ -308,7 +310,7 @@ public class SpawnManager : MonoBehaviour
     /// </summary>
     public void ValidatePlayerNext()
     {
-        if (!marbleColourCountDict.ContainsKey(playerScript.NextColour))
+        if (!destructibleColourCountDict.ContainsKey(playerScript.NextColour))
         {
             Colours nextColour = ShootMarbleColour();
             playerScript.UpdateNext(

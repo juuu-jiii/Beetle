@@ -16,6 +16,18 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject materialsManager;
     private MaterialsManager materialsManagerScript;
+    [SerializeField]
+    private GameObject targetManager;
+    private TargetManager targetManagerScript;
+
+    /// <summary>
+    /// The number of marbles at which to call UpdateDestructibleColourCountDict
+    /// with UpdateAction Remove in TargetManager.
+    /// </summary>
+    [SerializeField]
+    private int targetCutoffThreshold;
+
+    private bool cutoffThisWave = false;
 
     /// <summary>
     /// Master list of all marbles in the arena.
@@ -44,10 +56,12 @@ public class GameManager : MonoBehaviour
         playerScript = player.GetComponent<Cannon>();
         spawnManagerScript = spawnManager.GetComponent<SpawnManager>();
         materialsManagerScript = materialsManager.GetComponent<MaterialsManager>();
+        targetManagerScript = targetManager.GetComponent<TargetManager>();
 
         // Setup event callbacks accordingly.
-        EventManager.StartListening(Events.MarbleMatch, ClearMatch);
-        EventManager.StartListening(Events.ProjectileMatch, ClearMatch);
+        EventManager.StartListening(Events.MarbleMatch, ClearMarbleMatch);
+        EventManager.StartListening(Events.ProjectileMatch, ClearMarbleMatch);
+        EventManager.StartListening(Events.TargetMatch, ClearMarbleMatch);
         EventManager.StartListening(Events.GameOver, HandleGameOver);
     }
 
@@ -84,8 +98,8 @@ public class GameManager : MonoBehaviour
             && !spawnManagerScript.InBetweenWaves 
             && Input.GetMouseButtonDown(0))
         {
-            // Update marbleColourCountDict in SpawnManager.
-            spawnManagerScript.IncrementMarbleColourCount(playerScript.NextColour);
+            // Update destructibleColourCountDict in SpawnManager.
+            spawnManagerScript.IncrementDestructibleColourCount(playerScript.NextColour);
 
             marbles.Add(playerScript.Shoot());
 
@@ -106,15 +120,20 @@ public class GameManager : MonoBehaviour
         if (marbles.Count == 0 && !spawnManagerScript.WaveSpawningInProgress)
         {
             StartCoroutine(spawnManagerScript.SpawnWave(marbles, 3f));
+
+            // Re-populate destructibleColourCountDict with Target colours at
+            // the beginning of each wave.
+            targetManagerScript.UpdateDestructibleColourCountDict(UpdateAction.Add);
+            cutoffThisWave = false;
         }
     }
 
     /// <summary>
     /// Removes and destroys matched marbles from the Scene and updates
-    /// marbleColourCountDict in SpawnManager. Invoked as part of
+    /// destructibleColourCountDict in SpawnManager. Invoked as part of
     /// Events.ProjectileMarbleMatch and Events.ProjectileProjectileMatch.
     /// </summary>
-    private void ClearMatch()
+    private void ClearMarbleMatch()
     {
         // Loop through marbles and remove those that have been matched.
         // Optimise program by performing this only during event invocation, as
@@ -125,13 +144,19 @@ public class GameManager : MonoBehaviour
             {
                 GameObject remove = marbles[i];
 
-                // Update marbleColourCountDict in SpawnManager.
-                spawnManagerScript.DecrementMarbleColourCount(
+                // Update destructibleColourCountDict in SpawnManager.
+                spawnManagerScript.DecrementDestructibleColourCount(
                     remove.GetComponent<Marble>().Colour);
 
                 marbles.RemoveAt(i);
                 Destroy(remove);
             }
+        }
+
+        if (marbles.Count <= targetCutoffThreshold && !cutoffThisWave)
+        {
+            targetManagerScript.UpdateDestructibleColourCountDict(UpdateAction.Remove);
+            cutoffThisWave = true;
         }
     }
 

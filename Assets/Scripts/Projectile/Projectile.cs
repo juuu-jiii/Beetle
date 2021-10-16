@@ -35,7 +35,7 @@ public class Projectile : Marble
     /// whether this projectile is responsible for running the corresponding 
     /// logic.
     /// </summary>
-    public bool IsExecutor { get; set; }
+    public bool IsEffector { get; set; }
 
     // Since this class inherits from MarbleMovement, Start and FixedUpdate are
     // also inherited.
@@ -57,7 +57,7 @@ public class Projectile : Marble
         setStaleTimeout = SetStaleTimeout(3f);
         StartCoroutine(setStaleTimeout);
 
-        IsExecutor = true;
+        IsEffector = true;
     }
 
     private void FixedUpdate()
@@ -109,13 +109,13 @@ public class Projectile : Marble
                         // run, meaning it is not a good way to distinguish between
                         // the two colliding Projectiles.
                         case "Projectile":
-                            if (IsExecutor)
+                            if (IsEffector)
                             {
                                 // This prevents the other Projectile from executing
                                 // the same code block within the same Update frame.
                                 // Recall that Destroy is only called after each
                                 // Update loop. Why is this important, then?
-                                otherMarble.gameObject.GetComponent<Projectile>().IsExecutor = false;
+                                otherMarble.gameObject.GetComponent<Projectile>().IsEffector = false;
 
                                 // Ensure the other Projectile is also destroyed
                                 // when GameManager.ClearMatches() is called as part
@@ -148,6 +148,8 @@ public class Projectile : Marble
                 if (Colour == target.Colour)
                 {
                     Matched = true;
+                    target.Matched = true;
+                    EventManager.TriggerEvent(Events.TargetMatch);
                 }
             }
         }
