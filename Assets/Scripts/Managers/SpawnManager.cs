@@ -237,6 +237,9 @@ public class SpawnManager : MonoBehaviour
             // Update marbles as each new marble is spawned.
             marbles.Add(marbleSpawner.Spawn());
 
+            // Signal to GameManager that marble speeds might need adjusting.
+            EventManager.TriggerEvent(Events.MarbleSpawn);
+
             // Update sceneColourTrackerDict as more marbles are spawned.
             //if (!destructibleColourCountDict.ContainsKey(nextColour))
             //    destructibleColourCountDict.Add(nextColour, 1);

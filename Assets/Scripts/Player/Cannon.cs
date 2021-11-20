@@ -207,7 +207,7 @@ public class Cannon : MonoBehaviour
     /// <returns>
     /// A reference to the projectile that is instantiated.
     /// </returns>
-    public GameObject Shoot()
+    public GameObject Shoot(float speed)
     {
         GameObject projectile = Instantiate(
             projectileTemplate,
@@ -226,6 +226,9 @@ public class Cannon : MonoBehaviour
         Color projectileMaterialColour = projectileScript.GetComponent<MeshRenderer>().material.color;
         projectileScript.GetComponent<MeshRenderer>().material.EnableKeyword("_EMISSION");
         projectileScript.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", projectileMaterialColour);
+
+        // Set stale speed equal to reflect current game state.
+        projectileScript.StaleSpeed = speed;
 
         return projectile;
     }

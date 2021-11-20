@@ -10,7 +10,8 @@ public enum Events
     MarbleMatch,
     ProjectileMatch,
     TargetMatch,
-    GameOver
+    MarbleSpawn,
+    GameOver,
 }
 
 /// <summary>

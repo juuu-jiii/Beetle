@@ -16,8 +16,12 @@ public class Marble : MonoBehaviour, IDestructible
     public float Speed
     {
         get { return speed; }
+        set { speed = value; }
     }
-    
+    public float TopSpeed
+    {
+        get { return topSpeed; }
+    }
     /// <summary>
     /// The marble's velocity during the previous frame.
     /// </summary>

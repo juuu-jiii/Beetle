@@ -14,16 +14,15 @@ public class Projectile : Marble
     private float liveSpeed;
 
     /// <summary>
-    /// The speed at which this projectile travels while it is stale.
+    /// The speed at which this projectile travels after becoming stale.
     /// </summary>
-    [SerializeField]
-    private float staleSpeed;
+    public float StaleSpeed { get; set; }
     
     /// <summary>
     /// Tracks whether this projectile can still destroy other
     /// marbles/projectiles.
     /// </summary>
-    private bool isStale;
+    public bool IsStale { get; private set; }
 
     /// <summary>
     /// Reference to SetStaleTimeout() coroutine method.
@@ -69,7 +68,7 @@ public class Projectile : Marble
     { 
         // Optimise by only checking for colour matches if this projectile is
         // not stale.
-        if (!isStale)
+        if (!IsStale)
         {
             if (collision.gameObject.tag == "Marble" || collision.gameObject.tag == "Projectile")
             {
@@ -135,8 +134,8 @@ public class Projectile : Marble
                     // Remove emission from projectile once stale, and continue
                     // bouncing at a lower speed.
                     StopCoroutine(setStaleTimeout);
-                    isStale = true;
-                    speed = staleSpeed;
+                    IsStale = true;
+                    speed = StaleSpeed;
                     GetComponent<MeshRenderer>().material.DisableKeyword("_EMISSION");
                     base.OnCollisionEnter(collision);
                 }
@@ -168,8 +167,8 @@ public class Projectile : Marble
     private IEnumerator SetStaleTimeout(float duration)
     {
         yield return new WaitForSeconds(duration);
-        isStale = true;
-        speed = staleSpeed;
+        IsStale = true;
+        speed = StaleSpeed;
         GetComponent<MeshRenderer>().material.DisableKeyword("_EMISSION");
     }
 }

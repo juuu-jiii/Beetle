@@ -21,6 +21,13 @@ public class GameManager : MonoBehaviour
     private TargetManager targetManagerScript;
 
     /// <summary>
+    /// Minimum speed at which a marble must travel after being subjected to
+    /// slowdowns.
+    /// </summary>
+    [SerializeField]
+    private float minSpeed;
+
+    /// <summary>
     /// The number of marbles at which to call UpdateDestructibleColourCountDict
     /// with UpdateAction Remove in TargetManager.
     /// </summary>
@@ -33,6 +40,14 @@ public class GameManager : MonoBehaviour
     /// Master list of all marbles in the arena.
     /// </summary>
     private List<GameObject> marbles;
+
+    [SerializeField]
+    int speedChangeThreshold; // = 4
+
+    [SerializeField]
+    private GameObject marbleTemplate;
+    private Marble marbleTemplateScript;
+    private float marbleTopSpeed;
 
     //[SerializeField]
     //private GameObject[] spawnPoints;
@@ -48,21 +63,35 @@ public class GameManager : MonoBehaviour
     //private int waveMarbleCount;
     //private bool waveSpawningInProgress;
 
+    private void Awake()
+    {
+        // Setup event callbacks accordingly:
+
+        // Callbacks that clear marbles:
+        EventManager.StartListening(Events.MarbleMatch, ClearMarbleMatch);
+        EventManager.StartListening(Events.ProjectileMatch, ClearMarbleMatch);
+        EventManager.StartListening(Events.TargetMatch, ClearMarbleMatch);
+
+        // Callbacks that adjust marble speed:
+        EventManager.StartListening(Events.MarbleMatch, AdjustMarbleSpeed);
+        EventManager.StartListening(Events.ProjectileMatch, AdjustMarbleSpeed);
+        EventManager.StartListening(Events.MarbleSpawn, AdjustMarbleSpeed);
+
+        // Callback handling game over state:
+        EventManager.StartListening(Events.GameOver, HandleGameOver);
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         marbles = new List<GameObject>();
+        marbleTemplateScript = marbleTemplate.GetComponent<Marble>();
+        marbleTopSpeed = marbleTemplateScript.TopSpeed;
 
         playerScript = player.GetComponent<Cannon>();
         spawnManagerScript = spawnManager.GetComponent<SpawnManager>();
         materialsManagerScript = materialsManager.GetComponent<MaterialsManager>();
         targetManagerScript = targetManager.GetComponent<TargetManager>();
-
-        // Setup event callbacks accordingly.
-        EventManager.StartListening(Events.MarbleMatch, ClearMarbleMatch);
-        EventManager.StartListening(Events.ProjectileMatch, ClearMarbleMatch);
-        EventManager.StartListening(Events.TargetMatch, ClearMarbleMatch);
-        EventManager.StartListening(Events.GameOver, HandleGameOver);
     }
 
     // Player movement is handled in FixedUpdate() since physics are involved.
@@ -101,7 +130,10 @@ public class GameManager : MonoBehaviour
             // Update destructibleColourCountDict in SpawnManager.
             spawnManagerScript.IncrementDestructibleColourCount(playerScript.NextColour);
 
-            marbles.Add(playerScript.Shoot());
+            marbles.Add(playerScript.Shoot(marbles[0].GetComponent<Marble>().Speed));
+
+            // Check and adjust marble speeds as appropriate.
+            AdjustMarbleSpeed();
 
             // After shooting, set the player's next shot.
             Colours nextColour = spawnManagerScript.ShootMarbleColour();
@@ -157,6 +189,55 @@ public class GameManager : MonoBehaviour
         {
             targetManagerScript.UpdateDestructibleColourCountDict(UpdateAction.Remove);
             cutoffThisWave = true;
+        }
+    }
+
+    private void AdjustMarbleSpeed()
+    {
+        // When there are 4 marbles on-screen, marbles travel at maximum speed.
+        // For every 4 after that, decrement marbles' speed by 1.
+        int speedChangeFactor = (marbles.Count - 1) / speedChangeThreshold;
+
+        if (marbles.Count > 0)
+        {
+            float currentMarbleSpeed = marbles[0].GetComponent<Marble>().Speed;
+
+            if (currentMarbleSpeed > marbleTopSpeed - (speedChangeFactor * 3)
+                && currentMarbleSpeed > minSpeed) // Limit speed reduction
+            {
+                foreach (GameObject marble in marbles)
+                {
+                    // TODO POTENTIAL FIX: downcast to projectile and set
+                    // stalespeed if it is live. otherwise just set regular
+                    // speed/
+                    Debug.Log("Slowing down");
+                    Marble marbleScript = marble.GetComponent<Marble>();
+
+                    if (marbleScript is Projectile)
+                    {
+                        Projectile projectileScript = marble.GetComponent<Projectile>();
+
+                        if (!projectileScript.IsStale)
+                        {
+                            projectileScript.StaleSpeed = (marbleTopSpeed - speedChangeFactor * 3);
+                        }
+                        else
+                            projectileScript.Speed = (marbleTopSpeed - speedChangeFactor * 3);
+                    }
+                    else
+                        marbleScript.Speed = (marbleTopSpeed - speedChangeFactor * 3);
+                }
+            }
+            //else if (currentMarbleSpeed < marbleTopSpeed - speedChangeFactor)
+            //{
+            //    foreach (GameObject marble in marbles)
+            //    {
+            //        Debug.Log("Speeding up");
+            //        Marble marbleScript = marble.GetComponent<Marble>();
+            //        marbleScript.Speed -= currentMarbleSpeed
+            //                            - (marbleTopSpeed - speedChangeFactor);
+            //    }
+            //}
         }
     }
 

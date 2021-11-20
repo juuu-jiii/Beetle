@@ -1994,6 +1994,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 389742876}
     - target: {fileID: 7034226013609786667, guid: c0d0837e6d9b13d488afb72684fe0141, type: 3}
+      propertyPath: minSpeed
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7034226013609786667, guid: c0d0837e6d9b13d488afb72684fe0141, type: 3}
       propertyPath: spawnManager
       value: 
       objectReference: {fileID: 1654798864}
@@ -2002,9 +2006,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 986591600}
     - target: {fileID: 7034226013609786667, guid: c0d0837e6d9b13d488afb72684fe0141, type: 3}
+      propertyPath: marbleTemplate
+      value: 
+      objectReference: {fileID: 1543874249249585914, guid: 837b8a888fa5fbf43ba13b17247c947f, type: 3}
+    - target: {fileID: 7034226013609786667, guid: c0d0837e6d9b13d488afb72684fe0141, type: 3}
       propertyPath: materialsManager
       value: 
       objectReference: {fileID: 836089779}
+    - target: {fileID: 7034226013609786667, guid: c0d0837e6d9b13d488afb72684fe0141, type: 3}
+      propertyPath: speedChangeThreshold
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 7034226013609786667, guid: c0d0837e6d9b13d488afb72684fe0141, type: 3}
       propertyPath: targetCutoffThreshold
       value: 5
