@@ -21,11 +21,11 @@ public class GameManager : MonoBehaviour
     private TargetManager targetManagerScript;
 
     /// <summary>
-    /// Minimum speed at which a marble must travel after being subjected to
+    /// Minimum speed at which a marble can travel after being subjected to
     /// slowdowns.
     /// </summary>
     [SerializeField]
-    private float minSpeed;
+    private float marbleMinSpeed;
 
     /// <summary>
     /// The number of marbles at which to call UpdateDestructibleColourCountDict
@@ -47,7 +47,12 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject marbleTemplate;
     private Marble marbleTemplateScript;
-    private float marbleTopSpeed;
+
+    /// <summary>
+    /// Maximum speed at which a marble can travel after being suggested to
+    /// speedups.
+    /// </summary>
+    private float marbleMaxSpeed;
 
     //[SerializeField]
     //private GameObject[] spawnPoints;
@@ -86,7 +91,7 @@ public class GameManager : MonoBehaviour
     {
         marbles = new List<GameObject>();
         marbleTemplateScript = marbleTemplate.GetComponent<Marble>();
-        marbleTopSpeed = marbleTemplateScript.TopSpeed;
+        marbleMaxSpeed = marbleTemplateScript.TopSpeed;
 
         playerScript = player.GetComponent<Cannon>();
         spawnManagerScript = spawnManager.GetComponent<SpawnManager>();
@@ -202,8 +207,8 @@ public class GameManager : MonoBehaviour
         {
             float currentMarbleSpeed = marbles[0].GetComponent<Marble>().Speed;
 
-            if (currentMarbleSpeed > marbleTopSpeed - (speedChangeFactor * 3)
-                && currentMarbleSpeed > minSpeed) // Limit speed reduction
+            if (currentMarbleSpeed > marbleMaxSpeed - (speedChangeFactor * 3)
+                && currentMarbleSpeed > marbleMinSpeed) // Limit speed reduction
             {
                 foreach (GameObject marble in marbles)
                 {
@@ -219,13 +224,36 @@ public class GameManager : MonoBehaviour
 
                         if (!projectileScript.IsStale)
                         {
-                            projectileScript.StaleSpeed = (marbleTopSpeed - speedChangeFactor * 3);
+                            projectileScript.StaleSpeed = marbleMaxSpeed - speedChangeFactor * 3;
                         }
                         else
-                            projectileScript.Speed = (marbleTopSpeed - speedChangeFactor * 3);
+                            projectileScript.Speed = marbleMaxSpeed - speedChangeFactor * 3;
                     }
                     else
-                        marbleScript.Speed = (marbleTopSpeed - speedChangeFactor * 3);
+                        marbleScript.Speed = marbleMaxSpeed - speedChangeFactor * 3;
+                }
+            }
+            else if (currentMarbleSpeed < marbleMaxSpeed - (speedChangeFactor * 3)
+                && currentMarbleSpeed < marbleMaxSpeed)
+            {
+                foreach (GameObject marble in marbles)
+                {
+                    Debug.Log("Speeding up");
+                    Marble marbleScript = marble.GetComponent<Marble>();
+
+                    if (marbleScript is Projectile)
+                    {
+                        Projectile projectileScript = marble.GetComponent<Projectile>();
+
+                        if (!projectileScript.IsStale)
+                        {
+                            projectileScript.StaleSpeed = marbleMaxSpeed - speedChangeFactor * 3;
+                        }
+                        else
+                            projectileScript.Speed = marbleMaxSpeed - speedChangeFactor * 3;
+                    }
+                    else
+                        marbleScript.Speed = marbleMaxSpeed - speedChangeFactor * 3;
                 }
             }
             //else if (currentMarbleSpeed < marbleTopSpeed - speedChangeFactor)
