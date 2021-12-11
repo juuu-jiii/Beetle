@@ -56,8 +56,6 @@ public class EventManager : MonoBehaviour
     /// <summary>
     /// Initialises eventDictionary if it is null.
     /// </summary>
-    // NOTE: constructor cannot be used here, since the object is instantiated
-    // in the scene already via the Editor.
     private void Init()
     {
         if (eventDict == null) 

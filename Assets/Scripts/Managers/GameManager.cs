@@ -100,6 +100,7 @@ public class GameManager : MonoBehaviour
     }
 
     // Player movement is handled in FixedUpdate() since physics are involved.
+    // TODO: Use Input.GetAxis()
     private void FixedUpdate()
     {
         // Check playerScript.Movable to prevent player input while respawning.
@@ -163,6 +164,9 @@ public class GameManager : MonoBehaviour
             targetManagerScript.UpdateDestructibleColourCountDict(UpdateAction.Add);
             cutoffThisWave = false;
         }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+            StateManager.Instance.SetState(GameStates.Title);
     }
 
     /// <summary>
