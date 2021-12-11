@@ -72,7 +72,12 @@ public class Marble : MonoBehaviour, IDestructible
     // handle bouncing physics.
     protected virtual void OnCollisionEnter(Collision collision)
     {
-        Bounce(collision.GetContact(0).normal);
+        // Use Vector3.Reflect() if colliding with anything other than another
+        // marble - this fixes inaccurate collision resolution between two
+        // marbles when the angle between them is small.
+        if (!collision.gameObject.CompareTag("Projectile")
+            && !collision.gameObject.CompareTag("Marble"))
+            Bounce(collision.GetContact(0).normal);
     }
 
     /// <summary>
