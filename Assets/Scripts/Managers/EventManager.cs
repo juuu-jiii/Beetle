@@ -1,3 +1,5 @@
+// Taken and adapted from https://learn.unity.com/tutorial/create-a-simple-messaging-system-with-events#
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -25,7 +27,7 @@ public class EventManager : MonoBehaviour
     /// Key: name of the event; Value: UnityEvent i.e. the event object itself.
     /// </summary>
     private Dictionary<Events, UnityEvent> eventDict;
-    private static EventManager instance;
+    private static EventManager instance = null;
 
     // Singleton implementation
     /// <summary>
@@ -54,6 +56,8 @@ public class EventManager : MonoBehaviour
     /// <summary>
     /// Initialises eventDictionary if it is null.
     /// </summary>
+    // NOTE: constructor cannot be used here, since the object is instantiated
+    // in the scene already via the Editor.
     private void Init()
     {
         if (eventDict == null) 

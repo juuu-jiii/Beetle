@@ -197,6 +197,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Increases and decreases the speeds of marbles in the arena based on
+    /// their numbers.
+    /// </summary>
     private void AdjustMarbleSpeed()
     {
         if (marbles.Count > 0)
