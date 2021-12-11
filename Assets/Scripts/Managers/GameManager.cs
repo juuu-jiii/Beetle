@@ -199,73 +199,48 @@ public class GameManager : MonoBehaviour
 
     private void AdjustMarbleSpeed()
     {
-        // When there are 4 marbles on-screen, marbles travel at maximum speed.
-        // For every 4 after that, decrement marbles' speed by 1.
-        int speedChangeFactor = (marbles.Count - 1) / speedChangeThreshold;
-
         if (marbles.Count > 0)
         {
+            // When there are up to 4 marbles on-screen, they travel at maximum speed.
+            // For every speedChangeThreshold after that, decrement marbles' speed by 1.
+            int speedChangeFactor = marbles.Count <= 4 ?
+                0 :
+                (marbles.Count - 4) / speedChangeThreshold;
+
             float currentMarbleSpeed = marbles[0].GetComponent<Marble>().Speed;
 
-            if (currentMarbleSpeed > marbleMaxSpeed - (speedChangeFactor * 3)
-                && currentMarbleSpeed > marbleMinSpeed) // Limit speed reduction
+            // Marble speeds are updated if they are not equal to the difference
+            // between marbleMaxSpeed and speedChangeFactor, provided this new
+            // value does not violate min/max speed constraints.
+            if (currentMarbleSpeed != marbleMaxSpeed - speedChangeFactor
+                && (marbleMaxSpeed - speedChangeFactor >= marbleMinSpeed
+                || marbleMinSpeed + speedChangeFactor <= marbleMaxSpeed))
             {
                 foreach (GameObject marble in marbles)
                 {
-                    // TODO POTENTIAL FIX: downcast to projectile and set
-                    // stalespeed if it is live. otherwise just set regular
-                    // speed/
-                    Debug.Log("Slowing down");
                     Marble marbleScript = marble.GetComponent<Marble>();
 
+                    // A distinction between projectiles and marbles is required
+                    // here; a projectile's speed while live should not be
+                    // altered - only its stale speed.
                     if (marbleScript is Projectile)
                     {
                         Projectile projectileScript = marble.GetComponent<Projectile>();
 
+                        // If projectile is live, adjust its StaleSpeed so it
+                        // slows to the new speed after becoming stale.
                         if (!projectileScript.IsStale)
-                        {
-                            projectileScript.StaleSpeed = marbleMaxSpeed - speedChangeFactor * 3;
-                        }
+                            projectileScript.StaleSpeed = marbleMaxSpeed - speedChangeFactor;
+                        // Otherwise, projectile is stale. Treat it like a
+                        // regular marble.
                         else
-                            projectileScript.Speed = marbleMaxSpeed - speedChangeFactor * 3;
+                            projectileScript.Speed = marbleMaxSpeed - speedChangeFactor;
                     }
+                    // In the case of a regular marble, just update its speed.
                     else
-                        marbleScript.Speed = marbleMaxSpeed - speedChangeFactor * 3;
+                        marbleScript.Speed = marbleMaxSpeed - speedChangeFactor;
                 }
             }
-            else if (currentMarbleSpeed < marbleMaxSpeed - (speedChangeFactor * 3)
-                && currentMarbleSpeed < marbleMaxSpeed)
-            {
-                foreach (GameObject marble in marbles)
-                {
-                    Debug.Log("Speeding up");
-                    Marble marbleScript = marble.GetComponent<Marble>();
-
-                    if (marbleScript is Projectile)
-                    {
-                        Projectile projectileScript = marble.GetComponent<Projectile>();
-
-                        if (!projectileScript.IsStale)
-                        {
-                            projectileScript.StaleSpeed = marbleMaxSpeed - speedChangeFactor * 3;
-                        }
-                        else
-                            projectileScript.Speed = marbleMaxSpeed - speedChangeFactor * 3;
-                    }
-                    else
-                        marbleScript.Speed = marbleMaxSpeed - speedChangeFactor * 3;
-                }
-            }
-            //else if (currentMarbleSpeed < marbleTopSpeed - speedChangeFactor)
-            //{
-            //    foreach (GameObject marble in marbles)
-            //    {
-            //        Debug.Log("Speeding up");
-            //        Marble marbleScript = marble.GetComponent<Marble>();
-            //        marbleScript.Speed -= currentMarbleSpeed
-            //                            - (marbleTopSpeed - speedChangeFactor);
-            //    }
-            //}
         }
     }
 
