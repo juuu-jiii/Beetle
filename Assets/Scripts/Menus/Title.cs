@@ -32,6 +32,9 @@ public class Title : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // This must not be done in Awake; the order in which the method gets
+        // called across scripts is uncertain, meaning it is possible to obtain
+        // a NullReferenceException.
         stateManager = StateManager.Instance;
         stateManager.OnStateChange += HandleOnStateChange;
         //stateManager.OnStateChange.AddListener(HandleOnStateChange);
