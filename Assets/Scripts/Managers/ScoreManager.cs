@@ -7,7 +7,10 @@ using UnityEngine;
 /// </summary>
 public class ScoreManager : MonoBehaviour
 {
-    public int Score { get; private set; }
+    /// <summary>
+    /// Static Score property that persists between Scenes.
+    /// </summary>
+    public static int Score { get; private set; }
 
     // Marbles and projectiles each have different values.
     /// <summary>
@@ -33,7 +36,7 @@ public class ScoreManager : MonoBehaviour
         EventManager.StartListening(Events.ProjectileMatch, HandleProjectileMatch);
         EventManager.StartListening(Events.TargetMatch, HandleTargetMatch);
 
-        Score = 0;
+        //Score = 0;
     }
 
     /// <summary>

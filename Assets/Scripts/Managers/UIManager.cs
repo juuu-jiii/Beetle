@@ -31,7 +31,7 @@ public class UIManager : MonoBehaviour
     {
         // TODO OPTIMISATION: only update when the corresponding event is invoked
         // This means that Events.LifeLost will need to be reincorporated.
-        scoreText.text = scoreManagerScript.Score.ToString();
+        scoreText.text = ScoreManager.Score.ToString();
         livesText.text = "♥ " + playerScript.Lives.ToString();
     }
 }
