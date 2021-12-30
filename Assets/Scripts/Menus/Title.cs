@@ -17,10 +17,16 @@ public class Title : MonoBehaviour
         Debug.Log("OnStateChange invoked");
     }
 
+    public void ShowInstructions()
+    {
+        Debug.Log("showing instructions");
+        stateManager.SetState(GameStates.Instructions);
+    }
+
     public void PlayButtonClicked()
     {
-        stateManager.SetState(GameStates.Level1);
         Debug.Log("play clicked");
+        stateManager.SetState(GameStates.Level1);
     }
 
     public void QuitButtonClicked()

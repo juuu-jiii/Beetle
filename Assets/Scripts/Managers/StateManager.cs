@@ -13,6 +13,7 @@ using UnityEngine.SceneManagement;
 public enum GameStates
 {
     Title,
+    Instructions,
     Level1,
     Level2,
     Level3,
@@ -112,6 +113,9 @@ public class StateManager : MonoBehaviour
         {
             case GameStates.Title:
                 SceneManager.LoadScene("Title");
+                break;
+            case GameStates.Instructions:
+                SceneManager.LoadScene("Instructions");
                 break;
             case GameStates.Level1:
                 SceneManager.LoadScene("POC Level");
