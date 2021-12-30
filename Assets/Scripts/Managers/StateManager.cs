@@ -120,6 +120,7 @@ public class StateManager : MonoBehaviour
             case GameStates.Level1:
                 SceneManager.LoadScene("POC Level");
                 break;
+            // TODO: load game levels by incrementing index so it is dynamic.
         }
     }
 

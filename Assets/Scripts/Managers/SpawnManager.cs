@@ -302,7 +302,7 @@ public class SpawnManager : MonoBehaviour
         // TODO LATER: implement level complete logic.
         else
         {
-            Debug.Log("Level complete");
+            EventManager.TriggerEvent(Events.LevelComplete);
         }
     }
 

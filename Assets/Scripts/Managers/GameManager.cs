@@ -82,8 +82,9 @@ public class GameManager : MonoBehaviour
         EventManager.StartListening(Events.ProjectileMatch, AdjustMarbleSpeed);
         EventManager.StartListening(Events.MarbleSpawn, AdjustMarbleSpeed);
 
-        // Callback handling game over state:
-        EventManager.StartListening(Events.GameOver, HandleGameOver);
+        // Callback handling game over and level complete states:
+        EventManager.StartListening(Events.GameOver, GameOver);
+        EventManager.StartListening(Events.LevelComplete, LevelComplete);
     }
 
     // Start is called before the first frame update
@@ -252,7 +253,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void HandleGameOver()
+    private void LevelComplete()
+    {
+        Debug.Log("Level complete");
+    }
+
+    private void GameOver()
     {
         // TODO LATER: implement game over logic
         Debug.Log("No more lives left - game over!");

@@ -13,6 +13,7 @@ public enum Events
     ProjectileMatch,
     TargetMatch,
     MarbleSpawn,
+    LevelComplete,
     GameOver,
 }
 
