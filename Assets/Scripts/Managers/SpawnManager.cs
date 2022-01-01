@@ -14,18 +14,6 @@ public class SpawnManager : MonoBehaviour
     private GameObject[] spawnPoints;
 
     /// <summary>
-    /// The total number of waves this level.
-    /// </summary>
-    [SerializeField]
-    private int waves;
-
-    /// <summary>
-    /// The number of marbles to be spawned each wave.
-    /// </summary>
-    [SerializeField]
-    private int waveMarbleCount;
-
-    /// <summary>
     /// Counts of marbles to be spawned each wave.
     /// </summary>
     [SerializeField]
@@ -58,7 +46,7 @@ public class SpawnManager : MonoBehaviour
     /// <summary>
     /// The current wave in the level.
     /// </summary>
-    private int currentWave;
+    public int currentWave { get; private set; }
 
     /// <summary>
     /// Master list of all colours lined up for the next wave. Used for setting
@@ -72,14 +60,16 @@ public class SpawnManager : MonoBehaviour
         playerScript = player.GetComponent<Cannon>();
         materialsManagerScript = materialsManager.GetComponent<MaterialsManager>();
 
+        // Start at -1 because currentWave is zero-based.
+        currentWave = -1;
+
         WaveSpawningInProgress = false;
         InBetweenWaves = true;
-        currentWave = 0;
         destructibleColourCountDict = new Dictionary<Colours, int>();
         bufferedColoursMaster = new List<Colours>();
 
         // Upon game start, buffer a set of marble colours at all spawn points.
-        BufferSpawnPoints();
+        //BufferSpawnPoints();
 
         // Setup event callbacks accordingly.
         EventManager.StartListening(Events.MarbleMatch, ValidatePlayerNext);
@@ -105,7 +95,7 @@ public class SpawnManager : MonoBehaviour
             MarbleSpawner spawnPointScript = spawnPoint.GetComponent<MarbleSpawner>();
             spawnPointScript.ClearBuffer();
 
-            for (int i = 0; i < waveMarbleCount; i++)
+            for (int i = 0; i < waveMarbleCounts[currentWave]; i++)
             {
                 Colours colour = SpawnMarbleColour();
 
@@ -276,7 +266,8 @@ public class SpawnManager : MonoBehaviour
     public IEnumerator SpawnWave(List<GameObject> marbles, float pause)
     {
         // Wave complete - spawn the next.
-        if (currentWave < waves)
+        // Take length of array - 1 because currentWave is zero-based.
+        if (currentWave < waveMarbleCounts.Length - 1)
         {
             currentWave++;
             BufferSpawnPoints();
@@ -300,7 +291,7 @@ public class SpawnManager : MonoBehaviour
                 StartCoroutine(
                     SpawnMarbleInterval(
                         spawnPoint.GetComponent<MarbleSpawner>(),
-                        waveMarbleCount,
+                        waveMarbleCounts[currentWave],
                         0.25f,
                         marbles));
         }
