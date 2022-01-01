@@ -1274,7 +1274,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1152944175360091876, guid: fb01d132a106c7e479fc7485a0e6c302, type: 3}
       propertyPath: waveMarbleCounts.Array.data[0]
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1152944175360091876, guid: fb01d132a106c7e479fc7485a0e6c302, type: 3}
       propertyPath: waveMarbleCounts.Array.data[1]
@@ -2239,7 +2239,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7034226013609786667, guid: c0d0837e6d9b13d488afb72684fe0141, type: 3}
       propertyPath: targetCutoffThreshold
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7034226013609786668, guid: c0d0837e6d9b13d488afb72684fe0141, type: 3}
       propertyPath: m_RootOrder

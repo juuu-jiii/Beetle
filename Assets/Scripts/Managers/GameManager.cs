@@ -29,11 +29,15 @@ public class GameManager : MonoBehaviour
 
     /// <summary>
     /// The number of marbles at which to call UpdateDestructibleColourCountDict
-    /// with UpdateAction Remove in TargetManager.
+    /// with UpdateAction.Remove in TargetManager.
     /// </summary>
     [SerializeField]
     private int targetCutoffThreshold;
 
+    /// <summary>
+    /// Determines whether target colours will continue to be considered for
+    /// the cannon this wave.
+    /// </summary>
     private bool cutoffThisWave = false;
 
     /// <summary>
