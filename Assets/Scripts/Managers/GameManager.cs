@@ -166,6 +166,7 @@ public class GameManager : MonoBehaviour
             cutoffThisWave = false;
         }
 
+        // TODO REMOVE: debugging
         if (Input.GetKeyDown(KeyCode.Escape))
             StateManager.Instance.SetState(GameStates.Title);
     }
@@ -262,5 +263,7 @@ public class GameManager : MonoBehaviour
     {
         // TODO LATER: implement game over logic
         Debug.Log("No more lives left - game over!");
+        playerScript.Restart();
+        StateManager.Instance.SetState(GameStates.GameOver);
     }
 }

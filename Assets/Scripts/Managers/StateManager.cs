@@ -112,13 +112,16 @@ public class StateManager : MonoBehaviour
         switch (newState)
         {
             case GameStates.Title:
-                SceneManager.LoadScene("Title");
+                SceneManager.LoadSceneAsync("Title");
                 break;
             case GameStates.Instructions:
-                SceneManager.LoadScene("Instructions");
+                SceneManager.LoadSceneAsync("Instructions");
                 break;
             case GameStates.Level1:
-                SceneManager.LoadScene("POC Level");
+                SceneManager.LoadSceneAsync("Level 1");
+                break;
+            case GameStates.GameOver:
+                SceneManager.LoadSceneAsync("Game Over");
                 break;
             // TODO: load game levels by incrementing index so it is dynamic.
         }

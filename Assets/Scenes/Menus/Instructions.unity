@@ -1037,7 +1037,7 @@ GameObject:
   - component: {fileID: 680328688}
   - component: {fileID: 680328687}
   m_Layer: 5
-  m_Name: A and D keys move the cannon, and LMB shoots marbles
+  m_Name: A/D move the cannon LMB shoots marbles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1082,7 +1082,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: A/D move the cannon, LMB shoots marbles
+  m_text: 'A/D move the cannon
+
+    LMB shoots marbles'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

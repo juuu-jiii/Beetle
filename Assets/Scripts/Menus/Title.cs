@@ -17,6 +17,12 @@ public class Title : MonoBehaviour
         Debug.Log("OnStateChange invoked");
     }
 
+    public void BackToTitle()
+    {
+        Debug.Log("back to title");
+        stateManager.SetState(GameStates.Title);
+    }
+
     public void ShowInstructions()
     {
         Debug.Log("showing instructions");

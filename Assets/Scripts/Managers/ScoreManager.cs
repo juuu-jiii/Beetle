@@ -36,6 +36,9 @@ public class ScoreManager : MonoBehaviour
         EventManager.StartListening(Events.ProjectileMatch, HandleProjectileMatch);
         EventManager.StartListening(Events.TargetMatch, HandleTargetMatch);
 
+        // Reset logic
+        EventManager.StartListening(Events.GameOver, Restart);
+
         //Score = 0;
     }
 
@@ -62,6 +65,10 @@ public class ScoreManager : MonoBehaviour
         Score += targetValue;
     }
 
+    public void Restart()
+    {
+        Score = 0;
+    }
     // TODO LATER: combo handling
     // "combo active" timer
 }

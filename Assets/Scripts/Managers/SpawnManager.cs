@@ -25,6 +25,12 @@ public class SpawnManager : MonoBehaviour
     [SerializeField]
     private int waveMarbleCount;
 
+    /// <summary>
+    /// Counts of marbles to be spawned each wave.
+    /// </summary>
+    [SerializeField]
+    private int[] waveMarbleCounts;
+
     [SerializeField]
     private GameObject player;
     private Cannon playerScript;

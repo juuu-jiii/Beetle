@@ -253,4 +253,9 @@ public class Cannon : MonoBehaviour
         // update the LineRenderer's colour accordingly.
         aimScript.AimGuard.startColor = nextMaterial.color;
     }
+
+    public void Restart()
+    {
+        Lives = 3;
+    }
 }
