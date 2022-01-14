@@ -192,9 +192,22 @@ public class GameManager : MonoBehaviour
             cutoffThisWave = false;
         }
 
-        // TODO REMOVE: debugging
         if (Input.GetKeyDown(KeyCode.Escape))
-            StateManager.Instance.SetState(GameStates.Title);
+        {
+            if (Time.timeScale == 1)
+            {
+                Time.timeScale = 0;
+                playerScript.Pause();
+            }
+            else
+            {
+                Time.timeScale = 1;
+                playerScript.Unpause();
+            }
+        }
+            
+        // TODO REMOVE: debugging
+            //StateManager.Instance.SetState(GameStates.Title);
     }
 
     /// <summary>

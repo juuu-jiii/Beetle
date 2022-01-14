@@ -1103,7 +1103,7 @@ PrefabInstance:
       objectReference: {fileID: 505095555}
     - target: {fileID: 1152944175360091876, guid: fb01d132a106c7e479fc7485a0e6c302, type: 3}
       propertyPath: waveMarbleCounts.Array.size
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1152944175360091876, guid: fb01d132a106c7e479fc7485a0e6c302, type: 3}
       propertyPath: waveMarbleCounts.Array.data[0]
@@ -1731,11 +1731,11 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: eae39ac3fa18ef6488df00cd5d22cde4, type: 2}
     - target: {fileID: 6433359125040542127, guid: a22f3422a2663f747bfd57849aafb904, type: 3}
       propertyPath: allowedColours.Array.size
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6433359125040542127, guid: a22f3422a2663f747bfd57849aafb904, type: 3}
       propertyPath: allowedMaterials.Array.size
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6433359125040542127, guid: a22f3422a2663f747bfd57849aafb904, type: 3}
       propertyPath: allowedColours.Array.data[1]

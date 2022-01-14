@@ -130,8 +130,9 @@ public class Cannon : MonoBehaviour
         // Disallow player input in GameManager.
         Movable = false;
 
-        // Hide player
+        // Hide player and aim guard.
         GetComponent<MeshRenderer>().enabled = false;
+        aimScript.AimGuard.enabled = false;
 
         // Ignore collisions from marbles by moving player to a different
         // collision layer.
@@ -141,10 +142,12 @@ public class Cannon : MonoBehaviour
         yield return new WaitForSeconds(durationDisabled);
 
         // Player is now visible and enabled, albeit greyed-out.
+        // Aim guard is also now visible.
         // Offer a couple seconds of invincibility during this time.
         GetComponent<MeshRenderer>().enabled = true;
         rb.isKinematic = false;
         Movable = true;
+        aimScript.AimGuard.enabled = true;
         Extensions.ChangeRenderMode(GetComponent<MeshRenderer>().material, RenderingModes.Fade);
         GetComponent<MeshRenderer>().material.color = materialColourGreyed;
         yield return new WaitForSeconds(durationInvincible / 2);
@@ -257,5 +260,24 @@ public class Cannon : MonoBehaviour
     public void Restart()
     {
         Lives = 3;
+    }
+
+    public void Pause()
+    {
+        Movable = false;
+        aimScript.AimGuard.enabled = false;
+        //aimScript.gameObject.SetActive = false;
+    }
+
+    public void Unpause()
+    {
+        // Reactivate the player if they are not in the midst of the resetting
+        // sequence.
+        if (!resetting)
+        {
+            Movable = true;
+            aimScript.AimGuard.enabled = true;
+        }
+        //aimScript.gameObject.SetActive = true;
     }
 }
