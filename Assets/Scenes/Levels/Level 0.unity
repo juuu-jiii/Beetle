@@ -1973,6 +1973,10 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7034226013609786667, guid: c0d0837e6d9b13d488afb72684fe0141, type: 3}
+      propertyPath: scoreManager
+      value: 
+      objectReference: {fileID: 483007575}
+    - target: {fileID: 7034226013609786667, guid: c0d0837e6d9b13d488afb72684fe0141, type: 3}
       propertyPath: spawnManager
       value: 
       objectReference: {fileID: 1654798864}

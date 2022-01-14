@@ -29,10 +29,10 @@ public class Title : MonoBehaviour
         stateManager.SetState(GameStates.Instructions);
     }
 
-    public void PlayButtonClicked()
+    public void LoadNextLevel()
     {
-        Debug.Log("play clicked");
-        stateManager.SetState(GameStates.Level1);
+        Debug.Log("loading level " + GameManager.Level);
+        stateManager.SetState(GameStates.NextLevel);
     }
 
     public void QuitButtonClicked()

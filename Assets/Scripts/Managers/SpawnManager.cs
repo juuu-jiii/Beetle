@@ -296,7 +296,6 @@ public class SpawnManager : MonoBehaviour
                         marbles));
         }
         // Level complete.
-        // TODO LATER: implement level complete logic.
         else
         {
             EventManager.TriggerEvent(Events.LevelComplete);

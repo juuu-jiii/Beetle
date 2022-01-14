@@ -14,9 +14,8 @@ public enum GameStates
 {
     Title,
     Instructions,
-    Level1,
-    Level2,
-    Level3,
+    LevelComplete,
+    NextLevel,
     GameOver,
     Win
 }
@@ -32,6 +31,12 @@ public delegate void OnStateChangeHandler();
 public class StateManager : MonoBehaviour
 {
     private static StateManager instance = null;
+
+    /// <summary>
+    /// Total number of menu screens. Used to "skip ahead" in build settings
+    /// settings indices, because of the way Scenes are ordered within.
+    /// </summary>
+    private const int MenuCount = 5;
 
     /// <summary>
     /// Event that gets invoked when game state is altered.
@@ -117,11 +122,16 @@ public class StateManager : MonoBehaviour
             case GameStates.Instructions:
                 SceneManager.LoadSceneAsync("Instructions");
                 break;
-            case GameStates.Level1:
-                SceneManager.LoadSceneAsync("Level 1");
+            case GameStates.LevelComplete:
+                SceneManager.LoadSceneAsync("Level Complete");
+                break;
+            case GameStates.NextLevel:
+                SceneManager.LoadSceneAsync(GameManager.Level + MenuCount);
                 break;
             case GameStates.GameOver:
                 SceneManager.LoadSceneAsync("Game Over");
+                break;
+            case GameStates.Win:
                 break;
             // TODO: load game levels by incrementing index so it is dynamic.
         }

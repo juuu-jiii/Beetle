@@ -36,9 +36,6 @@ public class ScoreManager : MonoBehaviour
         EventManager.StartListening(Events.ProjectileMatch, HandleProjectileMatch);
         EventManager.StartListening(Events.TargetMatch, HandleTargetMatch);
 
-        // Reset logic
-        EventManager.StartListening(Events.GameOver, Restart);
-
         //Score = 0;
     }
 

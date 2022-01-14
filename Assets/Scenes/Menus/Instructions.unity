@@ -208,7 +208,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 142616572}
         m_TargetAssemblyTypeName: Title, Assembly-CSharp
-        m_MethodName: PlayButtonClicked
+        m_MethodName: LoadNextLevel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

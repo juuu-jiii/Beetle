@@ -7,6 +7,11 @@ using UnityEngine;
 /// </summary>
 public class GameManager : MonoBehaviour
 {
+    /// <summary>
+    /// Static Level property that persists between Scenes.
+    /// </summary>
+    public static int Level { get; private set; }
+    
     [SerializeField]
     private GameObject player;
     private Cannon playerScript;
@@ -19,6 +24,9 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject targetManager;
     private TargetManager targetManagerScript;
+    [SerializeField]
+    private GameObject scoreManager;
+    private ScoreManager scoreManagerScript;
 
     /// <summary>
     /// Minimum speed at which a marble can travel after being subjected to
@@ -57,6 +65,12 @@ public class GameManager : MonoBehaviour
     /// speedups.
     /// </summary>
     private float marbleMaxSpeed;
+
+    /// <summary>
+    /// Tracks whether this level has been complete. Used to guard against
+    /// LevelComplete events being fired more than once.
+    /// </summary>
+    private bool levelComplete;
 
     //[SerializeField]
     //private GameObject[] spawnPoints;
@@ -97,11 +111,13 @@ public class GameManager : MonoBehaviour
         marbles = new List<GameObject>();
         marbleTemplateScript = marbleTemplate.GetComponent<Marble>();
         marbleMaxSpeed = marbleTemplateScript.TopSpeed;
+        levelComplete = false;
 
         playerScript = player.GetComponent<Cannon>();
         spawnManagerScript = spawnManager.GetComponent<SpawnManager>();
         materialsManagerScript = materialsManager.GetComponent<MaterialsManager>();
         targetManagerScript = targetManager.GetComponent<TargetManager>();
+        scoreManagerScript = scoreManager.GetComponent<ScoreManager>();
     }
 
     // Player movement is handled in FixedUpdate() since physics are involved.
@@ -160,7 +176,13 @@ public class GameManager : MonoBehaviour
         // frames where marbles is empty. For the same reason, it is also used
         // to prevent the win condition from being triggered a couple frames
         // before the last wave actually begins spawning.
-        if (marbles.Count == 0 && !spawnManagerScript.WaveSpawningInProgress)
+        //
+        // Ensure the level has not been completed yet to avoid LevelComplete
+        // events being fired more than once by spawnManagerScript due to the
+        // next scene being loaded asynchronously.
+        if (marbles.Count == 0
+            && !spawnManagerScript.WaveSpawningInProgress
+            && !levelComplete)
         {
             StartCoroutine(spawnManagerScript.SpawnWave(marbles, 3f));
 
@@ -260,7 +282,11 @@ public class GameManager : MonoBehaviour
 
     private void LevelComplete()
     {
+        // TODO: implement level complete logic.
         Debug.Log("Level complete");
+        levelComplete = true;
+        Level++;
+        StateManager.Instance.SetState(GameStates.LevelComplete);
     }
 
     private void GameOver()
@@ -268,6 +294,8 @@ public class GameManager : MonoBehaviour
         // TODO LATER: implement game over logic
         Debug.Log("No more lives left - game over!");
         playerScript.Restart();
+        scoreManagerScript.Restart();
+        Level = 0;
         StateManager.Instance.SetState(GameStates.GameOver);
     }
 }
