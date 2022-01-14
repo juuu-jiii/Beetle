@@ -74,6 +74,7 @@ public class SpawnManager : MonoBehaviour
         // Setup event callbacks accordingly.
         EventManager.StartListening(Events.MarbleMatch, ValidatePlayerNext);
         EventManager.StartListening(Events.ProjectileMatch, ValidatePlayerNext);
+        EventManager.StartListening(Events.TargetMatch, ValidatePlayerNext);
     }
 
     // Update is called once per frame

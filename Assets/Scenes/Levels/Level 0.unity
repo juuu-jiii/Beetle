@@ -806,6 +806,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4697951679927199268, guid: dabf605c52493914790d8601a6dc04da, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4697951679927199268, guid: dabf605c52493914790d8601a6dc04da, type: 3}
       propertyPath: spawnManager
       value: 
       objectReference: {fileID: 1654798864}
@@ -1112,6 +1116,14 @@ PrefabInstance:
     - target: {fileID: 1152944175360091876, guid: fb01d132a106c7e479fc7485a0e6c302, type: 3}
       propertyPath: waveMarbleCounts.Array.data[2]
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1152944175360091876, guid: fb01d132a106c7e479fc7485a0e6c302, type: 3}
+      propertyPath: waveMarbleCounts.Array.data[3]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1152944175360091876, guid: fb01d132a106c7e479fc7485a0e6c302, type: 3}
+      propertyPath: waveMarbleCounts.Array.data[4]
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1152944175360091877, guid: fb01d132a106c7e479fc7485a0e6c302, type: 3}
       propertyPath: m_Name
@@ -1577,6 +1589,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4697951679927199268, guid: dabf605c52493914790d8601a6dc04da, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4697951679927199268, guid: dabf605c52493914790d8601a6dc04da, type: 3}
       propertyPath: spawnManager
       value: 
       objectReference: {fileID: 1654798864}
@@ -1715,11 +1731,11 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: eae39ac3fa18ef6488df00cd5d22cde4, type: 2}
     - target: {fileID: 6433359125040542127, guid: a22f3422a2663f747bfd57849aafb904, type: 3}
       propertyPath: allowedColours.Array.size
-      value: 4
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6433359125040542127, guid: a22f3422a2663f747bfd57849aafb904, type: 3}
       propertyPath: allowedMaterials.Array.size
-      value: 4
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6433359125040542127, guid: a22f3422a2663f747bfd57849aafb904, type: 3}
       propertyPath: allowedColours.Array.data[1]
@@ -2002,7 +2018,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7034226013609786667, guid: c0d0837e6d9b13d488afb72684fe0141, type: 3}
       propertyPath: targetCutoffThreshold
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7034226013609786668, guid: c0d0837e6d9b13d488afb72684fe0141, type: 3}
       propertyPath: m_RootOrder

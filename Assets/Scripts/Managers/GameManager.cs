@@ -222,6 +222,8 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        // Remove all target colours from destructibleColourCountDict once the
+        // cutoff threshold has been reached.
         if (marbles.Count <= targetCutoffThreshold && !cutoffThisWave)
         {
             targetManagerScript.UpdateDestructibleColourCountDict(UpdateAction.Remove);
