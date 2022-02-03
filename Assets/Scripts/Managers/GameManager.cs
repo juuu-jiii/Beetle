@@ -27,6 +27,9 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject scoreManager;
     private ScoreManager scoreManagerScript;
+    [SerializeField]
+    private GameObject uiManager;
+    private UIManager uiManagerScript;
 
     /// <summary>
     /// Minimum speed at which a marble can travel after being subjected to
@@ -118,6 +121,7 @@ public class GameManager : MonoBehaviour
         materialsManagerScript = materialsManager.GetComponent<MaterialsManager>();
         targetManagerScript = targetManager.GetComponent<TargetManager>();
         scoreManagerScript = scoreManager.GetComponent<ScoreManager>();
+        uiManagerScript = uiManager.GetComponent<UIManager>();
     }
 
     // Player movement is handled in FixedUpdate() since physics are involved.
@@ -192,17 +196,22 @@ public class GameManager : MonoBehaviour
             cutoffThisWave = false;
         }
 
+        // Escape both pauses and unpauses the game.
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            // Pause the game.
             if (Time.timeScale == 1)
             {
                 Time.timeScale = 0;
                 playerScript.Pause();
+                uiManagerScript.Pause();
             }
+            // Unpause the game.
             else
             {
                 Time.timeScale = 1;
                 playerScript.Unpause();
+                uiManagerScript.Unpause();
             }
         }
             

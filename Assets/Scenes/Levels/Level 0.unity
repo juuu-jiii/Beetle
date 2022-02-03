@@ -803,6 +803,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4451627422026158256, guid: a986a68b2359528429478414088de689, type: 3}
   m_PrefabInstance: {fileID: 4451627420789572953}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1390188812 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2043691108348861919, guid: 31d4b642aaccc2242b5d3f6a196d5a21, type: 3}
+  m_PrefabInstance: {fileID: 1931239312753484668}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1461355854
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -960,6 +965,11 @@ Transform:
 Transform:
   m_CorrespondingSourceObject: {fileID: 1666778187141343589, guid: b7e27330af869654794efd5c3cf30920, type: 3}
   m_PrefabInstance: {fileID: 1650835385}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1981481175 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1931239312798740560, guid: 31d4b642aaccc2242b5d3f6a196d5a21, type: 3}
+  m_PrefabInstance: {fileID: 1931239312753484668}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2070138549
 PrefabInstance:
@@ -1435,6 +1445,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1931239312798740557, guid: 31d4b642aaccc2242b5d3f6a196d5a21, type: 3}
+      propertyPath: panel
+      value: 
+      objectReference: {fileID: 1390188812}
+    - target: {fileID: 1931239312798740557, guid: 31d4b642aaccc2242b5d3f6a196d5a21, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 389742876}
@@ -1445,6 +1459,10 @@ PrefabInstance:
     - target: {fileID: 1931239312798740560, guid: 31d4b642aaccc2242b5d3f6a196d5a21, type: 3}
       propertyPath: m_Name
       value: UI
+      objectReference: {fileID: 0}
+    - target: {fileID: 2043691108348861919, guid: 31d4b642aaccc2242b5d3f6a196d5a21, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 31d4b642aaccc2242b5d3f6a196d5a21, type: 3}
@@ -2018,6 +2036,10 @@ PrefabInstance:
       propertyPath: minSpeed
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 7034226013609786667, guid: c0d0837e6d9b13d488afb72684fe0141, type: 3}
+      propertyPath: uiManager
+      value: 
+      objectReference: {fileID: 1981481175}
     - target: {fileID: 7034226013609786667, guid: c0d0837e6d9b13d488afb72684fe0141, type: 3}
       propertyPath: scoreManager
       value: 
