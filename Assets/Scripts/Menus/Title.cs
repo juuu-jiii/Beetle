@@ -20,6 +20,7 @@ public class Title : MonoBehaviour
     public void BackToTitle()
     {
         Debug.Log("back to title");
+        EventManager.TriggerEvent(Events.Restart);
         stateManager.SetState(GameStates.Title);
     }
 
@@ -39,6 +40,13 @@ public class Title : MonoBehaviour
     {
         Debug.Log("quit clicked");
         Application.Quit();
+    }
+
+    public void Retry()
+    {
+        Debug.Log("retry clicked");
+        EventManager.TriggerEvent(Events.Restart);
+        LoadNextLevel();
     }
 
     // Start is called before the first frame update

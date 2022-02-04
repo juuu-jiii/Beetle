@@ -208,7 +208,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 142616572}
         m_TargetAssemblyTypeName: Title, Assembly-CSharp
-        m_MethodName: PlayButtonClicked
+        m_MethodName: Retry
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -256,6 +256,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 31889278}
   m_CullTransparentMesh: 1
+--- !u!1001 &33883200
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5413767740264114393, guid: e5c1c33aa4838e14898b8e539eff2e04, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5413767740264114393, guid: e5c1c33aa4838e14898b8e539eff2e04, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -9.945234
+      objectReference: {fileID: 0}
+    - target: {fileID: 5413767740264114393, guid: e5c1c33aa4838e14898b8e539eff2e04, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 6.1553392
+      objectReference: {fileID: 0}
+    - target: {fileID: 5413767740264114393, guid: e5c1c33aa4838e14898b8e539eff2e04, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 5.5001154
+      objectReference: {fileID: 0}
+    - target: {fileID: 5413767740264114393, guid: e5c1c33aa4838e14898b8e539eff2e04, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5413767740264114393, guid: e5c1c33aa4838e14898b8e539eff2e04, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5413767740264114393, guid: e5c1c33aa4838e14898b8e539eff2e04, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5413767740264114393, guid: e5c1c33aa4838e14898b8e539eff2e04, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5413767740264114393, guid: e5c1c33aa4838e14898b8e539eff2e04, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5413767740264114393, guid: e5c1c33aa4838e14898b8e539eff2e04, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5413767740264114393, guid: e5c1c33aa4838e14898b8e539eff2e04, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5413767740264114399, guid: e5c1c33aa4838e14898b8e539eff2e04, type: 3}
+      propertyPath: m_Name
+      value: Event Manager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e5c1c33aa4838e14898b8e539eff2e04, type: 3}
 --- !u!1 &142616567
 GameObject:
   m_ObjectHideFlags: 0

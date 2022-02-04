@@ -15,6 +15,8 @@ public enum Events
     MarbleSpawn,
     LevelComplete,
     GameOver,
+    Win,
+    Restart
 }
 
 /// <summary>

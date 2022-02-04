@@ -104,7 +104,7 @@ public class GameManager : MonoBehaviour
         EventManager.StartListening(Events.MarbleSpawn, AdjustMarbleSpeed);
 
         // Callback handling game over and level complete states:
-        EventManager.StartListening(Events.GameOver, GameOver);
+        EventManager.StartListening(Events.GameOver, ShowGameOverScreen);
         EventManager.StartListening(Events.LevelComplete, LevelComplete);
     }
 
@@ -313,12 +313,12 @@ public class GameManager : MonoBehaviour
         StateManager.Instance.SetState(GameStates.LevelComplete);
     }
 
-    private void GameOver()
+    private void ShowGameOverScreen()
     {
         // TODO LATER: implement game over logic
         Debug.Log("No more lives left - game over!");
-        playerScript.Restart();
-        scoreManagerScript.Restart();
+        //playerScript.Restart();
+        //scoreManagerScript.Restart();
         Level = 0;
         StateManager.Instance.SetState(GameStates.GameOver);
     }

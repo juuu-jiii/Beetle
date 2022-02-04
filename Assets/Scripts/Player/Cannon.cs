@@ -62,6 +62,9 @@ public class Cannon : MonoBehaviour
 
         // Projectile Spawn Point is a child of this GameObject.
         aimScript = transform.GetChild(0).gameObject.GetComponent<Aim>();
+
+        // Reset data accordingly.
+        EventManager.StartListening(Events.Restart, Restart);
     }
 
     // Handle movement physics in FixedUpdate().

@@ -17,7 +17,7 @@ public enum GameStates
     LevelComplete,
     NextLevel,
     GameOver,
-    Win
+    Win // technically no need for this
 }
 
 /// <summary>
@@ -37,6 +37,12 @@ public class StateManager : MonoBehaviour
     /// settings indices, because of the way Scenes are ordered within.
     /// </summary>
     private const int MenuCount = 5;
+
+    /// <summary>
+    /// Total number of levels. Used to determine when the player has beaten
+    /// the game vs when a new level needs to be loaded.
+    /// </summary>
+    private const int LevelCount = 1;
 
     /// <summary>
     /// Event that gets invoked when game state is altered.
@@ -123,7 +129,11 @@ public class StateManager : MonoBehaviour
                 SceneManager.LoadSceneAsync("Instructions");
                 break;
             case GameStates.LevelComplete:
-                SceneManager.LoadSceneAsync("Level Complete");
+                // Trigger the Win Scene when all levels have been beaten.
+                if (GameManager.Level == LevelCount)
+                    SceneManager.LoadSceneAsync("Win");
+                else
+                    SceneManager.LoadSceneAsync("Level Complete");
                 break;
             case GameStates.NextLevel:
                 SceneManager.LoadSceneAsync(GameManager.Level + MenuCount);
@@ -131,9 +141,6 @@ public class StateManager : MonoBehaviour
             case GameStates.GameOver:
                 SceneManager.LoadSceneAsync("Game Over");
                 break;
-            case GameStates.Win:
-                break;
-            // TODO: load game levels by incrementing index so it is dynamic.
         }
     }
 
