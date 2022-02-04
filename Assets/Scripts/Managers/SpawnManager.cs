@@ -72,9 +72,9 @@ public class SpawnManager : MonoBehaviour
         //BufferSpawnPoints();
 
         // Setup event callbacks accordingly.
-        EventManager.StartListening(Events.MarbleMatch, ValidatePlayerNext);
-        EventManager.StartListening(Events.ProjectileMatch, ValidatePlayerNext);
-        EventManager.StartListening(Events.TargetMatch, ValidatePlayerNext);
+        EventManager.Instance.StartListening(Events.MarbleMatch, ValidatePlayerNext);
+        EventManager.Instance.StartListening(Events.ProjectileMatch, ValidatePlayerNext);
+        EventManager.Instance.StartListening(Events.TargetMatch, ValidatePlayerNext);
     }
 
     // Update is called once per frame
@@ -235,7 +235,7 @@ public class SpawnManager : MonoBehaviour
             marbles.Add(marbleSpawner.Spawn());
 
             // Signal to GameManager that marble speeds might need adjusting.
-            EventManager.TriggerEvent(Events.MarbleSpawn);
+            EventManager.Instance.TriggerEvent(Events.MarbleSpawn);
 
             // Update sceneColourTrackerDict as more marbles are spawned.
             //if (!destructibleColourCountDict.ContainsKey(nextColour))
@@ -299,7 +299,7 @@ public class SpawnManager : MonoBehaviour
         // Level complete.
         else
         {
-            EventManager.TriggerEvent(Events.LevelComplete);
+            EventManager.Instance.TriggerEvent(Events.LevelComplete);
         }
     }
 

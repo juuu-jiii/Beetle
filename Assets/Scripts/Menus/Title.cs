@@ -5,6 +5,7 @@ using UnityEngine;
 public class Title : MonoBehaviour
 {
     private StateManager stateManager;
+    private EventManager eventManager;
 
     private void Awake()
     {
@@ -20,7 +21,7 @@ public class Title : MonoBehaviour
     public void BackToTitle()
     {
         Debug.Log("back to title");
-        EventManager.TriggerEvent(Events.Restart);
+        EventManager.Instance.TriggerEvent(Events.Restart);
         stateManager.SetState(GameStates.Title);
     }
 
@@ -45,7 +46,7 @@ public class Title : MonoBehaviour
     public void Retry()
     {
         Debug.Log("retry clicked");
-        EventManager.TriggerEvent(Events.Restart);
+        EventManager.Instance.TriggerEvent(Events.Restart);
         LoadNextLevel();
     }
 
@@ -57,6 +58,7 @@ public class Title : MonoBehaviour
         // a NullReferenceException.
         stateManager = StateManager.Instance;
         stateManager.OnStateChange += HandleOnStateChange;
+        eventManager = EventManager.Instance;
         //stateManager.OnStateChange.AddListener(HandleOnStateChange);
     }
 

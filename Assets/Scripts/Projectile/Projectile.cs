@@ -96,7 +96,7 @@ public class Projectile : Marble
                         // themselves when colliding.
                         case "Marble":
                             otherMarble.Matched = true;
-                            EventManager.TriggerEvent(Events.MarbleMatch);
+                            EventManager.Instance.TriggerEvent(Events.MarbleMatch);
                             break;
                         // If the other object is another projectile, code is
                         // executed by whichever marble sets the other's IsExecutor
@@ -120,7 +120,7 @@ public class Projectile : Marble
                                 // when GameManager.ClearMatches() is called as part
                                 // of the Events.ProjectileMatch invocation.
                                 otherMarble.gameObject.GetComponent<Projectile>().Matched = true;
-                                EventManager.TriggerEvent(Events.ProjectileMatch);
+                                EventManager.Instance.TriggerEvent(Events.ProjectileMatch);
                             }
                             break;
                         default:
@@ -148,7 +148,7 @@ public class Projectile : Marble
                 {
                     Matched = true;
                     target.Matched = true;
-                    EventManager.TriggerEvent(Events.TargetMatch);
+                    EventManager.Instance.TriggerEvent(Events.TargetMatch);
                 }
             }
         }

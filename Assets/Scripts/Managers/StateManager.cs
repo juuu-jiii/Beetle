@@ -28,7 +28,7 @@ public delegate void OnStateChangeHandler();
 /// <summary>
 /// Singleton to streamline game state handling throughout the application.
 /// </summary>
-public class StateManager : MonoBehaviour
+public class StateManager : Singleton<StateManager>
 {
     private static StateManager instance = null;
 
@@ -57,57 +57,57 @@ public class StateManager : MonoBehaviour
     /// </summary>
     public GameStates GameState { get; private set; }
 
-    public static StateManager Instance
-    {
-        get 
-        { 
-            if (!instance)
-            {
-                // A similar implementation to that of EventManager, except
-                // the instance must persist throughout the whole application,
-                // instead of a scene-by-scene basis.
+    //public static StateManager Instance
+    //{
+    //    get 
+    //    { 
+    //        if (!instance)
+    //        {
+    //            // A similar implementation to that of EventManager, except
+    //            // the instance must persist throughout the whole application,
+    //            // instead of a scene-by-scene basis.
 
-                // Search for a StateManager component in the Scene.
-                instance = FindObjectOfType<StateManager>();
+    //            // Search for a StateManager component in the Scene.
+    //            instance = FindObjectOfType<StateManager>();
 
-                // If FindObjectOfType() returns null, then the component does
-                // not exist in the scene yet. Create an empty GameObject and
-                // attach the component to it, since all executable code must
-                // be attached to an active GameObject within the Hierarchy.
-                //
-                // This way, we "lazily" instantiate te StateManager (i.e. only
-                // instantiate when it is needed. Therefore, the StateManager
-                // component does not need to exist in the Scene beforehand.
-                if (!instance)
-                {
-                    GameObject gObj = new GameObject();
-                    gObj.name = "State Manager";
-                    instance = gObj.AddComponent<StateManager>();
+    //            // If FindObjectOfType() returns null, then the component does
+    //            // not exist in the scene yet. Create an empty GameObject and
+    //            // attach the component to it, since all executable code must
+    //            // be attached to an active GameObject within the Hierarchy.
+    //            //
+    //            // This way, we "lazily" instantiate te StateManager (i.e. only
+    //            // instantiate when it is needed. Therefore, the StateManager
+    //            // component does not need to exist in the Scene beforehand.
+    //            if (!instance)
+    //            {
+    //                GameObject gObj = new GameObject();
+    //                gObj.name = "State Manager";
+    //                instance = gObj.AddComponent<StateManager>();
 
-                    // Because the instance must persist throughout the application,
-                    // it cannot be destroyed in between scenes.
-                    DontDestroyOnLoad(gObj);
-                }
-            }
+    //                // Because the instance must persist throughout the application,
+    //                // it cannot be destroyed in between scenes.
+    //                DontDestroyOnLoad(gObj);
+    //            }
+    //        }
 
-            return instance;
-        }
-    }
+    //        return instance;
+    //    }
+    //}
 
-    private void Awake()
-    {
-        if (!instance)
-        {
-            // REMEMBER! Constructors are not used in Unity!
-            instance = this;
+    //private void Awake()
+    //{
+    //    if (!instance)
+    //    {
+    //        // REMEMBER! Constructors are not used in Unity!
+    //        instance = this;
 
-            // Because the instance must persist throughout the application,
-            // it cannot be destroyed in between scenes.
-            DontDestroyOnLoad(this.gameObject);
-        }
-        // Destroy any additional copies of the StateManager in the Scene.
-        else Destroy(this.gameObject);
-    }
+    //        // Because the instance must persist throughout the application,
+    //        // it cannot be destroyed in between scenes.
+    //        DontDestroyOnLoad(this.gameObject);
+    //    }
+    //    // Destroy any additional copies of the StateManager in the Scene.
+    //    else Destroy(this.gameObject);
+    //}
 
     /// <summary>
     /// Changes the game's state and fires all necessary callbacks.
@@ -144,12 +144,12 @@ public class StateManager : MonoBehaviour
         }
     }
 
-    private void OnApplicationQuit()
-    {
-        // Make instance point to null before the application is quit so the
-        // memory allocated for it can be garbage collected.
-        instance = null;
-    }
+    //private void OnApplicationQuit()
+    //{
+    //    // Make instance point to null before the application is quit so the
+    //    // memory allocated for it can be garbage collected.
+    //    instance = null;
+    //}
 
     // Start is called before the first frame update
     void Start()

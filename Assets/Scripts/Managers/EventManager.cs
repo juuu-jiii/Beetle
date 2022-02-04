@@ -22,7 +22,7 @@ public enum Events
 /// <summary>
 /// Singleton to streamline event handling throughout a level.
 /// </summary>
-public class EventManager : MonoBehaviour
+public class EventManager : Singleton<EventManager>
 {
     // Key/value pairs with an enum for keys - used as an alternative to
     // error-prone strings.
@@ -36,33 +36,32 @@ public class EventManager : MonoBehaviour
     /// <summary>
     /// Singleton instance of EventManager.
     /// </summary>
-    public static EventManager Instance
-    {
-        get
-        {
-            if (!instance)
-            {
-                // FindObjectOfType returns the first active loaded object of a
-                // specified type. It is used here to get the first EventManager
-                // instance in the scene.
-                instance = FindObjectOfType(typeof(EventManager)) as EventManager;
+    //public static EventManager Instance
+    //{
+    //    get
+    //    {
+    //        if (!instance)
+    //        {
+    //            // FindObjectOfType returns the first active loaded object of a
+    //            // specified type. It is used here to get the first EventManager
+    //            // instance in the scene.
+    //            instance = FindObjectOfType(typeof(EventManager)) as EventManager;
 
-                if (!instance) Debug.LogError("Scene must have one active " +
-                    "EventManager script on a GameObject.");
-                else instance.Init();
-            }
+    //            if (!instance) Debug.LogError("Scene must have one active " +
+    //                "EventManager script on a GameObject.");
+    //            else instance.Init();
+    //        }
 
-            return instance;
-        }
-    }
+    //        return instance;
+    //    }
+    //}
 
     /// <summary>
-    /// Initialises eventDictionary if it is null.
+    /// Initialises eventDict.
     /// </summary>
     private void Init()
     {
-        if (eventDict == null) 
-            eventDict = new Dictionary<Events, UnityEvent>();
+        eventDict = new Dictionary<Events, UnityEvent>();
     }
 
     /// <summary>
@@ -76,8 +75,10 @@ public class EventManager : MonoBehaviour
     /// <param name="callback">
     /// The listener to assign to eventName.
     /// </param>
-    public static void StartListening(Events eventName, UnityAction callback)
+    public void StartListening(Events eventName, UnityAction callback)
     {
+        if (eventDict == null) Init();
+
         UnityEvent thisEvent = null;
         
         // If ContainsKey() were used, thisEvent would need to be assigned
@@ -102,7 +103,7 @@ public class EventManager : MonoBehaviour
     /// <param name="callback">
     /// The listener to remove from eventName.
     /// </param>
-    public static void StopListening(Events eventName, UnityAction callback)
+    public void StopListening(Events eventName, UnityAction callback)
     {
         if (!Instance) return;
 
@@ -124,7 +125,7 @@ public class EventManager : MonoBehaviour
     /// <param name="marble2">
     /// Second marble to be removed via GameManager.HandleCollision().
     /// </param>
-    public static void TriggerEvent(Events eventName)
+    public void TriggerEvent(Events eventName)
     {
         UnityEvent thisEvent = null;
 

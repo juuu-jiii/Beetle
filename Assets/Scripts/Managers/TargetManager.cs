@@ -31,7 +31,7 @@ public class TargetManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        EventManager.StartListening(Events.TargetMatch, ClearTargetMatch);
+        EventManager.Instance.StartListening(Events.TargetMatch, ClearTargetMatch);
 
         spawnManagerScript = spawnManager.GetComponent<SpawnManager>();
     }

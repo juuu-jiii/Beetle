@@ -13,7 +13,10 @@ public class Cannon : MonoBehaviour
     private Rigidbody rb;
     private Vector3 velocity;
     private Animation anim;
-    public int Lives { get; private set; }
+
+    // Marked static for use in static method + so lives can be displayed on
+    // Level Complete screens.
+    public static int Lives { get; private set; }
 
     /// <summary>
     /// Tracks whether the Player is in the midst of resetting. 
@@ -64,7 +67,7 @@ public class Cannon : MonoBehaviour
         aimScript = transform.GetChild(0).gameObject.GetComponent<Aim>();
 
         // Reset data accordingly.
-        EventManager.StartListening(Events.Restart, Restart);
+        EventManager.Instance.StartListening(Events.Restart, Restart);
     }
 
     // Handle movement physics in FixedUpdate().
@@ -86,7 +89,7 @@ public class Cannon : MonoBehaviour
                 resetting = true;
                 // Decrement lives, invoking Game Over event if they run out.
                 // Otherwise, the reset animation is played.
-                if (--Lives == 0) EventManager.TriggerEvent(Events.GameOver);
+                if (--Lives == 0) EventManager.Instance.TriggerEvent(Events.GameOver);
 
                 Debug.Log("Lives left: " + Lives);
                 StartCoroutine(PlayResetAnimation(3f, 5f, 0.7f));
@@ -260,7 +263,10 @@ public class Cannon : MonoBehaviour
         aimScript.AimGuard.startColor = nextMaterial.color;
     }
 
-    public void Restart()
+    // This must be marked static so it can get called as part of the Restart
+    // event invocation, since the event is invoked in the Title class, which
+    // holds no references to this one.
+    public static void Restart()
     {
         Lives = 3;
     }

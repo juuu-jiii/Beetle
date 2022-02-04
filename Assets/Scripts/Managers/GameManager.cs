@@ -94,18 +94,18 @@ public class GameManager : MonoBehaviour
         // Setup event callbacks accordingly:
 
         // Callbacks that clear marbles:
-        EventManager.StartListening(Events.MarbleMatch, ClearMarbleMatch);
-        EventManager.StartListening(Events.ProjectileMatch, ClearMarbleMatch);
-        EventManager.StartListening(Events.TargetMatch, ClearMarbleMatch);
+        EventManager.Instance.StartListening(Events.MarbleMatch, ClearMarbleMatch);
+        EventManager.Instance.StartListening(Events.ProjectileMatch, ClearMarbleMatch);
+        EventManager.Instance.StartListening(Events.TargetMatch, ClearMarbleMatch);
 
         // Callbacks that adjust marble speed:
-        EventManager.StartListening(Events.MarbleMatch, AdjustMarbleSpeed);
-        EventManager.StartListening(Events.ProjectileMatch, AdjustMarbleSpeed);
-        EventManager.StartListening(Events.MarbleSpawn, AdjustMarbleSpeed);
+        EventManager.Instance.StartListening(Events.MarbleMatch, AdjustMarbleSpeed);
+        EventManager.Instance.StartListening(Events.ProjectileMatch, AdjustMarbleSpeed);
+        EventManager.Instance.StartListening(Events.MarbleSpawn, AdjustMarbleSpeed);
 
         // Callback handling game over and level complete states:
-        EventManager.StartListening(Events.GameOver, ShowGameOverScreen);
-        EventManager.StartListening(Events.LevelComplete, LevelComplete);
+        EventManager.Instance.StartListening(Events.GameOver, ShowGameOverScreen);
+        EventManager.Instance.StartListening(Events.LevelComplete, LevelComplete);
     }
 
     // Start is called before the first frame update

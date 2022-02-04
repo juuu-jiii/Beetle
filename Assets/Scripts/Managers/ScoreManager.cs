@@ -32,12 +32,12 @@ public class ScoreManager : MonoBehaviour
     void Start()
     {
         // Increment scores accordingly based on the event invoked.
-        EventManager.StartListening(Events.MarbleMatch, HandleMarbleMatch);
-        EventManager.StartListening(Events.ProjectileMatch, HandleProjectileMatch);
-        EventManager.StartListening(Events.TargetMatch, HandleTargetMatch);
+        EventManager.Instance.StartListening(Events.MarbleMatch, HandleMarbleMatch);
+        EventManager.Instance.StartListening(Events.ProjectileMatch, HandleProjectileMatch);
+        EventManager.Instance.StartListening(Events.TargetMatch, HandleTargetMatch);
 
         // Reset data accordingly.
-        EventManager.StartListening(Events.Restart, Restart);
+        EventManager.Instance.StartListening(Events.Restart, Restart);
         //Score = 0;
     }
 
@@ -64,7 +64,10 @@ public class ScoreManager : MonoBehaviour
         Score += targetValue;
     }
 
-    public void Restart()
+    // This must be marked static so it can get called as part of the Restart
+    // event invocation, since the event is invoked in the Title class, which
+    // holds no references to this one.
+    public static void Restart()
     {
         Score = 0;
     }
