@@ -48,8 +48,8 @@ public class StateManager : Singleton<StateManager>
     /// Event that gets invoked when game state is altered.
     /// </summary>
     // NOTE: The Awake lifecycle hook is vital to this implementation, and for
-    // some reason Unity event subscriptions misbehave during this stage. For
-    // that reason, C# events are used instead.
+    // some reason Unity event subscriptions misbehave during this stage. To
+    // that end, C# events are used instead.
     public event OnStateChangeHandler OnStateChange;
 
     /// <summary>
@@ -131,7 +131,10 @@ public class StateManager : Singleton<StateManager>
             case GameStates.LevelComplete:
                 // Trigger the Win Scene when all levels have been beaten.
                 if (GameManager.Level == LevelCount)
+                {
+                    EventManager.Instance.TriggerEvent(Events.Win);
                     SceneManager.LoadSceneAsync("Win");
+                }
                 else
                     SceneManager.LoadSceneAsync("Level Complete");
                 break;

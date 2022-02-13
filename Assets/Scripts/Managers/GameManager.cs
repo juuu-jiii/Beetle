@@ -103,9 +103,10 @@ public class GameManager : MonoBehaviour
         EventManager.Instance.StartListening(Events.ProjectileMatch, AdjustMarbleSpeed);
         EventManager.Instance.StartListening(Events.MarbleSpawn, AdjustMarbleSpeed);
 
-        // Callback handling game over and level complete states:
+        // Callback handling game over, level complete, and win states:
         EventManager.Instance.StartListening(Events.GameOver, ShowGameOverScreen);
         EventManager.Instance.StartListening(Events.LevelComplete, LevelComplete);
+        EventManager.Instance.StartListening(Events.Win, Win);
     }
 
     // Start is called before the first frame update
@@ -321,5 +322,10 @@ public class GameManager : MonoBehaviour
         //scoreManagerScript.Restart();
         Level = 0;
         StateManager.Instance.SetState(GameStates.GameOver);
+    }
+
+    private void Win()
+    {
+        Level = 0;
     }
 }
