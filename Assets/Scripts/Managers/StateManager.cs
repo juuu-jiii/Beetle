@@ -42,7 +42,7 @@ public class StateManager : Singleton<StateManager>
     /// Total number of levels. Used to determine when the player has beaten
     /// the game vs when a new level needs to be loaded.
     /// </summary>
-    private const int LevelCount = 1;
+    private const int LevelCount = 3;
 
     /// <summary>
     /// Event that gets invoked when game state is altered.

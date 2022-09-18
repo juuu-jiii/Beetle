@@ -128,7 +128,7 @@ public class SpawnManager : MonoBehaviour
     /// </returns>
     public Colours ShootMarbleColour()
     {
-        int colourIndex = Random.Range(0, destructibleColourCountDict.Count);
+        int colourIndex = /*0;*/ Random.Range(0, destructibleColourCountDict.Count);
         int i = 0;
         // Default colour, because the compiler does not know that the
         // following loop will always assign a colour to the variable.
@@ -139,6 +139,8 @@ public class SpawnManager : MonoBehaviour
         // colour is to be returned anyway.
         foreach (KeyValuePair<Colours, int> entry in destructibleColourCountDict)
         {
+            Debug.Log("count of destructibleColourCountDict = " + destructibleColourCountDict.Count);
+            Debug.Log("running ShootMarbleColour loop");
             if (i == colourIndex)
             {
                 shootColour = entry.Key;
