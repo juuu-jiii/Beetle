@@ -642,7 +642,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 270.2, y: -18}
-  m_SizeDelta: {x: 200, y: 13.5}
+  m_SizeDelta: {x: 223.29, y: 13.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &468766801
 MonoBehaviour:
@@ -664,7 +664,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: be careful - don't let the marbles hit the cannon!
+  m_text: don't let marbles or projectiles hit the cannon!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1084,7 +1084,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'A/D move the cannon
 
-    LMB shoots marbles'
+    LMB shoots projectiles'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1266,7 +1266,7 @@ GameObject:
   - component: {fileID: 736791026}
   - component: {fileID: 736791025}
   m_Layer: 5
-  m_Name: stale
+  m_Name: projectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1288,8 +1288,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -223.2, y: 85.2}
-  m_SizeDelta: {x: 40.84, y: -15.8}
+  m_AnchoredPosition: {x: -320.8, y: 123}
+  m_SizeDelta: {x: 100, y: -15.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &736791025
 MonoBehaviour:
@@ -1311,7 +1311,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: stale
+  m_text: projectile
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1586,7 +1586,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: match target colours using live marbles
+  m_text: match target colours using projectiles
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1968,7 +1968,7 @@ GameObject:
   - component: {fileID: 1468763768}
   - component: {fileID: 1468763767}
   m_Layer: 5
-  m_Name: live
+  m_Name: marble
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1990,8 +1990,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -305.80002, y: 85.2}
-  m_SizeDelta: {x: 40.84, y: -15.8}
+  m_AnchoredPosition: {x: -220.4, y: 123}
+  m_SizeDelta: {x: 100, y: -15.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1468763767
 MonoBehaviour:
@@ -2013,7 +2013,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: live
+  m_text: marble
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2415,7 +2415,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: only live marbles can destroy others
+  m_text: only projectiles can destroy marbles
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
